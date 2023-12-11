@@ -23,7 +23,6 @@ public class Alien extends Sprite {
         int newWidth = (ii.getIconWidth() * 2);
         int newHeight = (ii.getIconHeight() * 2);
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
-        setImage(ii.getImage());
         ii = new ImageIcon(scaledImage);
 
         setImage(ii.getImage());

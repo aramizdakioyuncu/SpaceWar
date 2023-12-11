@@ -2,8 +2,8 @@ package com.zetcode;
 
 public interface Commons {
 
-    int BOARD_WIDTH = 1000;
-    int BOARD_HEIGHT = 560;
+    int BOARD_WIDTH = 1800;
+    int BOARD_HEIGHT = 900;
     int BORDER_RIGHT = 30;
     int BORDER_LEFT = 5;
 

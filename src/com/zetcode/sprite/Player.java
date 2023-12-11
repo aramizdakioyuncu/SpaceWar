@@ -22,15 +22,11 @@ public class Player extends Sprite {
         var playerImg = "src/images/706026.png";
         var ii = new ImageIcon(playerImg);
 
-        width = ii.getImage().getWidth(null);
-        setImage(ii.getImage());
 
-        length = ii.getImage().getHeight(null);
-        setImage(ii.getImage());
+         width = (ii.getIconWidth() / 20 );
+         length = (ii.getIconHeight() / 20);
 
-        int newWidth = (ii.getIconWidth() / 50);
-        int newHeight = (ii.getIconHeight() / 50);
-        java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        java.awt.Image scaledImage = ii.getImage().getScaledInstance(width, length, java.awt.Image.SCALE_SMOOTH);
         ii = new ImageIcon(scaledImage);
         setImage(ii.getImage());
 
