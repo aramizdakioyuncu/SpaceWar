@@ -25,7 +25,7 @@ public class Alien extends Sprite {
     }
 
     public void act(int direction) {
-
+//wertyuıop
         this.x += direction;
     }
 
