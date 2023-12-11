@@ -20,6 +20,7 @@ public class SpaceInvaders extends JFrame  {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
+
     }
 
     public static void main(String[] args) {
