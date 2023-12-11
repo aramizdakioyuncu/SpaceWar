@@ -1,24 +1,24 @@
 package com.zetcode;
 
-public interface Commons {
+public class  Commons {
 
-    int BOARD_WIDTH = 1800;
-    int BOARD_HEIGHT = 900;
-    int BORDER_RIGHT = 30;
-    int BORDER_LEFT = 5;
+    public static int BOARD_WIDTH = 1800;
+    public static int BOARD_HEIGHT = 900;
+    public static int BORDER_RIGHT = 30;
+    public static int BORDER_LEFT = 5;
 
-    int GROUND = 290;
-    int BOMB_HEIGHT = 5;
+    public static int GROUND = 290;
+    public static int BOMB_HEIGHT = 5;
 
-    int ALIEN_HEIGHT = 24;
-    int ALIEN_WIDTH = 24;
-    int ALIEN_INIT_X = 150;
-    int ALIEN_INIT_Y = 5;
+    public static int ALIEN_HEIGHT = 24;
+    public static int ALIEN_WIDTH = 24;
+    public static int ALIEN_INIT_X = 150;
+    public static int ALIEN_INIT_Y = 5;
 
-    int GO_DOWN = 15;
-    int NUMBER_OF_ALIENS_TO_DESTROY = 24;
-    int CHANCE = 5;
-    int DELAY = 17;
-    int PLAYER_WIDTH = 15;
-    int PLAYER_HEIGHT = 10;
+    public static int GO_DOWN = 15;
+    public static int NUMBER_OF_ALIENS_TO_DESTROY = 24;
+    public static int CHANCE = 5;
+    public static int DELAY = 17;
+    public static int PLAYER_WIDTH;
+    public static int PLAYER_HEIGHT;
 }

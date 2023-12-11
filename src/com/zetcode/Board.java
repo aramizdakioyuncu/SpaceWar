@@ -81,7 +81,7 @@ public class Board extends JPanel {
 
             if (alien.isVisible()) {
 
-                g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
+                g.drawImage(alien.getImage(), (int) alien.getX(), (int) alien.getY(), this);
             }
 
             if (alien.isDying()) {
@@ -95,7 +95,7 @@ public class Board extends JPanel {
 
         if (player.isVisible()) {
 
-            g.drawImage(player.getImage(), player.getX(), player.getY(), this);
+            g.drawImage(player.getImage(), (int) player.getX(), (int) player.getY(), this);
         }
 
         if (player.isDying()) {
@@ -109,7 +109,7 @@ public class Board extends JPanel {
 
         if (shot.isVisible()) {
 
-            g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
+            g.drawImage(shot.getImage(), (int) shot.getX(), (int) shot.getY(), this);
         }
     }
 
@@ -121,7 +121,7 @@ public class Board extends JPanel {
 
             if (!b.isDestroyed()) {
 
-                g.drawImage(b.getImage(), b.getX(), b.getY(), this);
+                g.drawImage(b.getImage(), (int) b.getX(), (int) b.getY(), this);
             }
         }
     }
@@ -195,13 +195,13 @@ public class Board extends JPanel {
         // shot
         if (shot.isVisible()) {
 
-            int shotX = shot.getX();
-            int shotY = shot.getY();
+            double shotX = shot.getX();
+            double shotY = shot.getY();
 
             for (Alien alien : aliens) {
 
-                int alienX = alien.getX();
-                int alienY = alien.getY();
+                double alienX = alien.getX();
+                double alienY = alien.getY();
 
                 if (alien.isVisible() && shot.isVisible()) {
                     if (shotX >= (alienX)
@@ -218,7 +218,7 @@ public class Board extends JPanel {
                 }
             }
 
-            int y = shot.getY();
+            double y = shot.getY();
             y -= 4;
 
             if (y < 0) {
@@ -232,7 +232,7 @@ public class Board extends JPanel {
 
         for (Alien alien : aliens) {
 
-            int x = alien.getX();
+            double x = alien.getX();
 
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
 
@@ -269,7 +269,7 @@ public class Board extends JPanel {
 
             if (alien.isVisible()) {
 
-                int y = alien.getY();
+                double y = alien.getY();
 
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                     inGame = false;
@@ -295,10 +295,10 @@ public class Board extends JPanel {
                 bomb.setY(alien.getY());
             }
 
-            int bombX = bomb.getX();
-            int bombY = bomb.getY();
-            int playerX = player.getX();
-            int playerY = player.getY();
+            double bombX = bomb.getX();
+            double bombY = bomb.getY();
+            double playerX = player.getX();
+            double playerY = player.getY();
 
             if (player.isVisible() && !bomb.isDestroyed()) {
 
@@ -354,8 +354,10 @@ public class Board extends JPanel {
 
             player.keyPressed(e);
 
-            int x = player.getX();
-            int y = player.getY();
+            double yeni = ((double) Commons.PLAYER_WIDTH / 2)*0.54;
+
+            double x = player.getX()+yeni;
+            double y = player.getY();
 
             int key = e.getKeyCode();
 

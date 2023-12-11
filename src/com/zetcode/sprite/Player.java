@@ -25,7 +25,8 @@ public class Player extends Sprite {
 
          width = (ii.getIconWidth() / 20 );
          length = (ii.getIconHeight() / 20);
-
+        Commons.PLAYER_WIDTH = width;
+        Commons.PLAYER_HEIGHT = length;
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(width, length, java.awt.Image.SCALE_SMOOTH);
         ii = new ImageIcon(scaledImage);
         setImage(ii.getImage());
