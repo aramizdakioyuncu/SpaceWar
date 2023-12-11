@@ -8,11 +8,11 @@ public class Sprite {
     private Image image;
     private boolean dying;
 
-    int x;
-    int y;
-    int dx;
+    double x;
+    double y;
+    double dx;
 
-    int dy;
+    double dy;
 
     public Sprite() {
 
@@ -44,22 +44,22 @@ public class Sprite {
         return image;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
 
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
 
         this.y = y;
     }
 
-    public int getY() {
+    public double getY() {
 
         return y;
     }
 
-    public int getX() {
+    public double getX() {
 
         return x;
     }
