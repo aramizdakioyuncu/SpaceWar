@@ -3,6 +3,7 @@ package com.zetcode.sprite;
 import com.zetcode.Commons;
 
 import javax.swing.ImageIcon;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
@@ -18,7 +19,7 @@ public class Player extends Sprite {
 
     private void initPlayer() {
 
-        var playerImg = "src/images/player.png";
+        var playerImg = "src/images/706026.png";
         var ii = new ImageIcon(playerImg);
 
         width = ii.getImage().getWidth(null);
@@ -26,6 +27,13 @@ public class Player extends Sprite {
 
         length = ii.getImage().getHeight(null);
         setImage(ii.getImage());
+
+        int newWidth = (ii.getIconWidth() / 50);
+        int newHeight = (ii.getIconHeight() / 50);
+        java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        ii = new ImageIcon(scaledImage);
+        setImage(ii.getImage());
+
 
         int START_X = 270;
         setX(START_X);
