@@ -56,11 +56,11 @@ public class Alien extends Sprite {
             this.x = x;
             this.y = y;
 
-            var bombImg = "src/images/bomb.png";
+            var bombImg = "src/images/alienlaser.png";
             var ii = new ImageIcon(bombImg);
             setImage(ii.getImage());
-            width1 = (ii.getIconWidth() * 2.5);
-            length1 = (ii.getIconHeight() * 2.5);
+            width1 = (ii.getIconWidth() / 30);
+            length1 = (ii.getIconHeight() / 60);
             java.awt.Image scaledImage = ii.getImage().getScaledInstance((int) width1, (int) length1, java.awt.Image.SCALE_SMOOTH);
             ii = new ImageIcon(scaledImage);
             setImage(ii.getImage());
