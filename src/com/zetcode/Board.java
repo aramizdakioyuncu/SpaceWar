@@ -185,6 +185,8 @@ public class Board extends JPanel {
 
 
 
+
+
         if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             inGame = false;
