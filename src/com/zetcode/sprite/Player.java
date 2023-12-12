@@ -3,14 +3,15 @@ package com.zetcode.sprite;
 import com.zetcode.Commons;
 
 import javax.swing.ImageIcon;
-import java.awt.*;
+
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
 
     private int width;
-
     private int length;
+
+
 
     public Player() {
 
@@ -19,7 +20,7 @@ public class Player extends Sprite {
 
     private void initPlayer() {
 
-        var playerImg = "src/images/706026.png";
+        var playerImg = "src/images/spaceship.png";
         var ii = new ImageIcon(playerImg);
 
 
@@ -35,7 +36,7 @@ public class Player extends Sprite {
         int START_X = 900;
         setX(START_X);
 
-        int START_Y = 800;
+        int START_Y = 900;
         setY(START_Y);
     }
 

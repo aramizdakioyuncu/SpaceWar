@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -24,13 +23,16 @@ public class Board extends JPanel {
     private Player player;
     private Shot shot;
     
-    private int direction = -3;
+    private int direction = -5;
     private int deaths = 0;
 
+
     private boolean inGame = true;
-    private String explImg = "src/images/explosion.png";
-    private String backgroundImgPath = "src/images/arkaplanuzay.png";
+    final String explImg = "src/images/explosion.png";
+    final String backgroundImgPath = "src/images/background.jpg";
     private Image backgroundImage;
+    final String finishgraundImgPath = "src/images/finishgraund.jpg";
+    private Image finishgraundImage;
     private String message = "Game Over";
 
     private Timer timer;
@@ -47,9 +49,12 @@ public class Board extends JPanel {
         setFocusable(true);
         d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
-        // Arka plan resmini yükle
+
         ImageIcon backgroundIcon = new ImageIcon(backgroundImgPath);
         backgroundImage = backgroundIcon.getImage();
+        ImageIcon finishgraundIcon = new ImageIcon(finishgraundImgPath);
+        finishgraundImage = finishgraundIcon.getImage();
+
 
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
@@ -137,10 +142,15 @@ public class Board extends JPanel {
         // Arka plan resmini çiz
         g.drawImage(backgroundImage, 0, 0, this);
 
-        g.setColor(Color.green);
+
 
         if (inGame) {
-            g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
+            Graphics2D g2d=(Graphics2D) g;
+            g2d.setStroke(new BasicStroke(4));
+            g2d.setColor(Color.red);
+
+            g2d.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
+            g2d.setStroke(new BasicStroke());
             drawAliens(g);
             drawPlayer(g);
             drawShot(g);
@@ -155,11 +165,10 @@ public class Board extends JPanel {
         Toolkit.getDefaultToolkit().sync();
     }
 
-
     private void gameOver(Graphics g) {
+        g.drawImage(finishgraundImage, 0, 0, this);
 
-        g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+
 
         g.setColor(new Color(0, 32, 48));
         g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
@@ -176,6 +185,10 @@ public class Board extends JPanel {
     }
 
     private void update() {
+
+
+
+
 
         if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
@@ -206,6 +219,11 @@ public class Board extends JPanel {
 
                         var ii = new ImageIcon(explImg);
                         alien.setImage(ii.getImage());
+                        double width4 = ((double) ii.getIconWidth() / 12);
+                        double length4 = ((double) ii.getIconHeight() / 8);
+                        java.awt.Image scaledImage = ii.getImage().getScaledInstance((int) width4, (int) length4, java.awt.Image.SCALE_SMOOTH);
+                        ii = new ImageIcon(scaledImage);
+                        alien.setImage(ii.getImage());
                         alien.setDying(true);
                         deaths++;
                         shot.die();
@@ -231,36 +249,26 @@ public class Board extends JPanel {
 
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
 
-                direction = -3;
+                direction = -5;
 
-                Iterator<Alien> i1 = aliens.iterator();
+                for (Alien a2 : aliens) {
 
-                while (i1.hasNext()) {
-
-                    Alien a2 = i1.next();
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
             }
 
             if (x <= Commons.BORDER_LEFT && direction != 1) {
 
-                direction = 3;
+                direction = 5;
 
-                Iterator<Alien> i2 = aliens.iterator();
+                for (Alien a : aliens) {
 
-                while (i2.hasNext()) {
-
-                    Alien a = i2.next();
                     a.setY(a.getY() + Commons.GO_DOWN);
                 }
             }
         }
 
-        Iterator<Alien> it = aliens.iterator();
-
-        while (it.hasNext()) {
-
-            Alien alien = it.next();
+        for (Alien alien : aliens) {
 
             if (alien.isVisible()) {
 
@@ -304,6 +312,11 @@ public class Board extends JPanel {
 
                     var ii = new ImageIcon(explImg);
                     player.setImage(ii.getImage());
+                    double width4 = ((double) ii.getIconWidth() / 5);
+                    double length4 = ((double) ii.getIconHeight() / 4);
+                    java.awt.Image scaledImage = ii.getImage().getScaledInstance((int) width4, (int) length4, java.awt.Image.SCALE_SMOOTH);
+                    ii = new ImageIcon(scaledImage);
+                    player.setImage(ii.getImage());
                     player.setDying(true);
                     bomb.setDestroyed(true);
                 }
@@ -311,7 +324,7 @@ public class Board extends JPanel {
 
             if (!bomb.isDestroyed()) {
 
-                bomb.setY(bomb.getY() + 1);
+                bomb.setY(bomb.getY() + 10);
 
                 if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
 
