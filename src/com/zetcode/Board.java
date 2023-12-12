@@ -29,7 +29,7 @@ public class Board extends JPanel {
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
-    private String backgroundImgPath = "src/images/arkaplanuzay.png";
+    private String backgroundImgPath = "src/images/background.png";
     private Image backgroundImage;
     private String message = "Game Over";
 
