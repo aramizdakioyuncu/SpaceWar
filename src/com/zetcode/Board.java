@@ -33,9 +33,12 @@ public class Board extends JPanel {
     private Image backgroundImage;
     final String finishgraundImgPath = "src/images/finishgraund.jpg";
     private Image finishgraundImage;
+    final String gameoverImgPath = "src/images/gameover.jpg";
+    private Image gameoverImage;
     private String message = "Game Over";
 
     private Timer timer;
+
 
 
     public Board() {
@@ -54,7 +57,8 @@ public class Board extends JPanel {
         backgroundImage = backgroundIcon.getImage();
         ImageIcon finishgraundIcon = new ImageIcon(finishgraundImgPath);
         finishgraundImage = finishgraundIcon.getImage();
-
+        ImageIcon gameoverIcon = new ImageIcon(gameoverImgPath);
+        gameoverImage = gameoverIcon.getImage();
 
 
 
@@ -168,8 +172,7 @@ public class Board extends JPanel {
     }
 
     private void gameOver(Graphics g) {
-        g.drawImage(finishgraundImage, 0, 0, this);
-
+        g.drawImage(gameoverImage, 0, 0, this);
 
 
         g.setColor(new Color(0, 32, 48));
@@ -200,6 +203,7 @@ public class Board extends JPanel {
         }
 
         // player
+
         player.act();
 
         // shot
