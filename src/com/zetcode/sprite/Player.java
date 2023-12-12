@@ -71,12 +71,12 @@ public class Player extends Sprite {
 
         if (key == KeyEvent.VK_LEFT) {
 
-            dx = -8;
+            dx = -7;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
-            dx = 8;
+            dx = 7;
         }
         if (key == KeyEvent.VK_UP) {
 

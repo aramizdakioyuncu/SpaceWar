@@ -20,8 +20,8 @@ public class Alien extends Sprite {
 
         var alienImg = "src/images/alien.png";
         var ii = new ImageIcon(alienImg);
-        int newWidth = (ii.getIconWidth() / 10);
-        int newHeight = (ii.getIconHeight() / 10);
+        int newWidth = (ii.getIconWidth() / 11);
+        int newHeight = (ii.getIconHeight() / 11);
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
         ii = new ImageIcon(scaledImage);
 

@@ -25,7 +25,7 @@ public class Board extends JPanel {
     private Shot shot;
     
     private int direction = -3;
-    private int deaths = 0;
+    private int deaths = 1;
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";

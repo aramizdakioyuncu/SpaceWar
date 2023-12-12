@@ -7,7 +7,7 @@ public class  Commons {
     public static int BORDER_RIGHT = 80;
     public static int BORDER_LEFT = 5;
 
-    public static int GROUND = 800;
+    public static int GROUND = 799;
     public static int BOMB_HEIGHT = 5;
 
     public static int ALIEN_HEIGHT = 44;
