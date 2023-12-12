@@ -20,8 +20,8 @@ public class Alien extends Sprite {
 
         var alienImg = "src/images/alien.png";
         var ii = new ImageIcon(alienImg);
-        int newWidth = (ii.getIconWidth() * 2);
-        int newHeight = (ii.getIconHeight() * 2);
+        int newWidth = (ii.getIconWidth() / 10);
+        int newHeight = (ii.getIconHeight() / 10);
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
         ii = new ImageIcon(scaledImage);
 
@@ -29,7 +29,7 @@ public class Alien extends Sprite {
     }
 
     public void act(int direction) {
-//wertyuıop5879
+
         this.x += direction;
     }
 

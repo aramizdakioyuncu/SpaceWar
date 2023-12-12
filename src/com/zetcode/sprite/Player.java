@@ -23,8 +23,8 @@ public class Player extends Sprite {
         var ii = new ImageIcon(playerImg);
 
 
-         width = (ii.getIconWidth() / 20 );
-         length = (ii.getIconHeight() / 20);
+         width = (ii.getIconWidth() / 7 );
+         length = (ii.getIconHeight() / 7);
         Commons.PLAYER_WIDTH = width;
         Commons.PLAYER_HEIGHT = length;
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(width, length, java.awt.Image.SCALE_SMOOTH);
