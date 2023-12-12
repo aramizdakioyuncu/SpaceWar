@@ -7,11 +7,7 @@ import com.zetcode.sprite.Shot;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -33,6 +29,8 @@ public class Board extends JPanel {
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
+    private String backgroundImgPath = "src/images/arkaplanuzay.png";
+    private Image backgroundImage;
     private String message = "Game Over";
 
     private Timer timer;
@@ -45,11 +43,13 @@ public class Board extends JPanel {
     }
 
     private void initBoard() {
-
         addKeyListener(new TAdapter());
         setFocusable(true);
         d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-        setBackground(Color.black);
+
+        // Arka plan resmini yükle
+        ImageIcon backgroundIcon = new ImageIcon(backgroundImgPath);
+        backgroundImage = backgroundIcon.getImage();
 
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
@@ -65,8 +65,8 @@ public class Board extends JPanel {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
 
-                var alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i);
+                var alien = new Alien(Commons.ALIEN_INIT_X + 70 * j,
+                        Commons.ALIEN_INIT_Y + 40 * i);
                 aliens.add(alien);
             }
         }
@@ -134,32 +134,25 @@ public class Board extends JPanel {
     }
 
     private void doDrawing(Graphics g) {
+        // Arka plan resmini çiz
+        g.drawImage(backgroundImage, 0, 0, this);
 
-        g.setColor(Color.black);
-        g.fillRect(0, 0, d.width, d.height);
-        g.setColor(Color.green);
 
         if (inGame) {
-
-            g.drawLine(0, Commons.GROUND,
-                    Commons.BOARD_WIDTH, Commons.GROUND);
-
             drawAliens(g);
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
-
         } else {
-
             if (timer.isRunning()) {
                 timer.stop();
             }
-
             gameOver(g);
         }
 
         Toolkit.getDefaultToolkit().sync();
     }
+
 
     private void gameOver(Graphics g) {
 
