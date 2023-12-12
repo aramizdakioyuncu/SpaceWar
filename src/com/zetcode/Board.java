@@ -173,7 +173,6 @@ public class Board extends JPanel {
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
-//            powerUps(g);
         } else {
             if (timer.isRunning()) {
                 timer.stop();
