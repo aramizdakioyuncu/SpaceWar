@@ -20,7 +20,7 @@ public class Player extends Sprite {
 
     private void initPlayer() {
 
-        var playerImg = "src/images/706026.png";
+        var playerImg = "src/images/spaceship.png";
         var ii = new ImageIcon(playerImg);
 
 
