@@ -26,10 +26,12 @@ public class Board extends JPanel {
     
     private int direction = -3;
     private int deaths = 0;
+    private double width3;
+    private double length3;
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
-    private String backgroundImgPath = "src/images/background.png";
+    private String backgroundImgPath = "src/images/background2.jpg";
     private Image backgroundImage;
     private String message = "Game Over";
 
@@ -50,6 +52,8 @@ public class Board extends JPanel {
         // Arka plan resmini yükle
         ImageIcon backgroundIcon = new ImageIcon(backgroundImgPath);
         backgroundImage = backgroundIcon.getImage();
+
+
 
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
