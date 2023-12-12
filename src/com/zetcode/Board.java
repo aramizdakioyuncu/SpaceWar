@@ -65,8 +65,8 @@ public class Board extends JPanel {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
 
-                var alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i);
+                var alien = new Alien(Commons.ALIEN_INIT_X + 75 * j,
+                        Commons.ALIEN_INIT_Y + 50 * i);
                 aliens.add(alien);
             }
         }
@@ -280,7 +280,7 @@ public class Board extends JPanel {
 
         for (Alien alien : aliens) {
 
-            int shot = generator.nextInt(15);
+            int shot = generator.nextInt(150);
             Alien.Bomb bomb = alien.getBomb();
 
             if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
