@@ -31,6 +31,8 @@ public class Board extends JPanel {
     final String explImg = "src/images/explosion.png";
     final String backgroundImgPath = "src/images/background.jpg";
     private Image backgroundImage;
+    final String finishgraundImgPath = "src/images/finishgraund.jpg";
+    private Image finishgraundImage;
     private String message = "Game Over";
 
     private Timer timer;
@@ -47,10 +49,11 @@ public class Board extends JPanel {
         setFocusable(true);
         d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
-        // Arka plan resmini yükle
+
         ImageIcon backgroundIcon = new ImageIcon(backgroundImgPath);
         backgroundImage = backgroundIcon.getImage();
-
+        ImageIcon finishgraundIcon = new ImageIcon(finishgraundImgPath);
+        finishgraundImage = finishgraundIcon.getImage();
 
 
         timer = new Timer(Commons.DELAY, new GameCycle());
@@ -163,9 +166,9 @@ public class Board extends JPanel {
     }
 
     private void gameOver(Graphics g) {
+        g.drawImage(finishgraundImage, 0, 0, this);
 
-        g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+
 
         g.setColor(new Color(0, 32, 48));
         g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
@@ -191,7 +194,7 @@ public class Board extends JPanel {
 
             inGame = false;
             timer.stop();
-            message = "Game won!";
+            message = "YOU WIN!";
         }
 
         // player
