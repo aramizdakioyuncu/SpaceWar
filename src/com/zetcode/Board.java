@@ -172,8 +172,11 @@ public class Board extends JPanel {
     }
 
     private void gameOver(Graphics g) {
-        g.drawImage(gameoverImage, 0, 0, this);
-
+        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+            g.drawImage(finishgraundImage, 0, 0, this);  // "Game Won" için farklı bir resim kullan
+        } else {
+            g.drawImage(gameoverImage, 0, 0, this);  // Orijinal "Game Over" resmini kullan
+        }
 
         g.setColor(new Color(0, 32, 48));
         g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
