@@ -24,14 +24,14 @@ public class Board extends JPanel {
     private Player player;
     private Shot shot;
     
-    private int direction = -3;
+    private int direction = -5;
     private int deaths = 0;
     private double width3;
     private double length3;
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
-    private String backgroundImgPath = "src/images/background2.jpg";
+    private String backgroundImgPath = "src/images/background.jpg";
     private Image backgroundImage;
     private String message = "Game Over";
 
@@ -240,7 +240,7 @@ public class Board extends JPanel {
 
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
 
-                direction = -3;
+                direction = -5;
 
                 Iterator<Alien> i1 = aliens.iterator();
 
@@ -253,7 +253,7 @@ public class Board extends JPanel {
 
             if (x <= Commons.BORDER_LEFT && direction != 1) {
 
-                direction = 3;
+                direction = 5;
 
                 Iterator<Alien> i2 = aliens.iterator();
 
@@ -320,7 +320,7 @@ public class Board extends JPanel {
 
             if (!bomb.isDestroyed()) {
 
-                bomb.setY(bomb.getY() + 5);
+                bomb.setY(bomb.getY() + 10);
 
                 if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
 

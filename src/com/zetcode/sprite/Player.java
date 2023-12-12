@@ -36,7 +36,7 @@ public class Player extends Sprite {
         int START_X = 900;
         setX(START_X);
 
-        int START_Y = 800;
+        int START_Y = 900;
         setY(START_Y);
     }
 
