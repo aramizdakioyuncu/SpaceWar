@@ -10,8 +10,6 @@ public class Alien extends Sprite {
 
         initAlien(x, y);
     }
-    private double width1;
-    private double length1;
 
     private void initAlien(int x, int y) {
 
@@ -59,8 +57,8 @@ public class Alien extends Sprite {
             var bombImg = "src/images/alienlaser.png";
             var ii = new ImageIcon(bombImg);
             setImage(ii.getImage());
-            width1 = (ii.getIconWidth() / 30);
-            length1 = (ii.getIconHeight() / 60);
+            double width1 = ((double) ii.getIconWidth() / 30);
+            double length1 = ((double) ii.getIconHeight() / 60);
             java.awt.Image scaledImage = ii.getImage().getScaledInstance((int) width1, (int) length1, java.awt.Image.SCALE_SMOOTH);
             ii = new ImageIcon(scaledImage);
             setImage(ii.getImage());

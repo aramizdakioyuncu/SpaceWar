@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -26,12 +25,11 @@ public class Board extends JPanel {
     
     private int direction = -5;
     private int deaths = 0;
-    private double width3;
-    private double length3;
+
 
     private boolean inGame = true;
-    private String explImg = "src/images/explosion.png";
-    private String backgroundImgPath = "src/images/background.jpg";
+    final String explImg = "src/images/explosion.png";
+    final String backgroundImgPath = "src/images/background.jpg";
     private Image backgroundImage;
     private String message = "Game Over";
 
@@ -164,7 +162,6 @@ public class Board extends JPanel {
         Toolkit.getDefaultToolkit().sync();
     }
 
-
     private void gameOver(Graphics g) {
 
         g.setColor(Color.black);
@@ -185,6 +182,8 @@ public class Board extends JPanel {
     }
 
     private void update() {
+
+
 
         if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
@@ -215,6 +214,11 @@ public class Board extends JPanel {
 
                         var ii = new ImageIcon(explImg);
                         alien.setImage(ii.getImage());
+                        double width4 = ((double) ii.getIconWidth() / 12);
+                        double length4 = ((double) ii.getIconHeight() / 8);
+                        java.awt.Image scaledImage = ii.getImage().getScaledInstance((int) width4, (int) length4, java.awt.Image.SCALE_SMOOTH);
+                        ii = new ImageIcon(scaledImage);
+                        alien.setImage(ii.getImage());
                         alien.setDying(true);
                         deaths++;
                         shot.die();
@@ -242,11 +246,8 @@ public class Board extends JPanel {
 
                 direction = -5;
 
-                Iterator<Alien> i1 = aliens.iterator();
+                for (Alien a2 : aliens) {
 
-                while (i1.hasNext()) {
-
-                    Alien a2 = i1.next();
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
             }
@@ -255,21 +256,14 @@ public class Board extends JPanel {
 
                 direction = 5;
 
-                Iterator<Alien> i2 = aliens.iterator();
+                for (Alien a : aliens) {
 
-                while (i2.hasNext()) {
-
-                    Alien a = i2.next();
                     a.setY(a.getY() + Commons.GO_DOWN);
                 }
             }
         }
 
-        Iterator<Alien> it = aliens.iterator();
-
-        while (it.hasNext()) {
-
-            Alien alien = it.next();
+        for (Alien alien : aliens) {
 
             if (alien.isVisible()) {
 
@@ -312,6 +306,11 @@ public class Board extends JPanel {
                         && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
 
                     var ii = new ImageIcon(explImg);
+                    player.setImage(ii.getImage());
+                    double width4 = ((double) ii.getIconWidth() / 5);
+                    double length4 = ((double) ii.getIconHeight() / 4);
+                    java.awt.Image scaledImage = ii.getImage().getScaledInstance((int) width4, (int) length4, java.awt.Image.SCALE_SMOOTH);
+                    ii = new ImageIcon(scaledImage);
                     player.setImage(ii.getImage());
                     player.setDying(true);
                     bomb.setDestroyed(true);
