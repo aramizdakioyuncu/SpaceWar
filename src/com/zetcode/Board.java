@@ -33,9 +33,17 @@ public class Board extends JPanel {
     private Image backgroundImage;
     final String finishgraundImgPath = "src/images/finishgraund.jpg";
     private Image finishgraundImage;
+    final String gameoverImgPath = "src/images/gameover.jpg";
+    private Image gameoverImage;
+    final String powerUpImg2Path = "src/images/powerup2.png";
+    private Image powerUpImg2;
+    final String powerUpImg1Path = "src/images/powerup1.png";
+    private Image powerUpImg1;
+
     private String message = "Game Over";
 
     private Timer timer;
+
 
 
     public Board() {
@@ -54,10 +62,15 @@ public class Board extends JPanel {
         backgroundImage = backgroundIcon.getImage();
         ImageIcon finishgraundIcon = new ImageIcon(finishgraundImgPath);
         finishgraundImage = finishgraundIcon.getImage();
+        ImageIcon gameoverIcon = new ImageIcon(gameoverImgPath);
+        gameoverImage = gameoverIcon.getImage();
+
+
 
 
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
+
 
         gameInit();
     }
@@ -80,6 +93,7 @@ public class Board extends JPanel {
         shot = new Shot();
     }
 
+
     private void drawAliens(Graphics g) {
 
         for (Alien alien : aliens) {
@@ -99,6 +113,7 @@ public class Board extends JPanel {
     private void drawPlayer(Graphics g) {
 
         if (player.isVisible()) {
+
 
             g.drawImage(player.getImage(), (int) player.getX(), (int) player.getY(), this);
         }
@@ -120,6 +135,7 @@ public class Board extends JPanel {
 
     private void drawBombing(Graphics g) {
 
+
         for (Alien a : aliens) {
 
             Alien.Bomb b = a.getBomb();
@@ -136,6 +152,7 @@ public class Board extends JPanel {
         super.paintComponent(g);
 
         doDrawing(g);
+
     }
 
     private void doDrawing(Graphics g) {
@@ -145,6 +162,7 @@ public class Board extends JPanel {
 
 
         if (inGame) {
+
             Graphics2D g2d=(Graphics2D) g;
             g2d.setStroke(new BasicStroke(4));
             g2d.setColor(Color.red);
@@ -155,6 +173,7 @@ public class Board extends JPanel {
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
+//            powerUps(g);
         } else {
             if (timer.isRunning()) {
                 timer.stop();
@@ -166,9 +185,11 @@ public class Board extends JPanel {
     }
 
     private void gameOver(Graphics g) {
-        g.drawImage(finishgraundImage, 0, 0, this);
-
-
+        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+            g.drawImage(finishgraundImage, 0, 0, this);  // "Game Won" için farklı bir resim kullan
+        } else {
+            g.drawImage(gameoverImage, 0, 0, this);  // Orijinal "Game Over" resmini kullan
+        }
 
         g.setColor(new Color(0, 32, 48));
         g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
@@ -184,6 +205,36 @@ public class Board extends JPanel {
                 Commons.BOARD_WIDTH / 2);
     }
 
+    private void powerUps(Graphics g) {
+        ImageIcon powerUpIcon1 = new ImageIcon(powerUpImg1Path);
+        powerUpImg1 = powerUpIcon1.getImage();
+
+        var ii = new ImageIcon(powerUpImg1);
+        int newWidth = (ii.getIconWidth() / 9);
+        int newHeight = (ii.getIconHeight() / 9);
+        java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
+        ii = new ImageIcon(scaledImage);
+
+        ImageIcon powerUpIcon2 = new ImageIcon(powerUpImg2Path);
+        powerUpImg2 = powerUpIcon2.getImage();
+
+        var ii1 = new ImageIcon(powerUpImg2);
+        int newWidth1 = (ii1.getIconWidth() / 25);
+        int newHeight1 = (ii1.getIconHeight() / 25);
+        java.awt.Image scaledImage1 = ii1.getImage().getScaledInstance(newWidth1, newHeight1, java.awt.Image.SCALE_SMOOTH);
+        ii1 = new ImageIcon(scaledImage1);
+
+            g.drawImage(scaledImage, (int) ((Math.random()*1700)+100), (int) ((Math.random()*500)+100), this);
+            g.drawImage(scaledImage1,(int) ((Math.random()*1700)+100), (int) ((Math.random()*500)+100),this);
+
+
+
+    }
+    private void doPowerUps(Graphics g){
+        powerUps(g);
+    }
+
+
     private void update() {
 
 
@@ -194,10 +245,11 @@ public class Board extends JPanel {
 
             inGame = false;
             timer.stop();
-            message = "YOU WIN!";
+            message = "Game won!";
         }
 
         // player
+
         player.act();
 
         // shot
@@ -338,6 +390,7 @@ public class Board extends JPanel {
 
         update();
         repaint();
+
     }
 
     private class GameCycle implements ActionListener {
