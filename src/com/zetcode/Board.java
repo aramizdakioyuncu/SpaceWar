@@ -56,6 +56,8 @@ public class Board extends JPanel {
         finishgraundImage = finishgraundIcon.getImage();
 
 
+
+
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
 
