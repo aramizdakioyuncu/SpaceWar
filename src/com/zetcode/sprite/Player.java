@@ -9,8 +9,9 @@ import java.awt.event.KeyEvent;
 public class Player extends Sprite {
 
     private int width;
-
     private int length;
+
+
 
     public Player() {
 

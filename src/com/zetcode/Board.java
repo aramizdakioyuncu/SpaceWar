@@ -137,10 +137,15 @@ public class Board extends JPanel {
         // Arka plan resmini çiz
         g.drawImage(backgroundImage, 0, 0, this);
 
-        g.setColor(Color.green);
+
 
         if (inGame) {
-            g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
+            Graphics2D g2d=(Graphics2D) g;
+            g2d.setStroke(new BasicStroke(4));
+            g2d.setColor(Color.red);
+
+            g2d.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
+            g2d.setStroke(new BasicStroke());
             drawAliens(g);
             drawPlayer(g);
             drawShot(g);
@@ -311,7 +316,7 @@ public class Board extends JPanel {
 
             if (!bomb.isDestroyed()) {
 
-                bomb.setY(bomb.getY() + 1);
+                bomb.setY(bomb.getY() + 5);
 
                 if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
 
