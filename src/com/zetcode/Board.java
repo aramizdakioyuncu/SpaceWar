@@ -24,7 +24,7 @@ public class Board extends JPanel {
     private Player player;
     private Shot shot;
     
-    private int direction = -1;
+    private int direction = -3;
     private int deaths = 0;
 
     private boolean inGame = true;
@@ -65,8 +65,8 @@ public class Board extends JPanel {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
 
-                var alien = new Alien(Commons.ALIEN_INIT_X + 70 * j,
-                        Commons.ALIEN_INIT_Y + 40 * i);
+                var alien = new Alien(Commons.ALIEN_INIT_X + 80 * j,
+                        Commons.ALIEN_INIT_Y + 45 * i);
                 aliens.add(alien);
             }
         }
@@ -137,8 +137,10 @@ public class Board extends JPanel {
         // Arka plan resmini çiz
         g.drawImage(backgroundImage, 0, 0, this);
 
+        g.setColor(Color.green);
 
         if (inGame) {
+            g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
             drawAliens(g);
             drawPlayer(g);
             drawShot(g);
@@ -212,7 +214,7 @@ public class Board extends JPanel {
             }
 
             double y = shot.getY();
-            y -= 4;
+            y -= 20;
 
             if (y < 0) {
                 shot.die();
@@ -229,7 +231,7 @@ public class Board extends JPanel {
 
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
 
-                direction = -1;
+                direction = -3;
 
                 Iterator<Alien> i1 = aliens.iterator();
 
@@ -242,7 +244,7 @@ public class Board extends JPanel {
 
             if (x <= Commons.BORDER_LEFT && direction != 1) {
 
-                direction = 1;
+                direction = 3;
 
                 Iterator<Alien> i2 = aliens.iterator();
 

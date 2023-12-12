@@ -30,7 +30,7 @@ public class Alien extends Sprite {
 
     public void act(int direction) {
 
-        this.x += direction;
+        this.x = (x + direction);
     }
 
     public Bomb getBomb() {
