@@ -7,12 +7,12 @@ public class Shot extends Sprite {
     public Shot() {
     }
 
-    public Shot(int x, int y) {
+    public Shot(double x, double y) {
 
         initShot(x, y);
     }
 
-    private void initShot(int x, int y) {
+    private void initShot(double x, double y) {
 
         var shotImg = "src/images/shot.png";
         var ii = new ImageIcon(shotImg);
