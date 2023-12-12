@@ -8,7 +8,7 @@ public class Sprite {
     private Image image;
     private boolean dying;
 
-    double x;
+    int x;
     double y;
     double dx;
 
