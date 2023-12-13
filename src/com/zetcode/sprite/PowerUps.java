@@ -17,6 +17,7 @@ public class PowerUps extends Sprite {
     }
 
     private void initPowerUps() {
+
         ImageIcon powerUpIcon1 = new ImageIcon(powerUpImg1Path);
         powerUpImg1 = powerUpIcon1.getImage();
 
@@ -41,25 +42,5 @@ public class PowerUps extends Sprite {
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
