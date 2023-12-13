@@ -41,13 +41,7 @@ public class PowerUps extends Sprite {
 
 
         }
-    private void drawPowerUps (Graphics g){
-        g.drawImage(powerUpImg1, (int) (Math.random()*1830), (int)(Math.random()*400)+200, (ImageObserver) this);
-        g.drawImage(powerUpImg2, (int) (Math.random()*1830), (int)(Math.random()*400)+200, (ImageObserver) this);
 
-
-
-    }
 
 
 
