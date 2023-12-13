@@ -10,7 +10,7 @@ public class Player extends Sprite {
 
     private int width;
     private int length;
-
+    private int speed = 5;
 
 
     public Player() {
@@ -22,6 +22,7 @@ public class Player extends Sprite {
 
         var playerImg = "src/images/spaceship.png";
         var ii = new ImageIcon(playerImg);
+        int farkLimiti=30;
 
 
          width = (ii.getIconWidth() / 7 );
@@ -39,6 +40,7 @@ public class Player extends Sprite {
         int START_Y = 900;
         setY(START_Y);
     }
+
 
     public void act() {
 
@@ -70,14 +72,16 @@ public class Player extends Sprite {
 
         int key = e.getKeyCode();
 
+
+
         if (key == KeyEvent.VK_LEFT) {
 
-            dx = -8;
+            dx = -5;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
-            dx = 8;
+            dx = 5;
         }
         if (key == KeyEvent.VK_UP) {
 

@@ -16,9 +16,10 @@ public class  Commons {
     public static int ALIEN_INIT_Y = 5;
 
     public static int GO_DOWN = 15;
-    public static int NUMBER_OF_ALIENS_TO_DESTROY = 4;
+    public static int NUMBER_OF_ALIENS_TO_DESTROY = 24;
     public static int CHANCE = 5;
     public static int DELAY = 19;
     public static int PLAYER_WIDTH;
     public static int PLAYER_HEIGHT;
+    public static int MAX_GAME_TIME = 100;
 }

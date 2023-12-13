@@ -7,8 +7,14 @@ public class SpeedUp extends Sprite{
 
     final String SpeedUpImgPath = "src/images/SpeedUp.png";
     private Image SpeedUpImg;
+    public int x;
+    public int y;
+    public int counter = 1;
+    public boolean isTake = false;
 
-    public SpeedUp(){
+    public SpeedUp(int x, int y){
+        this.x = x;
+        this.y = y;
         initSpeedUp();
     }
 
