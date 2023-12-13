@@ -8,6 +8,7 @@ import com.zetcode.sprite.Shot;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.TimerTask;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,6 +45,11 @@ public class Board extends JPanel {
     private Timer timer;
 
 
+    private boolean powerUpDrawn = false;
+    private int powerUpX;
+    private int powerUpY;
+
+
 
     public Board() {
 
@@ -69,7 +75,6 @@ public class Board extends JPanel {
 
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
-
 
 
         gameInit();
@@ -150,18 +155,32 @@ public class Board extends JPanel {
         }
     }
 
-    private void drawPowerUps(Graphics g){
 
 
-            g.drawImage(powerUps.getImage(), (int) (Math.random() * 1830), (int) (Math.random() * 400) + 200, this);
+    private void drawPowerUps(Graphics g) {
+        if (!powerUpDrawn && deaths >= 2) {
+            powerUpX = (int) (Math.random() * 1830);
+            powerUpY = (int) (Math.random() * 400) + 200;
+            g.drawImage(powerUps.getImage(), powerUpX, powerUpY, this);
+            powerUpDrawn = true;
+        } else if (!powerUpDrawn && deaths >= 5) {
+            powerUpX = (int) (Math.random() * 1830);
+            powerUpY = (int) (Math.random() * 400) + 200;
+            g.drawImage(powerUps.getImage(), powerUpX, powerUpY, this);
+            powerUpDrawn = true;
+        } else if (powerUpDrawn) {
 
-
-
-
-
-
-
+            g.drawImage(powerUps.getImage(), powerUpX, powerUpY, this);
+        }
     }
+
+
+
+
+
+
+
+
 
 
 
