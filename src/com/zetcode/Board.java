@@ -181,12 +181,12 @@ public class Board extends JPanel {
     }
 
     private void drawSpeedUp(Graphics g) {
-        if (!powerUpDrawn1 && deaths >= 7) {
+        if (!powerUpDrawn1 && deaths >= 13) {
             SpeedX = (int) (Math.random() * 1830);
             SpeedY = (int) (Math.random() * 400) + 200;
             g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
             powerUpDrawn1 = true;
-        } else if (!powerUpDrawn1 && deaths >= 9) {
+        } else if (!powerUpDrawn1 && deaths >= 15) {
             SpeedX = (int) (Math.random() * 1830);
             SpeedY = (int) (Math.random() * 400) + 200;
             g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
