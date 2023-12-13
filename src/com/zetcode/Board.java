@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,6 +24,7 @@ public class Board extends JPanel {
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
+    private PowerUps powerUps;
     
     private int direction = -5;
     private int deaths = 0;
@@ -69,6 +71,7 @@ public class Board extends JPanel {
         timer.start();
 
 
+
         gameInit();
     }
 
@@ -88,6 +91,8 @@ public class Board extends JPanel {
 
         player = new Player();
         shot = new Shot();
+        powerUps = new PowerUps();
+
     }
 
 
@@ -120,6 +125,7 @@ public class Board extends JPanel {
             player.die();
             inGame = false;
         }
+
     }
 
     private void drawShot(Graphics g) {
@@ -143,6 +149,21 @@ public class Board extends JPanel {
             }
         }
     }
+
+    private void drawPowerUps(Graphics g){
+
+
+            g.drawImage(powerUps.getImage(), (int) (Math.random() * 1830), (int) (Math.random() * 400) + 200, this);
+
+
+
+
+
+
+
+    }
+
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -170,6 +191,7 @@ public class Board extends JPanel {
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
+            drawPowerUps(g);
 
 
         } else {
@@ -201,16 +223,6 @@ public class Board extends JPanel {
         g.setFont(small);
         g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
                 Commons.BOARD_WIDTH / 2);
-    }
-
-    private void powerUps(Graphics g) {
-
-
-
-
-    }
-    private void doPowerUps(Graphics g){
-        powerUps(g);
     }
 
 
