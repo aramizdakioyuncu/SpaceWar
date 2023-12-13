@@ -8,6 +8,7 @@ import com.zetcode.sprite.Shot;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.TimerTask;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,7 +70,6 @@ public class Board extends JPanel {
 
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
-
 
 
         gameInit();
@@ -152,16 +152,21 @@ public class Board extends JPanel {
 
     private void drawPowerUps(Graphics g){
 
-
+        if ( deaths >= 4) {
+            g.drawImage(powerUps.getImage(), (int) (Math.random() * 1830), (int) (Math.random() * 400) + 200, this);
+        } else if (deaths >= 10){
             g.drawImage(powerUps.getImage(), (int) (Math.random() * 1830), (int) (Math.random() * 400) + 200, this);
 
+           }
+
+        }
 
 
 
 
 
 
-    }
+
 
 
 
