@@ -46,6 +46,7 @@ public class Board extends JPanel {
 
 
     private boolean powerUpDrawn = false;
+    private boolean powerUpDrawn1 = false;
     private int AttackX;
     private int AttackY;
     private int SpeedX;
@@ -180,17 +181,17 @@ public class Board extends JPanel {
     }
 
     private void drawSpeedUp(Graphics g) {
-        if (!powerUpDrawn && deaths >= 7) {
+        if (!powerUpDrawn1 && deaths >= 7) {
             SpeedX = (int) (Math.random() * 1830);
             SpeedY = (int) (Math.random() * 400) + 200;
             g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
-            powerUpDrawn = true;
-        } else if (!powerUpDrawn && deaths >= 9) {
+            powerUpDrawn1 = true;
+        } else if (!powerUpDrawn1 && deaths >= 9) {
             SpeedX = (int) (Math.random() * 1830);
             SpeedY = (int) (Math.random() * 400) + 200;
             g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
-            powerUpDrawn = true;
-        } else if (powerUpDrawn) {
+            powerUpDrawn1 = true;
+        } else if (powerUpDrawn1) {
 
             g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
         }
