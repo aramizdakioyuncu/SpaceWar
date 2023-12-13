@@ -1,13 +1,12 @@
 package com.zetcode;
 
-import com.zetcode.sprite.Alien;
-import com.zetcode.sprite.Player;
-import com.zetcode.sprite.PowerUps;
-import com.zetcode.sprite.Shot;
+import com.zetcode.sprite.*;
+import com.zetcode.sprite.AttackSpeed;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.table.AbstractTableModel;
 import java.util.TimerTask;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +24,8 @@ public class Board extends JPanel {
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
-    private PowerUps powerUps;
+    private AttackSpeed attackSpeed;
+    private SpeedUp speedUp;
     
     private int direction = -5;
     private int deaths = 0;
@@ -43,6 +43,15 @@ public class Board extends JPanel {
     private String message = "Game Over";
 
     private Timer timer;
+
+
+    private boolean powerUpDrawn = false;
+    private int AttackX;
+    private int AttackY;
+    private int SpeedX;
+    private int SpeedY;
+
+
 
 
 
@@ -91,7 +100,8 @@ public class Board extends JPanel {
 
         player = new Player();
         shot = new Shot();
-        powerUps = new PowerUps();
+        attackSpeed = new AttackSpeed();
+        speedUp = new SpeedUp();
 
     }
 
@@ -150,16 +160,54 @@ public class Board extends JPanel {
         }
     }
 
-    private void drawPowerUps(Graphics g){
 
-        if ( deaths >= 5) {
-            g.drawImage(powerUps.getImage(), (int) (Math.random() * 1830), (int) (Math.random() * 400) + 200, this);
-        } else if (deaths >= 10){
-            g.drawImage(powerUps.getImage(), (int) (Math.random() * 1830), (int) (Math.random() * 400) + 200, this);
 
-           }
+    private void drawAttackSpeed(Graphics g) {
+        if (!powerUpDrawn && deaths >= 7) {
+            AttackX = (int) (Math.random() * 1830);
+            AttackY = (int) (Math.random() * 400) + 200;
+            g.drawImage(attackSpeed.getImage(), AttackX, AttackY, this);
+            powerUpDrawn = true;
+        } else if (!powerUpDrawn && deaths >= 9) {
+            AttackX = (int) (Math.random() * 1830);
+            AttackY = (int) (Math.random() * 400) + 200;
+            g.drawImage(attackSpeed.getImage(), AttackX, AttackY, this);
+            powerUpDrawn = true;
+        } else if (powerUpDrawn) {
 
+            g.drawImage(attackSpeed.getImage(), AttackX, AttackY, this);
         }
+    }
+
+    private void drawSpeedUp(Graphics g) {
+        if (!powerUpDrawn && deaths >= 7) {
+            SpeedX = (int) (Math.random() * 1830);
+            SpeedY = (int) (Math.random() * 400) + 200;
+            g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
+            powerUpDrawn = true;
+        } else if (!powerUpDrawn && deaths >= 9) {
+            SpeedX = (int) (Math.random() * 1830);
+            SpeedY = (int) (Math.random() * 400) + 200;
+            g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
+            powerUpDrawn = true;
+        } else if (powerUpDrawn) {
+
+            g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
+        }
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -196,7 +244,8 @@ public class Board extends JPanel {
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
-            drawPowerUps(g);
+            drawAttackSpeed(g);
+            drawSpeedUp(g);
 
 
         } else {
