@@ -158,7 +158,7 @@ public class Board extends JPanel {
 
 
     private void drawPowerUps(Graphics g) {
-        if (!powerUpDrawn && deaths >= 3) {
+        if (!powerUpDrawn && deaths >= 2) {
             powerUpX = (int) (Math.random() * 1830);
             powerUpY = (int) (Math.random() * 400) + 200;
             g.drawImage(powerUps.getImage(), powerUpX, powerUpY, this);
