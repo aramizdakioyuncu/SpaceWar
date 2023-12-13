@@ -9,8 +9,14 @@ public class AttackSpeed extends Sprite {
 
     final String AttackSpeedImgPath = "src/images/AttackSpeed.png";
     private Image AttackSpeedImg;
+    public int x;
+    public int y;
+    public int counter = 1;
+    public boolean isTake = false;
 
-    public AttackSpeed() {
+    public AttackSpeed(int x, int y) {
+        this.x = x;
+        this.y = y;
         initAttackSpeed();
     }
 
