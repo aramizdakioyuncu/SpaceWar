@@ -1,5 +1,6 @@
 package com.zetcode;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 import java.awt.event.ActionEvent;
@@ -53,6 +54,19 @@ public class SpaceInvaders extends JFrame  {
 
         button.setFont(new Font("Arial", Font.BOLD, 30));
 
+        JTextField textField1 = new JTextField(20);
+        JTextField textField2 = new JTextField(20);
+
+        JLabel label1 = new JLabel("USERNAME:");
+        JLabel label2 = new JLabel("PASSWORD:");
+
+
+
+        label1.setForeground(Color.white);
+        label2.setForeground(Color.WHITE);
+        textField1.addActionListener(e -> {
+            textField2.requestFocusInWindow();
+        });
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -75,6 +89,35 @@ public class SpaceInvaders extends JFrame  {
         EventQueue.invokeLater(() -> {
 
         });
+        panel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(0, 0, 10, 0);
+        panel.add(label1, gbc);
+
+        gbc.gridx = 1;
+        gbc.insets = new Insets(0, 0, 10, 0);
+        panel.add(textField1, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        panel.add(label2, gbc);
+
+        gbc.gridx = 1;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        panel.add(textField2, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(20, 0, 0, 0);
+        panel.add(button, gbc);
+
+        frame.setContentPane(panel);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
 
