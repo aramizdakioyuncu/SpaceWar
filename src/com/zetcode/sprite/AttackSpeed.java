@@ -18,6 +18,7 @@ public class AttackSpeed extends Sprite {
         this.x = x;
         this.y = y;
         initAttackSpeed();
+
     }
 
     private void initAttackSpeed() {
@@ -32,10 +33,7 @@ public class AttackSpeed extends Sprite {
         ii = new ImageIcon(scaledImage);
         setImage(ii.getImage());
 
+    }
 
-
-
-
-        }
 
 }
