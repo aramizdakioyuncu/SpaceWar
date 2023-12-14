@@ -18,10 +18,11 @@ import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.awt.event.KeyEvent;
 
 import static com.zetcode.Commons.MAX_GAME_TIME;
 
-public class Board extends JPanel {
+public class Board extends JPanel{
 
     private Dimension d;
     private List<Alien> aliens;
@@ -163,33 +164,44 @@ public class Board extends JPanel {
 
 
 
+
     private void drawAttackSpeed(Graphics g,double sayac) {
-        if (MAX_GAME_TIME * 0.03 < sayac && sayac < MAX_GAME_TIME * 0.20) {
-            if (attackSpeed.counter == 1 && !attackSpeed.isTake) {
+
+        if (MAX_GAME_TIME*0.06<sayac && sayac < MAX_GAME_TIME*0.30) {
+            if (attackSpeed.counter==1&&!attackSpeed.isTake){
                 g.drawImage(attackSpeed.getImage(), attackSpeed.x, attackSpeed.y, this);
-
             }
-
-        } else if (MAX_GAME_TIME * 0.12 < sayac && sayac < MAX_GAME_TIME * 0.15) {
-            if (attackSpeed.counter == 1) {
+        } else if (MAX_GAME_TIME*0.12<sayac && sayac < MAX_GAME_TIME*0.30) {
+            if (attackSpeed.counter==1){
                 attackSpeed.x = (int) (Math.random() * 1830);
                 attackSpeed.y = (int) (Math.random() * 400) + 200;
                 attackSpeed.counter++;
                 attackSpeed.isTake = false;
             }
-            if (attackSpeed.counter == 2 && !attackSpeed.isTake) {
+            if (attackSpeed.counter==2&&!attackSpeed.isTake){
                 g.drawImage(attackSpeed.getImage(), attackSpeed.x, attackSpeed.y, this);
             }
         }
+        int farkLimiti = 100;
 
+        if ((Math.abs(player.getX() - attackSpeed.x) <= farkLimiti) && (Math.abs(player.getY() - attackSpeed.y) <= farkLimiti)){
+            double z = shot.getY();
+            z -= 40;
+            if (z < 0) {
+                shot.die();
+            } else {
+                shot.setY(z);
+            }
+
+        }
     }
 
     private void drawSpeedUp(Graphics g,double sayac) {
-        if (MAX_GAME_TIME*0.03<sayac && sayac < MAX_GAME_TIME*0.06) {
+        if (MAX_GAME_TIME*0.03<sayac && sayac < MAX_GAME_TIME*0.30) {
             if (speedUp.counter==1&&!speedUp.isTake){
                 g.drawImage(speedUp.getImage(), speedUp.x, speedUp.y, this);
             }
-        } else if (MAX_GAME_TIME*0.09<sayac && sayac < MAX_GAME_TIME*0.12) {
+        } else if (MAX_GAME_TIME*0.09<sayac && sayac < MAX_GAME_TIME*0.30) {
             if (speedUp.counter==1){
                 speedUp.x = (int) (Math.random() * 1830);
                 speedUp.y = (int) (Math.random() * 400) + 200;
@@ -200,8 +212,19 @@ public class Board extends JPanel {
                 g.drawImage(speedUp.getImage(), speedUp.x, speedUp.y, this);
             }
         }
+        int farkLimiti = 100;
+
+//        if ((Math.abs(player.getX() - speedUp.x) <= farkLimiti) && (Math.abs(player.getY() - speedUp.y) <= farkLimiti)){
+//
+//
+//        }
 
     }
+
+
+
+
+
 
 
 
@@ -299,7 +322,7 @@ private String format = "3,33";
 
             inGame = false;
             timer.stop();
-            message = "YOU WİN!";
+            message = "YOU WIN!";
         }
 
         // player
@@ -468,17 +491,13 @@ private String format = "3,33";
         public void keyPressed(KeyEvent e) {
 
             player.keyPressed(e);
-            int farkLimiti = 30;
-
 
             double yeni = ((double) Commons.PLAYER_WIDTH/2.25);
 
             double x = player.getX()+yeni;
             double y = player.getY();
 
-
             int key = e.getKeyCode();
-
 
             if (key == KeyEvent.VK_SPACE) {
 

@@ -22,4 +22,5 @@ public class  Commons {
     public static int PLAYER_WIDTH;
     public static int PLAYER_HEIGHT;
     public static int MAX_GAME_TIME = 100;
+
 }
