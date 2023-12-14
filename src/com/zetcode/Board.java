@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.table.AbstractTableModel;
+import java.text.DecimalFormat;
 import java.util.TimerTask;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,8 +18,11 @@ import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.awt.event.KeyEvent;
 
-public class Board extends JPanel {
+import static com.zetcode.Commons.MAX_GAME_TIME;
+
+public class Board extends JPanel{
 
     private Dimension d;
     private List<Alien> aliens;
@@ -40,7 +44,7 @@ public class Board extends JPanel {
     final String gameoverImgPath = "src/images/gameover.jpg";
     private Image gameoverImage;
 
-    private String message = "Game Over";
+    private String message = "YOU LOST";
 
     private Timer timer;
 
@@ -49,10 +53,7 @@ public class Board extends JPanel {
     private boolean powerUpDrawn1 = false;
     private int AttackX;
     private int AttackY;
-    private int SpeedX;
-    private int SpeedY;
-
-
+    private long baslangicZaman = System.currentTimeMillis();
 
 
 
@@ -60,6 +61,8 @@ public class Board extends JPanel {
 
         initBoard();
         gameInit();
+        baslangicZaman = System.currentTimeMillis();
+        
     }
 
     private void initBoard() {
@@ -101,9 +104,8 @@ public class Board extends JPanel {
 
         player = new Player();
         shot = new Shot();
-        attackSpeed = new AttackSpeed();
-        speedUp = new SpeedUp();
-
+        attackSpeed = new AttackSpeed((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
+        speedUp = new SpeedUp((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
     }
 
 
@@ -155,7 +157,6 @@ public class Board extends JPanel {
             Alien.Bomb b = a.getBomb();
 
             if (!b.isDestroyed()) {
-
                 g.drawImage(b.getImage(), (int) b.getX(), (int) b.getY(), this);
             }
         }
@@ -163,43 +164,67 @@ public class Board extends JPanel {
 
 
 
-    private void drawAttackSpeed(Graphics g) {
-        if (!powerUpDrawn && deaths >= 7) {
-            AttackX = (int) (Math.random() * 1830);
-            AttackY = (int) (Math.random() * 400) + 200;
-            g.drawImage(attackSpeed.getImage(), AttackX, AttackY, this);
-            powerUpDrawn = true;
-        } else if (!powerUpDrawn && deaths >= 9) {
-            AttackX = (int) (Math.random() * 1830);
-            AttackY = (int) (Math.random() * 400) + 200;
-            g.drawImage(attackSpeed.getImage(), AttackX, AttackY, this);
-            powerUpDrawn = true;
-        } else if (powerUpDrawn) {
 
-            g.drawImage(attackSpeed.getImage(), AttackX, AttackY, this);
+    private void drawAttackSpeed(Graphics g,double sayac) {
+
+        if (MAX_GAME_TIME*0.06<sayac && sayac < MAX_GAME_TIME*0.30) {
+            if (attackSpeed.counter==1&&!attackSpeed.isTake){
+                g.drawImage(attackSpeed.getImage(), attackSpeed.x, attackSpeed.y, this);
+            }
+        } else if (MAX_GAME_TIME*0.12<sayac && sayac < MAX_GAME_TIME*0.30) {
+            if (attackSpeed.counter==1){
+                attackSpeed.x = (int) (Math.random() * 1830);
+                attackSpeed.y = (int) (Math.random() * 400) + 200;
+                attackSpeed.counter++;
+                attackSpeed.isTake = false;
+            }
+            if (attackSpeed.counter==2&&!attackSpeed.isTake){
+                g.drawImage(attackSpeed.getImage(), attackSpeed.x, attackSpeed.y, this);
+            }
+        }
+        int farkLimiti = 100;
+
+        if ((Math.abs(player.getX() - attackSpeed.x) <= farkLimiti) && (Math.abs(player.getY() - attackSpeed.y) <= farkLimiti)){
+            double z = shot.getY();
+            z -= 40;
+            if (z < 0) {
+                shot.die();
+            } else {
+                shot.setY(z);
+            }
+
         }
     }
 
-    private void drawSpeedUp(Graphics g) {
-        if (!powerUpDrawn1 && deaths >= 13) {
-            SpeedX = (int) (Math.random() * 1830);
-            SpeedY = (int) (Math.random() * 400) + 200;
-            g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
-            powerUpDrawn1 = true;
-        } else if (!powerUpDrawn1 && deaths >= 15) {
-            SpeedX = (int) (Math.random() * 1830);
-            SpeedY = (int) (Math.random() * 400) + 200;
-            g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
-            powerUpDrawn1 = true;
-        } else if (powerUpDrawn1) {
-
-            g.drawImage(speedUp.getImage(), SpeedX, SpeedY, this);
+    private void drawSpeedUp(Graphics g,double sayac) {
+        if (MAX_GAME_TIME*0.03<sayac && sayac < MAX_GAME_TIME*0.30) {
+            if (speedUp.counter==1&&!speedUp.isTake){
+                g.drawImage(speedUp.getImage(), speedUp.x, speedUp.y, this);
+            }
+        } else if (MAX_GAME_TIME*0.09<sayac && sayac < MAX_GAME_TIME*0.30) {
+            if (speedUp.counter==1){
+                speedUp.x = (int) (Math.random() * 1830);
+                speedUp.y = (int) (Math.random() * 400) + 200;
+                speedUp.counter++;
+                speedUp.isTake = false;
+            }
+            if (speedUp.counter==2&&!speedUp.isTake){
+                g.drawImage(speedUp.getImage(), speedUp.x, speedUp.y, this);
+            }
         }
+        int farkLimiti = 100;
 
-
-
+//        if ((Math.abs(player.getX() - speedUp.x) <= farkLimiti) && (Math.abs(player.getY() - speedUp.y) <= farkLimiti)){
+//
+//
+//        }
 
     }
+
+
+
+
+
 
 
 
@@ -226,12 +251,19 @@ public class Board extends JPanel {
         doDrawing(g);
 
     }
-
+private String format = "3,33";
     private void doDrawing(Graphics g) {
         // Arka plan resmini çiz
         g.drawImage(backgroundImage, 0, 0, this);
 
-
+        var small = new Font("Helvetica", Font.BOLD, 100);
+        var fontMetrics = this.getFontMetrics(small);
+        DecimalFormat df = new DecimalFormat("#.##");
+        double sayac =  (double)(System.currentTimeMillis()-baslangicZaman)/1000;
+        if (sayac>MAX_GAME_TIME-1) {
+            inGame = false;
+            timer.stop();
+        }
 
         if (inGame) {
 
@@ -245,10 +277,13 @@ public class Board extends JPanel {
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
-            drawAttackSpeed(g);
-            drawSpeedUp(g);
+            drawAttackSpeed(g,sayac);
+            drawSpeedUp(g,sayac);
 
-
+            g.setFont(small);
+            g.setColor(Color.white);
+            g.drawString(df.format(MAX_GAME_TIME - sayac), (Commons.BOARD_WIDTH-fontMetrics.stringWidth(String.valueOf(format)))/2   ,
+                    Commons.BOARD_HEIGHT/13);
         } else {
             if (timer.isRunning()) {
                 timer.stop();
@@ -283,15 +318,11 @@ public class Board extends JPanel {
 
     private void update() {
 
-
-
-
-
         if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             inGame = false;
             timer.stop();
-            message = "Game won!";
+            message = "YOU WIN!";
         }
 
         // player
@@ -461,7 +492,7 @@ public class Board extends JPanel {
 
             player.keyPressed(e);
 
-            double yeni = ((double) Commons.PLAYER_WIDTH / 2)*0.54;
+            double yeni = ((double) Commons.PLAYER_WIDTH/2.25);
 
             double x = player.getX()+yeni;
             double y = player.getY();
