@@ -1,4 +1,4 @@
-package com.zetcode.sprite;
+package Sariaboom.sprite;
 
 import javax.swing.ImageIcon;
 
@@ -18,8 +18,8 @@ public class Alien extends Sprite {
 
         bomb = new Bomb(x, y);
 
-        var alienImg = "src/images/alien.png";
-        var ii = new ImageIcon(alienImg);
+        String alienImg = "/images/alien.png";
+        ImageIcon ii = new ImageIcon(getClass().getResource(alienImg));
         int newWidth = (ii.getIconWidth() / 11);
         int newHeight = (ii.getIconHeight() / 11);
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
@@ -54,8 +54,9 @@ public class Alien extends Sprite {
             this.x = x;
             this.y = y;
 
-            var bombImg = "src/images/alienlaser.png";
-            var ii = new ImageIcon(bombImg);
+            String bombImg = "/images/alienlaser.png";
+            ImageIcon ii = new ImageIcon(getClass().getResource(bombImg));
+
             setImage(ii.getImage());
             double width1 = ((double) ii.getIconWidth() / 30);
             double length1 = ((double) ii.getIconHeight() / 60);

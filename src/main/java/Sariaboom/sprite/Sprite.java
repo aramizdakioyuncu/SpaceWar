@@ -1,4 +1,4 @@
-package com.zetcode.sprite;
+package Sariaboom.sprite;
 
 import java.awt.Image;
 

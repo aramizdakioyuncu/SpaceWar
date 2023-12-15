@@ -1,16 +1,13 @@
-package com.zetcode.sprite;
+package Sariaboom.sprite;
 
-import com.zetcode.Commons;
-
+import Sariaboom.Commons;
 import javax.swing.ImageIcon;
-
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
 
     private int width;
     private int length;
-
     public int speedX = 9;
     public int speedY = 6;
 
@@ -23,15 +20,16 @@ public class Player extends Sprite {
 
     private void initPlayer() {
 
-        var playerImg = "src/images/spaceship.png";
-        var ii = new ImageIcon(playerImg);
-
+        String playerImg = "/images/spaceship.png";
+        ImageIcon ii = new ImageIcon(getClass().getResource(playerImg));
 
          width = (ii.getIconWidth() / 7 );
          length = (ii.getIconHeight() / 7);
         Commons.PLAYER_WIDTH = width;
         Commons.PLAYER_HEIGHT = length;
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(width, length, java.awt.Image.SCALE_SMOOTH);
+
+
         ii = new ImageIcon(scaledImage);
         setImage(ii.getImage());
 
@@ -118,10 +116,5 @@ public class Player extends Sprite {
         }
 
     }
-
-
-
-
-
-    }
+}
 

@@ -1,6 +1,5 @@
-package com.zetcode;
+package Sariaboom;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 import java.awt.event.ActionEvent;
@@ -36,8 +35,10 @@ public class SpaceInvaders extends JFrame  {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Resmi yükleyin
-                ImageIcon imageIcon = new ImageIcon("src/gif/backroundstart.gif");
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/gif/backroundstart.gif"));
                 Image image = imageIcon.getImage();
+
+
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -64,14 +65,14 @@ public class SpaceInvaders extends JFrame  {
 
         label1.setForeground(Color.white);
         label2.setForeground(Color.WHITE);
-        textField1.addActionListener(e -> {
+        textField1.addActionListener(e-> {
             textField2.requestFocusInWindow();
         });
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    var ex = new SpaceInvaders();
+                    SpaceInvaders ex = new SpaceInvaders();
                     ex.setVisible(true);
                 }
             });
@@ -86,9 +87,8 @@ public class SpaceInvaders extends JFrame  {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        EventQueue.invokeLater(() -> {
-
-        });
+        //EventQueue.invokeLater(() -> {
+       // });
         panel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;

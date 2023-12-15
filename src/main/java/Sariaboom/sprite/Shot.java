@@ -1,4 +1,4 @@
-package com.zetcode.sprite;
+package Sariaboom.sprite;
 
 import javax.swing.ImageIcon;
 
@@ -16,8 +16,10 @@ public class Shot extends Sprite {
 
     private void initShot(double x, double y) {
 
-        var shotImg = "src/images/bluelaser.png";
-        var ii = new ImageIcon(shotImg);
+        String shotImg = "/images/bluelaser.png";
+
+        ImageIcon ii = new ImageIcon(getClass().getResource(shotImg));
+
         setImage(ii.getImage());
         width2 = (ii.getIconWidth() / 20);
         length2 = (ii.getIconHeight() / 35);

@@ -1,11 +1,10 @@
-package com.zetcode.sprite;
+package Sariaboom.sprite;
 import javax.swing.ImageIcon;
-import javax.swing.*;
 import java.awt.*;
 
 public class SpeedUp extends Sprite{
 
-    final String SpeedUpImgPath = "src/images/SpeedUp.png";
+    final String SpeedUpImgPath = "/images/SpeedUp.png";
     public Image SpeedUpImg;
     public int x;
     public int y;
@@ -19,10 +18,11 @@ public class SpeedUp extends Sprite{
     }
 
     private void initSpeedUp(){
-        ImageIcon powerUpIcon2 = new ImageIcon(SpeedUpImgPath);
+
+        ImageIcon powerUpIcon2 = new ImageIcon(getClass().getResource(SpeedUpImgPath));
         SpeedUpImg = powerUpIcon2.getImage();
 
-        var ii1 = new ImageIcon(SpeedUpImg);
+        ImageIcon ii1 = new ImageIcon(SpeedUpImg);
         int newWidth1 = (ii1.getIconWidth() / 25);
         int newHeight1 = (ii1.getIconHeight() / 25);
         java.awt.Image scaledImage1 = ii1.getImage().getScaledInstance(newWidth1, newHeight1, java.awt.Image.SCALE_SMOOTH);

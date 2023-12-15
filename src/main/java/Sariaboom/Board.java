@@ -1,26 +1,23 @@
-package com.zetcode;
+package Sariaboom;
 
-import com.zetcode.sprite.*;
-import com.zetcode.sprite.AttackSpeed;
+import Sariaboom.sprite.*;
+
+import Sariaboom.sprite.AttackSpeed;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.table.AbstractTableModel;
 import java.text.DecimalFormat;
-import java.util.TimerTask;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.awt.event.KeyEvent;
 
-import static com.zetcode.Commons.MAX_GAME_TIME;
+import static Sariaboom.Commons.MAX_GAME_TIME;
 
 public class Board extends JPanel{
 
@@ -36,19 +33,15 @@ public class Board extends JPanel{
 
 
     private boolean inGame = true;
-    final String explImg = "src/images/explosion.png";
-    final String backgroundImgPath = "src/images/background.jpg";
+    final String explImg = "/images/explosion.png";
+    final String backgroundImgPath = "/images/background.jpg";
     private Image backgroundImage;
-    final String finishgraundImgPath = "src/images/finishgraund.jpg";
+    final String finishgraundImgPath = "/images/finishgraund.jpg";
     private Image finishgraundImage;
-    final String gameoverImgPath = "src/images/gameover.jpg";
+    final String gameoverImgPath = "/images/gameover.jpg";
     private Image gameoverImage;
-
     private String message = "YOU LOST";
-
     private Timer timer;
-
-
     private boolean powerUpDrawn = false;
     private boolean powerUpDrawn1 = false;
     private int AttackX;
@@ -72,20 +65,17 @@ public class Board extends JPanel{
         setFocusable(true);
         d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
-
-        ImageIcon backgroundIcon = new ImageIcon(backgroundImgPath);
+        ImageIcon backgroundIcon = new ImageIcon(getClass().getResource(backgroundImgPath));
         backgroundImage = backgroundIcon.getImage();
-        ImageIcon finishgraundIcon = new ImageIcon(finishgraundImgPath);
+
+        ImageIcon finishgraundIcon = new ImageIcon(getClass().getResource(finishgraundImgPath));
         finishgraundImage = finishgraundIcon.getImage();
-        ImageIcon gameoverIcon = new ImageIcon(gameoverImgPath);
+
+        ImageIcon gameoverIcon = new ImageIcon(getClass().getResource(gameoverImgPath));
         gameoverImage = gameoverIcon.getImage();
-
-
-
 
         timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
-
 
         gameInit();
     }
@@ -93,12 +83,12 @@ public class Board extends JPanel{
 
     private void gameInit() {
 
-        aliens = new ArrayList<>();
+        aliens = new ArrayList<Alien>();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
 
-                var alien = new Alien(Commons.ALIEN_INIT_X + 80 * j,
+                Alien alien = new Alien(Commons.ALIEN_INIT_X + 80 * j,
                         Commons.ALIEN_INIT_Y + 45 * i);
                 aliens.add(alien);
             }
@@ -255,30 +245,7 @@ public class Board extends JPanel{
                 speedUp.isTake = false;
             }
         }
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -294,8 +261,8 @@ private String format = "3,33";
         // Arka plan resmini çiz
         g.drawImage(backgroundImage, 0, 0, this);
 
-        var small = new Font("Helvetica", Font.BOLD, 100);
-        var fontMetrics = this.getFontMetrics(small);
+        Font small = new Font("Helvetica", Font.BOLD, 100);
+        FontMetrics fontMetrics = this.getFontMetrics(small);
         DecimalFormat df = new DecimalFormat("#.##");
         double sayac =  (double)(System.currentTimeMillis()-baslangicZaman)/1000;
         if (sayac>MAX_GAME_TIME-1) {
@@ -338,19 +305,19 @@ private String format = "3,33";
         } else {
             g.drawImage(gameoverImage, 0, 0, this);  // Orijinal "Game Over" resmini kullan
         }
-
         g.setColor(new Color(0, 32, 48));
+
         g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
         g.setColor(Color.white);
         g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
 
-        var small = new Font("Helvetica", Font.BOLD, 14);
-        var fontMetrics = this.getFontMetrics(small);
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+
+        FontMetrics fontMetrics = this.getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-                Commons.BOARD_WIDTH / 2);
+        g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2, Commons.BOARD_WIDTH / 2);
     }
 
 
@@ -384,12 +351,14 @@ private String format = "3,33";
                             && shotY >= (alienY)
                             && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
 
-                        var ii = new ImageIcon(explImg);
+                        ImageIcon ii = new ImageIcon(getClass().getResource(explImg));
+
                         alien.setImage(ii.getImage());
                         double width4 = ((double) ii.getIconWidth() / 12);
                         double length4 = ((double) ii.getIconHeight() / 8);
                         java.awt.Image scaledImage = ii.getImage().getScaledInstance((int) width4, (int) length4, java.awt.Image.SCALE_SMOOTH);
                         ii = new ImageIcon(scaledImage);
+
                         alien.setImage(ii.getImage());
                         alien.setDying(true);
                         deaths++;
@@ -451,7 +420,7 @@ private String format = "3,33";
         }
 
         // bombs
-        var generator = new Random();
+        Random generator = new Random();
 
         for (Alien alien : aliens) {
 
@@ -477,7 +446,7 @@ private String format = "3,33";
                         && bombY >= (playerY)
                         && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
 
-                    var ii = new ImageIcon(explImg);
+                    ImageIcon ii = new ImageIcon(getClass().getResource(explImg));
                     player.setImage(ii.getImage());
                     double width4 = ((double) ii.getIconWidth() / 5);
                     double length4 = ((double) ii.getIconHeight() / 4);
