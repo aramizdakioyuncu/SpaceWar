@@ -11,6 +11,9 @@ public class Player extends Sprite {
     private int width;
     private int length;
 
+    public int speedX = 9;
+    public int speedY = 6;
+
 
 
     public Player() {
@@ -72,21 +75,21 @@ public class Player extends Sprite {
 
         if (key == KeyEvent.VK_LEFT) {
 
-            dx = -9;
+            dx = -speedX;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
-            dx = 9;
+            dx = speedX;
         }
         if (key == KeyEvent.VK_UP) {
 
-            dy = -6;
+            dy = -speedY;
 
         }
         if (key == KeyEvent.VK_DOWN){
 
-            dy = 6;
+            dy = speedY;
         }
     }
 
