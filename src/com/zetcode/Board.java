@@ -54,6 +54,8 @@ public class Board extends JPanel{
     private int AttackX;
     private int AttackY;
     private long baslangicZaman = System.currentTimeMillis();
+    private long speedUpBaslangicZaman = 0;
+    private long attackSpeedBalangicZaman = 0;
 
 
 
@@ -167,57 +169,93 @@ public class Board extends JPanel{
 
     private void drawAttackSpeed(Graphics g,double sayac) {
 
-        if (MAX_GAME_TIME*0.06<sayac && sayac < MAX_GAME_TIME*0.30) {
+        if (MAX_GAME_TIME*0.03<sayac && sayac < MAX_GAME_TIME*0.09) {
             if (attackSpeed.counter==1&&!attackSpeed.isTake){
+                int farkLimiti = 20;
+                if ((Math.abs(player.getX() - attackSpeed.x) <= farkLimiti) && (Math.abs(player.getY() - attackSpeed.y) <= farkLimiti)){
+                    attackSpeed.isTake=true;
+                    attackSpeed.counter++;
+                    attackSpeedBalangicZaman = System.currentTimeMillis();
+                }
                 g.drawImage(attackSpeed.getImage(), attackSpeed.x, attackSpeed.y, this);
             }
-        } else if (MAX_GAME_TIME*0.12<sayac && sayac < MAX_GAME_TIME*0.30) {
-            if (attackSpeed.counter==1){
+        } else if (sayac>MAX_GAME_TIME*0.09 && attackSpeed.counter==1) {
+            attackSpeed.counter++;
+        } else if (MAX_GAME_TIME*0.12<sayac && sayac < MAX_GAME_TIME*0.3) {
+            if (attackSpeed.counter==2){
                 attackSpeed.x = (int) (Math.random() * 1830);
                 attackSpeed.y = (int) (Math.random() * 400) + 200;
                 attackSpeed.counter++;
-                attackSpeed.isTake = false;
             }
-            if (attackSpeed.counter==2&&!attackSpeed.isTake){
+            if (attackSpeed.counter==3&&!attackSpeed.isTake){
+                int farkLimiti = 20;
+                if ((Math.abs(player.getX() - attackSpeed.x) <= farkLimiti) && (Math.abs(player.getY() - attackSpeed.y) <= farkLimiti)){
+                    attackSpeed.isTake=true;
+                    attackSpeed.counter++;
+                    attackSpeedBalangicZaman = System.currentTimeMillis();
+                }
                 g.drawImage(attackSpeed.getImage(), attackSpeed.x, attackSpeed.y, this);
             }
         }
-        int farkLimiti = 100;
-
-        if ((Math.abs(player.getX() - attackSpeed.x) <= farkLimiti) && (Math.abs(player.getY() - attackSpeed.y) <= farkLimiti)){
-            double z = shot.getY();
-            z -= 40;
-            if (z < 0) {
-                shot.die();
-            } else {
-                shot.setY(z);
+        if (attackSpeed.isTake && attackSpeedBalangicZaman != 0){
+            if ((int) ((System.currentTimeMillis()-attackSpeedBalangicZaman)/1000) > 3){
+                attackSpeed.isTake = false;
             }
-
         }
+        if (attackSpeed.isTake){
+                double z = shot.getY();
+                z -= 40;
+                if (z < 0) {
+                    shot.die();
+                } else {
+                    shot.setY(z);
+                }
+        }
+
     }
 
     private void drawSpeedUp(Graphics g,double sayac) {
-        if (MAX_GAME_TIME*0.03<sayac && sayac < MAX_GAME_TIME*0.30) {
+        if (MAX_GAME_TIME*0.03<sayac && sayac < MAX_GAME_TIME*0.09) {
             if (speedUp.counter==1&&!speedUp.isTake){
+                int farkLimiti = 20;
+                if ((Math.abs(player.getX() - speedUp.x) <= farkLimiti) && (Math.abs(player.getY() - speedUp.y) <= farkLimiti)){
+                    speedUp.isTake=true;
+                    speedUpBaslangicZaman = System.currentTimeMillis();
+                    player.speedX *=2;
+                    player.speedY *=2;
+                    speedUp.counter++;
+                }
                 g.drawImage(speedUp.getImage(), speedUp.x, speedUp.y, this);
             }
-        } else if (MAX_GAME_TIME*0.09<sayac && sayac < MAX_GAME_TIME*0.30) {
-            if (speedUp.counter==1){
+        } else if (sayac>MAX_GAME_TIME*0.09 && speedUp.counter==1) {
+            speedUp.counter++;
+        } else if (MAX_GAME_TIME*0.12<sayac && sayac < MAX_GAME_TIME*0.3) {
+            if (speedUp.counter==2){
                 speedUp.x = (int) (Math.random() * 1830);
                 speedUp.y = (int) (Math.random() * 400) + 200;
                 speedUp.counter++;
-                speedUp.isTake = false;
             }
-            if (speedUp.counter==2&&!speedUp.isTake){
+            if (speedUp.counter==3&&!speedUp.isTake){
+                int farkLimiti = 20;
+                if ((Math.abs(player.getX() - speedUp.x) <= farkLimiti) && (Math.abs(player.getY() - speedUp.y) <= farkLimiti)){
+                    speedUp.isTake=true;
+                    speedUpBaslangicZaman = System.currentTimeMillis();
+                    player.speedX *=2;
+                    player.speedY *=2;
+                    speedUp.counter++;
+                }
                 g.drawImage(speedUp.getImage(), speedUp.x, speedUp.y, this);
             }
         }
-        int farkLimiti = 100;
 
-//        if ((Math.abs(player.getX() - speedUp.x) <= farkLimiti) && (Math.abs(player.getY() - speedUp.y) <= farkLimiti)){
-//
-//
-//        }
+        if (speedUp.isTake && speedUpBaslangicZaman != 0){
+            if ((int) ((System.currentTimeMillis()-speedUpBaslangicZaman)/1000) > 3){
+                player.speedY /=2;
+                player.speedX /=2;
+                speedUp.isTake = false;
+            }
+        }
+
 
     }
 

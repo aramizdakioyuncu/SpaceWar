@@ -6,7 +6,7 @@ import java.awt.*;
 public class SpeedUp extends Sprite{
 
     final String SpeedUpImgPath = "src/images/SpeedUp.png";
-    private Image SpeedUpImg;
+    public Image SpeedUpImg;
     public int x;
     public int y;
     public int counter = 1;
