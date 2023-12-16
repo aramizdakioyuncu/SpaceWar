@@ -1,12 +1,17 @@
 package Sariaboom;
 
+import Sariaboom.API.API;
+import Sariaboom.API.FUNCTION;
 import Sariaboom.sprite.*;
 
 import Sariaboom.sprite.AttackSpeed;
+import org.json.JSONObject;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -328,6 +333,23 @@ private String format = "3,33";
             inGame = false;
             timer.stop();
             message = "YOU WIN!";
+            double sayac =  (double)(System.currentTimeMillis()-baslangicZaman)/1000;
+
+            sayac = MAX_GAME_TIME - sayac;
+            String formData = "skor="+sayac;
+
+            try {
+                JSONObject cevap = FUNCTION.SaveScore(formData);
+                if(cevap.get("kontrol").toString().equals("0")){
+                    System.out.println("Kullanıcı Bulunamadı");
+                    return;
+                }
+            }catch (Exception e){
+
+            }
+
+
+
         }
 
         // player
