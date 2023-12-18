@@ -1,4 +1,4 @@
-package Sariaboom.sprite;
+package Spaceboom.sprite;
 import javax.swing.ImageIcon;
 import java.awt.*;
 

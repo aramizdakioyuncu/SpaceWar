@@ -35,7 +35,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>Sariaboom.SpaceInvaders</mainClass>
+                    <mainClass>Spaceboom.SpaceInvaders</mainClass>
                 </configuration>
             </plugin>
         </plugins>

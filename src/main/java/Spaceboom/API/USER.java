@@ -1,4 +1,4 @@
-package Sariaboom.API;
+package Spaceboom.API;
 
 public class USER {
 

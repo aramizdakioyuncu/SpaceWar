@@ -1,4 +1,4 @@
-package Sariaboom.sprite;
+package Spaceboom.sprite;
 
 import java.awt.Image;
 

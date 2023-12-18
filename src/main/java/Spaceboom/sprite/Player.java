@@ -1,6 +1,6 @@
-package Sariaboom.sprite;
+package Spaceboom.sprite;
 
-import Sariaboom.Commons;
+import Spaceboom.Commons;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
 

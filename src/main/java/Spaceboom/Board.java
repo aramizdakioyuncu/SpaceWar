@@ -1,17 +1,14 @@
-package Sariaboom;
+package Spaceboom;
 
-import Sariaboom.API.API;
-import Sariaboom.API.FUNCTION;
-import Sariaboom.sprite.*;
+import Spaceboom.API.FUNCTION;
+import Spaceboom.API.USER;
+import Spaceboom.sprite.*;
 
-import Sariaboom.sprite.AttackSpeed;
+import Spaceboom.sprite.AttackSpeed;
 import org.json.JSONObject;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import javax.swing.*;
+
 import java.text.DecimalFormat;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,8 +18,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
-import static Sariaboom.Commons.MAX_GAME_TIME;
+import static Spaceboom.Commons.MAX_GAME_TIME;
 
 public class Board extends JPanel{
 
@@ -59,6 +57,8 @@ public class Board extends JPanel{
 
     public Board() {
 
+
+
         initBoard();
         gameInit();
         baslangicZaman = System.currentTimeMillis();
@@ -66,6 +66,10 @@ public class Board extends JPanel{
     }
 
     private void initBoard() {
+
+
+
+
         addKeyListener(new TAdapter());
         setFocusable(true);
         d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
@@ -252,8 +256,6 @@ public class Board extends JPanel{
         }
     }
 
-
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -338,22 +340,18 @@ private String format = "3,33";
             sayac = MAX_GAME_TIME - sayac;
             String formData = "skor="+sayac;
 
-            try {
-                JSONObject cevap = FUNCTION.SaveScore(formData);
-                if(cevap.get("kontrol").toString().equals("0")){
-                    System.out.println("Kullanıcı Bulunamadı");
-                    return;
-                }
-            }catch (Exception e){
 
+            if(USER.username != null){
+                //Async
+                CompletableFuture<JSONObject> postRequestFuture = FUNCTION.SaveScore2(formData);
+                postRequestFuture.thenAcceptAsync(response -> {
+                    JSONObject cevap = response;
+                    System.out.println(cevap.get("aciklama"));
+                });
             }
-
-
-
         }
 
         // player
-
         player.act();
 
         // shot
@@ -402,41 +400,29 @@ private String format = "3,33";
         // aliens
 
         for (Alien alien : aliens) {
-
             double x = alien.getX();
-
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-
                 direction = -5;
-
                 for (Alien a2 : aliens) {
-
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
             }
 
             if (x <= Commons.BORDER_LEFT && direction != 1) {
-
                 direction = 5;
-
                 for (Alien a : aliens) {
-
                     a.setY(a.getY() + Commons.GO_DOWN);
                 }
             }
         }
 
         for (Alien alien : aliens) {
-
             if (alien.isVisible()) {
-
                 double y = alien.getY();
-
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                     inGame = false;
                     message = "Invasion!";
                 }
-
                 alien.act(direction);
             }
         }
@@ -493,26 +479,33 @@ private String format = "3,33";
     }
 
     private void doGameCycle() {
-
         update();
         repaint();
-
     }
 
     private class GameCycle implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-
             doGameCycle();
         }
     }
 
+
+    public void PauseResumeGame() {
+        System.out.println("P tuşuna basıldı. Oyun Duracak");
+
+        if(timer.isRunning()){
+            timer.stop();
+            return;
+        }
+        timer.start();
+
+    }
     private class TAdapter extends KeyAdapter {
+
 
         @Override
         public void keyReleased(KeyEvent e) {
-
             player.keyReleased(e);
         }
 
@@ -520,23 +513,28 @@ private String format = "3,33";
         public void keyPressed(KeyEvent e) {
 
             player.keyPressed(e);
-
             double yeni = ((double) Commons.PLAYER_WIDTH/2.25);
-
             double x = player.getX()+yeni;
             double y = player.getY();
 
             int key = e.getKeyCode();
-
             if (key == KeyEvent.VK_SPACE) {
-
                 if (inGame) {
-
                     if (!shot.isVisible()) {
-
                         shot = new Shot(x, y);
                     }
                 }
+            }
+
+            // Bir tuşa basıldığında
+            int keyCode = e.getKeyCode();
+            System.out.println("Key Pressed: " + KeyEvent.getKeyText(keyCode));
+
+            if (keyCode == KeyEvent.VK_P) {
+                PauseResumeGame();
+            }
+            if (keyCode == KeyEvent.VK_TAB) {
+                System.out.println("Tab tuşuna basıldı.");
             }
         }
     }

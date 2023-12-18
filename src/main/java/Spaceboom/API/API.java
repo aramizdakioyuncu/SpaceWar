@@ -1,13 +1,11 @@
-package Sariaboom.API;
+package Spaceboom.API;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -44,7 +42,7 @@ public class API {
             return null;
         }
     }
-    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    public static JSONObject sendRequest(String url) throws IOException, JSONException {
 
         url = SECURITY.SSL+SECURITY.HOST+"/botlar/"+SECURITY.KEY+"/"+url;
         System.out.println(url);
@@ -52,6 +50,7 @@ public class API {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String jsonText = readAll(rd);
+
             return new JSONObject(jsonText);
         } finally {
             is.close();
@@ -83,8 +82,8 @@ public class API {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println("Server Response: " + response.toString());
-            return new JSONObject(response);
+
+            return new JSONObject(response.toString());
 
         } catch (IOException e) {
             // Hata durumunda işlemleri burada ele alabilirsiniz.
@@ -98,17 +97,9 @@ public class API {
         }
     }
 
-    public static JSONObject request(String link) {
-        try {
-            return readJsonFromUrl(link);
-        } catch (Exception e) {
-            System.out.println("[ARMOYU] Sunucuya bağlanılamadı");
-            return new JSONObject().put("durum", 0).put("aciklama", "Sunucuya bağlanılamadı!");
-        }
-    }
 
 
-    public static JSONObject POST_request(String link, String formData) throws IOException {
+    public static JSONObject POST_request(String link, String formData){
         try {
            return sendPostRequest(link, formData);
 
