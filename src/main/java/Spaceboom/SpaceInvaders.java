@@ -1,5 +1,6 @@
 package Spaceboom;
 import Spaceboom.API.API;
+import Spaceboom.API.APP_FUNCTION;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
 import org.json.JSONObject;
@@ -15,27 +16,26 @@ public class SpaceInvaders extends JFrame  {
 
     public SpaceInvaders() {
 
+        JFrame frame = new JFrame();
+        frame.setTitle("Space Invaders || Game");
+        frame.setUndecorated(true); // Tam ekran modunu etkinleştir
+        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize()); // Ekran boyutuna göre ayarla
+        frame.setLocation(0, 0); // Pencereyi sol üst köşeye yerleştir
 
-       initUI();
+        frame.add(new Board(frame));
+
+        frame.setVisible(true);
     }
 
-    private void initUI() {
-
-        add(new Board());
-
-        setTitle("Space Invaders");
-        setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(true);
-        setLocationRelativeTo(null);
-
-    }
 
     public static void main(String[] args) {
 
 
         JFrame frame = new JFrame("Space Invaders Login Screen");
-        frame.setSize(900, 400);
+
+        //
+        APP_FUNCTION.setBorderScreen(frame);
+        //
 
         JPanel panel = new JPanel() {
             @Override
@@ -49,13 +49,12 @@ public class SpaceInvaders extends JFrame  {
         };
 
 
-        JTextField tfield_username = new JTextField(20);
-        JPasswordField tfield_password = new JPasswordField(20);
+        JTextField tfield_username = Utility.TextField(10);
+        JPasswordField tfield_password = Utility.PasswordTextField(10);
 
         JLabel label1 = new JLabel("USERNAME:");
         JLabel label2 = new JLabel("PASSWORD:");
         JLabel label_loginStatus = new JLabel("---------------");
-
         JButton button =  Utility.Button("START");
         JButton button1 = Utility.Button("GUEST START");
 
@@ -110,9 +109,15 @@ public class SpaceInvaders extends JFrame  {
                             USER.username = username;
                             USER.password = password;
 
+                            //Giriş ekranını gizle
+                            //kod yazılacak....
+
+
                             // Oyunu Aç
-                            SpaceInvaders ex = new SpaceInvaders();
-                            ex.setVisible(true);
+                            new SpaceInvaders();
+                            //Giriş çerçevesini gizle
+                            frame.setVisible(false);
+
                         });
                     });
                 }
@@ -121,9 +126,10 @@ public class SpaceInvaders extends JFrame  {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                SpaceInvaders ex = new SpaceInvaders();
-                ex.setVisible(true);
+                // Oyunu Aç
+                new SpaceInvaders();
+                //Giriş çerçevesini gizle
+                frame.setVisible(false);
             }
         });
         panel.setLayout(new GridBagLayout());

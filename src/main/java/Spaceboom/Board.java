@@ -1,5 +1,6 @@
 package Spaceboom;
 
+import Spaceboom.API.APP_FUNCTION;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
 import Spaceboom.sprite.*;
@@ -23,7 +24,6 @@ import java.util.concurrent.CompletableFuture;
 import static Spaceboom.Commons.MAX_GAME_TIME;
 
 public class Board extends JPanel{
-
     private Dimension d;
     private List<Alien> aliens;
     private Player player;
@@ -52,23 +52,17 @@ public class Board extends JPanel{
     private long baslangicZaman = System.currentTimeMillis();
     private long speedUpBaslangicZaman = 0;
     private long attackSpeedBalangicZaman = 0;
+    private JFrame frameGame;
 
 
-
-    public Board() {
-
-
-
+    public Board(JFrame frame) {
+        frameGame = frame;
         initBoard();
-        gameInit();
-        baslangicZaman = System.currentTimeMillis();
-        
     }
 
     private void initBoard() {
 
-
-
+        baslangicZaman = System.currentTimeMillis();
 
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -266,7 +260,7 @@ public class Board extends JPanel{
 private String format = "3,33";
     private void doDrawing(Graphics g) {
         // Arka plan resmini çiz
-        g.drawImage(backgroundImage, 0, 0, this);
+     g.drawImage(backgroundImage, 0, 0, this);
 
         Font small = new Font("Helvetica", Font.BOLD, 100);
         FontMetrics fontMetrics = this.getFontMetrics(small);
@@ -307,10 +301,12 @@ private String format = "3,33";
     }
 
     private void gameOver(Graphics g) {
+        String finishbackgroundImage;
         if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-            g.drawImage(finishgraundImage, 0, 0, this);  // "Game Won" için farklı bir resim kullan
+             finishbackgroundImage = finishgraundImgPath; // "Game Won" için farklı bir resim kullan
         } else {
-            g.drawImage(gameoverImage, 0, 0, this);  // Orijinal "Game Over" resmini kullan
+             finishbackgroundImage = gameoverImgPath;// Orijinal "Game Over" resmini kullan
+
         }
         g.setColor(new Color(0, 32, 48));
 
@@ -325,8 +321,50 @@ private String format = "3,33";
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2, Commons.BOARD_WIDTH / 2);
-    }
 
+
+        JButton button = Utility.Button("RESTART");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Oyunu Aç
+                new SpaceInvaders();
+                //Giriş çerçevesini gizle
+                frameGame.setVisible(false);
+            }
+        });
+
+
+
+        String finalFinishbackgroundImage = finishbackgroundImage;
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Resmi yükleyin
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource(finalFinishbackgroundImage));
+                Image image = imageIcon.getImage();
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 0;
+        panel.add(button,gbc);
+
+        frameGame.setContentPane(panel);
+        frameGame.add(button);
+        frameGame.setVisible(true);
+
+    }
+    private void restartGame() {
+        System.out.println("oyun yeniden başlatılacak.!!!");
+    }
 
     private void update() {
 
@@ -491,16 +529,7 @@ private String format = "3,33";
     }
 
 
-    public void PauseResumeGame() {
-        System.out.println("P tuşuna basıldı. Oyun Duracak");
 
-        if(timer.isRunning()){
-            timer.stop();
-            return;
-        }
-        timer.start();
-
-    }
     private class TAdapter extends KeyAdapter {
 
 
@@ -531,7 +560,7 @@ private String format = "3,33";
             System.out.println("Key Pressed: " + KeyEvent.getKeyText(keyCode));
 
             if (keyCode == KeyEvent.VK_P) {
-                PauseResumeGame();
+                APP_FUNCTION.PauseResumeGame(timer);
             }
             if (keyCode == KeyEvent.VK_TAB) {
                 System.out.println("Tab tuşuna basıldı.");
