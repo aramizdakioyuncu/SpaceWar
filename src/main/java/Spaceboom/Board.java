@@ -3,6 +3,7 @@ package Spaceboom;
 import Spaceboom.API.APP_FUNCTION;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
+import Spaceboom.Utility.Items;
 import Spaceboom.sprite.*;
 
 import Spaceboom.sprite.AttackSpeed;
@@ -30,7 +31,7 @@ public class Board extends JPanel{
     private Shot shot;
     private AttackSpeed attackSpeed;
     private SpeedUp speedUp;
-    
+
     private int direction = -5;
     private int deaths = 0;
 
@@ -323,7 +324,7 @@ private String format = "3,33";
         g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2, Commons.BOARD_WIDTH / 2);
 
 
-        JButton button = Utility.Button("RESTART");
+        JButton button = Items.Button("RESTART");
 
         button.addActionListener(new ActionListener() {
             @Override

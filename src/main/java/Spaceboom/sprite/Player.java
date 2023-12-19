@@ -14,7 +14,6 @@ public class Player extends Sprite {
 
 
     public Player() {
-
         initPlayer();
     }
 
