@@ -96,11 +96,8 @@ public class LoginScreen {
 
 
                         // Oyunu Aç
-                        Jpanel_Game.setVisible(false);
-//                        frame.add(new Board(frame));
-                        //Giriş çerçevesini gizle
-
-                        // frame.setVisible(false);
+                        new SpaceInvaders();
+                        Jframe_Game.setVisible(false);
 
                     });
                 });
@@ -112,6 +109,8 @@ public class LoginScreen {
             public void actionPerformed(ActionEvent e) {
 
                 new SpaceInvaders();
+                Jframe_Game.setVisible(false);
+
 
             }
         });
