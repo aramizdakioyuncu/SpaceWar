@@ -3,7 +3,7 @@ package Spaceboom.Screens;
 import Spaceboom.API.API;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
-import Spaceboom.SpaceInvaders;
+import Spaceboom.SpaceBoom;
 import Spaceboom.Utility.Items;
 import org.json.JSONObject;
 
@@ -40,7 +40,7 @@ public class LoginScreen {
         JButton button =  Items.Button("START");
         JButton button1 = Items.Button("GUEST START");
 
-        ImageIcon imageIcon = new ImageIcon(SpaceInvaders.class.getResource("/gif/loading.gif"));
+        ImageIcon imageIcon = new ImageIcon(SpaceBoom.class.getResource("/gif/loading.gif"));
 
         Image image = imageIcon.getImage();
         image = image.getScaledInstance(25, 25 ,Image.SCALE_DEFAULT);
@@ -96,7 +96,7 @@ public class LoginScreen {
 
 
                         // Oyunu Aç
-                        new SpaceInvaders();
+                        new GameScreen();
                         Jframe_Game.setVisible(false);
 
                     });
@@ -108,7 +108,7 @@ public class LoginScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                new SpaceInvaders();
+                new GameScreen();
                 Jframe_Game.setVisible(false);
 
 

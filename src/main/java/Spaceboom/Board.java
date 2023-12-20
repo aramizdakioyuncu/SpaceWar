@@ -3,6 +3,7 @@ package Spaceboom;
 import Spaceboom.API.APP_FUNCTION;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
+import Spaceboom.Screens.GameScreen;
 import Spaceboom.Utility.Items;
 import Spaceboom.sprite.*;
 
@@ -54,6 +55,7 @@ public class Board extends JPanel{
     private long speedUpBaslangicZaman = 0;
     private long attackSpeedBalangicZaman = 0;
     private JFrame frameGame;
+
 
 
     public Board(JFrame frame) {
@@ -331,7 +333,7 @@ private String format = "3,33";
             public void actionPerformed(ActionEvent e) {
 
                 // Oyunu Aç
-                new SpaceInvaders();
+                new GameScreen();
                 //Giriş çerçevesini gizle
                 frameGame.setVisible(false);
             }

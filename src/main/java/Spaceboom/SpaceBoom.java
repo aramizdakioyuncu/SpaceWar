@@ -3,6 +3,7 @@ import Spaceboom.API.APP_FUNCTION;
 import Spaceboom.Screens.IntroScreen;
 import Spaceboom.Utility.SoundPlayer;
 import javax.swing.*;
+import java.awt.*;
 
 
 public class SpaceBoom extends JFrame  {
@@ -19,10 +20,6 @@ public class SpaceBoom extends JFrame  {
 
         //setFullScreen
         APP_FUNCTION.setFullScreen(Jframe_Game);
-        APP_FUNCTION.setBorderScreen(Jframe_Game);
-
-        //Music Starting
-        SoundPlayer.playAsync("start.wav");
 
         //Intro
         new IntroScreen(Jframe_Game);
