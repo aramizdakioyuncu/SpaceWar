@@ -28,7 +28,7 @@ public class SoundPlayer {
                 Thread.sleep(clip.getMicrosecondLength() / 1000);
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Müzik Dosyası Bulunamadı : " + sesDosyaYolu);
             }
         }).start();
     }
