@@ -4,8 +4,8 @@ public class  Commons {
 
     public static int BOARD_WIDTH = 1900;
     public static int BOARD_HEIGHT = 1060;
-    public static int BORDER_RIGHT = 80;
-    public static int BORDER_LEFT = 5;
+    public static int BORDER_RIGHT = 60;
+    public static int BORDER_LEFT = 60;
 
     public static int GROUND = 980;
     public static int BOMB_HEIGHT = 5;

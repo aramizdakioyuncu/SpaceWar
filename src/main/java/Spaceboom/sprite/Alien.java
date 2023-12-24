@@ -1,10 +1,11 @@
 package Spaceboom.sprite;
 
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 public class Alien extends Sprite {
 
     private Bomb bomb;
+    public static int bombSpeed = 10;
 
     public Alien(int x, int y) {
 

@@ -1,14 +1,11 @@
 package Spaceboom;
+
 import Spaceboom.API.APP_FUNCTION;
 import Spaceboom.Screens.IntroScreen;
-import Spaceboom.Utility.SoundPlayer;
-import javax.swing.*;
-import java.awt.*;
 
+import javax.swing.*;
 
 public class SpaceBoom extends JFrame  {
-
-
     private static JFrame Jframe_Game = new JFrame("SpaceBoom Games");
 
     public static void main(String[] args) {
@@ -23,8 +20,6 @@ public class SpaceBoom extends JFrame  {
 
         //Intro
         new IntroScreen(Jframe_Game);
-
-
     }
 }
 

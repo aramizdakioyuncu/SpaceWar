@@ -1,17 +1,22 @@
 package Spaceboom.sprite;
 
 import Spaceboom.Commons;
-import javax.swing.ImageIcon;
+
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
-
-    private int width;
-    private int length;
+    public int width;
+    public int length;
     public int speedX = 9;
     public int speedY = 6;
 
+    public boolean yukariHareket = false;
+    public boolean asagiHareket = false;
+    public boolean sagHareket = false;
+    public boolean solHareket = false;
 
+    public Shot shot;
 
     public Player() {
         initPlayer();
@@ -40,31 +45,6 @@ public class Player extends Sprite {
         setY(START_Y);
     }
 
-    public void act() {
-
-
-        x += dx;
-        y += dy;
-
-        if (x <= 2) {
-
-            x = 2;
-        }
-
-        if (x >= Commons.BOARD_WIDTH - 2 * width) {
-
-            x = Commons.BOARD_WIDTH - 2 * width;
-        }
-
-        if (y <= 2) {
-
-            y = 2;
-        }
-        if (y >= Commons.BOARD_HEIGHT - 2 * length){
-
-            y = Commons.BOARD_HEIGHT - 2 * length;
-        }
-    }
 
     public void keyPressed(KeyEvent e) {
 
@@ -72,21 +52,21 @@ public class Player extends Sprite {
 
         if (key == KeyEvent.VK_LEFT) {
 
-            dx = -speedX;
+            solHareket = true;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
-            dx = speedX;
+            sagHareket = true;
         }
         if (key == KeyEvent.VK_UP) {
 
-            dy = -speedY;
+            yukariHareket = true;
 
         }
         if (key == KeyEvent.VK_DOWN){
 
-            dy = speedY;
+            asagiHareket = true;
         }
     }
 
@@ -95,23 +75,19 @@ public class Player extends Sprite {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-
-            dx = 0;
+            solHareket = false;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-
-            dx = 0;
+            sagHareket = false;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-
-           dy = 0;
+           asagiHareket = false;
         }
 
         if (key == KeyEvent.VK_UP ) {
-
-            dy = 0;
+            yukariHareket = false;
         }
 
     }

@@ -13,11 +13,7 @@ public class IntroScreen {
 
     public IntroScreen(JFrame Jframe_Game){
 
-
-
-        //Music Starting
         SoundPlayer.playAsync("start.wav");
-
 
         this.Jpanel_Game = new JPanel() {
             @Override
@@ -27,8 +23,6 @@ public class IntroScreen {
                 ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/armoyu.png"));
                 Image image = imageIcon.getImage();
                 g.drawImage(image, (getWidth()/2)-150, (getHeight()/2)-150, 300, 300, this);
-
-
             }
         };
 

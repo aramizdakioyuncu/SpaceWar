@@ -94,7 +94,6 @@ public class LoginScreen {
                         //Giriş ekranını gizle
                         //kod yazılacak....
 
-
                         // Oyunu Aç
                         new GameScreen();
                         Jframe_Game.setVisible(false);
@@ -110,7 +109,6 @@ public class LoginScreen {
 
                 new GameScreen();
                 Jframe_Game.setVisible(false);
-
 
             }
         });

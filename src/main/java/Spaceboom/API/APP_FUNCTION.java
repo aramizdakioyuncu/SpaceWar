@@ -1,6 +1,7 @@
 package Spaceboom.API;
 
-import javax.swing.*;
+import Spaceboom.DTOS.BoardDTO;
+
 import java.awt.*;
 
 public class APP_FUNCTION {
@@ -38,13 +39,16 @@ public class APP_FUNCTION {
         frame.setVisible(true);
     }
 
-    public static void PauseResumeGame(Timer timer) {
+    public static double PauseResumeGame(BoardDTO boardDTO) {
         System.out.println("P tuşuna basıldı. Oyun Duracak");
 
-        if(timer.isRunning()){
-            timer.stop();
-            return;
+        if(boardDTO.timer.isRunning()){
+            boardDTO.timer.stop();
+            boardDTO.ekZamanBaslangic = System.currentTimeMillis();
+            return 0;
         }
-        timer.start();
+        boardDTO.ekZamanBitis = System.currentTimeMillis();
+        boardDTO.timer.start();
+        return (double) ((boardDTO.ekZamanBaslangic - boardDTO.ekZamanBitis)/1000);
     }
 }

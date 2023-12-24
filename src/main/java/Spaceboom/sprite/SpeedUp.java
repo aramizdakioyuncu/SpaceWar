@@ -1,13 +1,12 @@
 package Spaceboom.sprite;
-import javax.swing.ImageIcon;
+
+import javax.swing.*;
 import java.awt.*;
 
 public class SpeedUp extends Sprite{
 
     final String SpeedUpImgPath = "/images/SpeedUp.png";
     public Image SpeedUpImg;
-    public int x;
-    public int y;
     public int counter = 1;
     public boolean isTake = false;
 
@@ -25,7 +24,7 @@ public class SpeedUp extends Sprite{
         ImageIcon ii1 = new ImageIcon(SpeedUpImg);
         int newWidth1 = (ii1.getIconWidth() / 25);
         int newHeight1 = (ii1.getIconHeight() / 25);
-        java.awt.Image scaledImage1 = ii1.getImage().getScaledInstance(newWidth1, newHeight1, java.awt.Image.SCALE_SMOOTH);
+        Image scaledImage1 = ii1.getImage().getScaledInstance(newWidth1, newHeight1, Image.SCALE_SMOOTH);
         ii1 = new ImageIcon(scaledImage1);
         setImage(ii1.getImage());
 

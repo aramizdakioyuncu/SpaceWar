@@ -1,16 +1,13 @@
 package Spaceboom.sprite;
 
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 public class Shot extends Sprite {
     private double width2;
     private double length2;
-
-    public Shot() {
-    }
-
+    public static int speed = 10;
+    public Shot(){}
     public Shot(double x, double y) {
-
         initShot(x, y);
     }
 

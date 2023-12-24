@@ -1,18 +1,14 @@
 package Spaceboom.sprite;
 
-import java.awt.Image;
+import java.awt.*;
 
 public class Sprite {
 
     private boolean visible;
     private Image image;
     private boolean dying;
-
     double x;
     double y;
-    double dx;
-
-    double dy;
 
     public Sprite() {
 
