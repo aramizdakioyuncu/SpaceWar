@@ -4,6 +4,7 @@ import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
 import Spaceboom.Commons;
 import Spaceboom.DTOS.BoardDTO;
+import Spaceboom.Utility.SoundPlayer;
 import Spaceboom.sprite.Alien;
 import org.json.JSONObject;
 
@@ -19,7 +20,10 @@ public class AlienService {
                 g.drawImage(alien.getImage(), (int) alien.getX(), (int) alien.getY(), observer);
             }
             if (alien.isDying()) {
+
                 alien.die();
+
+
             }
         }
     }

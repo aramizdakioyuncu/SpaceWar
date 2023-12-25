@@ -5,6 +5,7 @@ import Spaceboom.Services.AlienService;
 import Spaceboom.Services.GameService;
 import Spaceboom.Services.PlayerService;
 import Spaceboom.Services.SpecialAbilityService;
+import Spaceboom.Utility.SoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,10 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class Board extends JPanel{
+
+    SoundPlayer splayer = new SoundPlayer();
+    SoundPlayer splayer2 = new SoundPlayer();
+
     private BoardDTO boardDTO = new BoardDTO();
 
     private final SpecialAbilityService specialAbilityService = new SpecialAbilityService();
@@ -24,6 +29,9 @@ public class Board extends JPanel{
         boardDTO.frameGame = frame;
         boardDTO.timer = new Timer(Commons.DELAY, new GameCycle());
         gameService.initBoard(boardDTO,this);
+        splayer2.RepeatMusic(true);
+        splayer2.playAsync("backroundgame.wav");
+
     }
 
     @Override
@@ -63,6 +71,9 @@ public class Board extends JPanel{
             if (boardDTO.timer.isRunning()) {
                 boardDTO.timer.stop();
             }
+            splayer.StopMusic();
+            splayer2.StopMusic();
+
             gameService.gameOver(boardDTO,g,this.getFontMetrics(small));
         }
         Toolkit.getDefaultToolkit().sync();
@@ -70,6 +81,9 @@ public class Board extends JPanel{
     private class GameCycle implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            splayer2.RepeatMusic(true);
+            splayer2.playAsync("backroundgame.wav");
             gameService.update(boardDTO,playerService,alienService);
             repaint();
         }
