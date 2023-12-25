@@ -4,6 +4,7 @@ import Spaceboom.Commons;
 import Spaceboom.DTOS.BoardDTO;
 import Spaceboom.Screens.GameScreen;
 import Spaceboom.Utility.Items;
+import Spaceboom.Utility.SoundPlayer;
 import Spaceboom.sprite.*;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameService {
+    SoundPlayer splayer = new SoundPlayer();
+    SoundPlayer splayer2 = new SoundPlayer();
 
     public void timeControl(BoardDTO boardDTO){
         if (boardDTO.sayac>Commons.MAX_GAME_TIME-1) {
@@ -63,8 +66,15 @@ public class GameService {
         String finishbackgroundImage;
         if (boardDTO.deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
             finishbackgroundImage = boardDTO.finishgraundImgPath;
+            splayer.RepeatMusic(true);
+            splayer.playAsync("win.wav");
+
         } else {
             finishbackgroundImage = boardDTO.gameoverImgPath;
+            splayer.playAsync("explosion-80108.wav");
+            splayer2.RepeatMusic(true);
+            splayer2.playAsync("lose.wav");
+
         }
         g.setColor(new Color(0, 32, 48));
 
@@ -83,7 +93,10 @@ public class GameService {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                splayer2.StopMusic();
+                splayer.StopMusic();
+//                splayer2.RepeatMusic(true);
+//                splayer2.playAsync("backroundgame.wav");
                 boardDTO.frameGame.dispose();
                 boardDTO.frameGame = new GameScreen().frame;
             }

@@ -5,6 +5,7 @@ import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
 import Spaceboom.SpaceBoom;
 import Spaceboom.Utility.Items;
+import Spaceboom.Utility.SoundPlayer;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -16,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 public class LoginScreen {
 
     private JPanel Jpanel_Game;
+    SoundPlayer splayer = new SoundPlayer();
 
     public  LoginScreen(JFrame Jframe_Game){
 
@@ -29,6 +31,8 @@ public class LoginScreen {
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
+        splayer.RepeatMusic(true);
+        splayer.playAsync("startmonkey.wav");
 
 
         JTextField tfield_username = Items.TextField(10);
@@ -95,6 +99,8 @@ public class LoginScreen {
                         //kod yazılacak....
 
                         // Oyunu Aç
+                        splayer.StopMusic();
+
                         new GameScreen();
                         Jframe_Game.setVisible(false);
 
@@ -107,6 +113,7 @@ public class LoginScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                splayer.StopMusic();
                 new GameScreen();
                 Jframe_Game.setVisible(false);
 

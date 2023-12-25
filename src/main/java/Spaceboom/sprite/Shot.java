@@ -1,8 +1,13 @@
 package Spaceboom.sprite;
 
+import Spaceboom.Utility.SoundPlayer;
+
 import javax.swing.*;
 
 public class Shot extends Sprite {
+
+    SoundPlayer splayer = new SoundPlayer();
+
     private double width2;
     private double length2;
     public static int speed = 10;
@@ -12,6 +17,7 @@ public class Shot extends Sprite {
     }
 
     private void initShot(double x, double y) {
+        splayer.playAsync("laserpiuv.wav");
 
         String shotImg = "/images/bluelaser.png";
 

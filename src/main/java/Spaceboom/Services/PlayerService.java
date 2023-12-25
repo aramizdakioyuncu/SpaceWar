@@ -2,6 +2,7 @@ package Spaceboom.Services;
 
 import Spaceboom.Commons;
 import Spaceboom.DTOS.BoardDTO;
+import Spaceboom.Utility.SoundPlayer;
 import Spaceboom.sprite.Alien;
 import Spaceboom.sprite.Player;
 import Spaceboom.sprite.Shot;
@@ -11,11 +12,17 @@ import java.awt.*;
 import java.awt.image.ImageObserver;
 
 public class PlayerService {
+
+    SoundPlayer splayer = new SoundPlayer();
+
+
     public boolean drawPlayer(Graphics g, Player player, ImageObserver observer){
         if (player.isVisible()) {
             g.drawImage(player.getImage(), (int) player.getX(), (int) player.getY(), observer);
         }
         if (player.isDying()) {
+            splayer.playAsync("explosion-80108.wav");
+
             player.die();
             return false;
         }
