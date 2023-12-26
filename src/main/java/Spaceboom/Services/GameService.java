@@ -64,16 +64,19 @@ public class GameService {
     //game over
     public void gameOver(BoardDTO boardDTO,Graphics g,FontMetrics fontMetrics){
         String finishbackgroundImage;
+        String buttonText;
         if (boardDTO.deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
             finishbackgroundImage = boardDTO.finishgraundImgPath;
             splayer.RepeatMusic(true);
             splayer.playAsync("win.wav");
+            buttonText = "YOU WON BUT IT'S STILL NOT THE END";
 
         } else {
             finishbackgroundImage = boardDTO.gameoverImgPath;
             splayer.playAsync("explosion-80108.wav");
             splayer2.RepeatMusic(true);
             splayer2.playAsync("lose.wav");
+            buttonText = "MAKE A LITTLE EFFORT TO WIN";
 
         }
         g.setColor(new Color(0, 32, 48));
@@ -88,15 +91,13 @@ public class GameService {
         g.setFont(small);
         g.drawString(boardDTO.message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(boardDTO.message)) / 2, Commons.BOARD_WIDTH / 2);
 
-        JButton button = Items.Button("RESTART");
+        JButton button = Items.Button(buttonText);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 splayer2.StopMusic();
                 splayer.StopMusic();
-//                splayer2.RepeatMusic(true);
-//                splayer2.playAsync("backroundgame.wav");
                 boardDTO.frameGame.dispose();
                 boardDTO.frameGame = new GameScreen().frame;
             }

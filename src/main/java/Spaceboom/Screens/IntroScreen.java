@@ -21,17 +21,25 @@ public class IntroScreen {
 
 
         this.Jpanel_Game = new JPanel() {
+            private ImageIcon backgroundImageIcon;
+
+            {
+                // Arka plan GIF'inin yüklenmesi
+                backgroundImageIcon = new ImageIcon(getClass().getResource("/gif/introscreen.gif"));
+            }
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                // Resmi yükleyin
-
-
+                // Arka planın çizilmesi
+                Image backgroundImage = backgroundImageIcon.getImage();
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+
         GridBagConstraints gbc = new GridBagConstraints();
 
-        Jpanel_Game.setBackground(Color.BLACK);
+
 
 
         ImageIcon scuIcon = new ImageIcon(getClass().getResource("/images/scü.png"));
@@ -51,7 +59,7 @@ public class IntroScreen {
 
         Jpanel_Game.setLayout(new GridBagLayout());
 
-        delayTimer = new Timer(5000, new ActionListener() {
+        delayTimer = new Timer(15000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 5 saniye sonra bu kod çalışır
@@ -97,6 +105,7 @@ public class IntroScreen {
                 "<br>" +
                 "Geliştiricilerin dikkatine" +
                 "</html>";
+
         Font currentFont = gameLabel.getFont();
 
         // Yeni bir font oluştur ve boyutunu belirle

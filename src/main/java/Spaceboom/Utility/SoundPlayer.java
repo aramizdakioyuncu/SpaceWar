@@ -49,7 +49,7 @@ public class SoundPlayer {
                 });
 
             } catch (Exception e) {
-                System.out.println("Müzik Dosyası Bulunamadı : " + sesDosyaYolu);
+
             }
         }).start();
     }

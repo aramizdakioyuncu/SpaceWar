@@ -28,11 +28,11 @@ public class BoardDTO {
     public long attackSpeedBaslangicZaman = 0;
     public boolean inGame = true;
     public final String explImg = "/images/explosion.png";
-    public final String backgroundImgPath = "/images/background.jpg";
+    public final String backgroundImgPath = "/gif/backround.gif";
     public Image backgroundImage;
-    public final String finishgraundImgPath = "/images/finishgraund.jpg";
+    public final String finishgraundImgPath = "/gif/finishgraund.gif";
     public Image finishgraundImage;
-    public final String gameoverImgPath = "/images/gameover.jpg";
+    public final String gameoverImgPath =  "/gif/gameover.gif";
     public Image gameoverImage;
     public String message = "YOU LOST";
     public Timer timer;

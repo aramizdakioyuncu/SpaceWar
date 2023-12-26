@@ -44,7 +44,7 @@ public class LoginScreen {
         JButton button =  Items.Button("START");
         JButton button1 = Items.Button("GUEST START");
 
-        ImageIcon imageIcon = new ImageIcon(SpaceBoom.class.getResource("/gif/loading.gif"));
+        ImageIcon imageIcon = new ImageIcon(SpaceBoom.class.getResource("/gif/backroundstart.gif"));
 
         Image image = imageIcon.getImage();
         image = image.getScaledInstance(25, 25 ,Image.SCALE_DEFAULT);
