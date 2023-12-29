@@ -3,6 +3,7 @@ package Spaceboom.Screens;
 import Spaceboom.API.API;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
+import Spaceboom.Commons;
 import Spaceboom.SpaceBoom;
 import Spaceboom.Utility.Items;
 import Spaceboom.Utility.SoundPlayer;
@@ -40,11 +41,13 @@ public class LoginScreen {
 
         JLabel label1 = new JLabel("USERNAME:");
         JLabel label2 = new JLabel("PASSWORD:");
-        JLabel label_loginStatus = new JLabel("---------------");
-        JButton button =  Items.Button("START");
-        JButton button1 = Items.Button("GUEST START");
+        JLabel label_loginStatus = new JLabel("***********");
+        JButton loginbutton =  Items.Button("Login");
+        JButton startbutton = Items.Button("Start");
+        JButton quitbutton =  Items.Button("Quit The Destkop");
+        JButton settingsbutton =  Items.Button("Control Settings");
 
-        ImageIcon imageIcon = new ImageIcon(SpaceBoom.class.getResource("/gif/backroundstart.gif"));
+        ImageIcon imageIcon = new ImageIcon(SpaceBoom.class.getResource("/gif/loading.gif"));
 
         Image image = imageIcon.getImage();
         image = image.getScaledInstance(25, 25 ,Image.SCALE_DEFAULT);
@@ -59,7 +62,7 @@ public class LoginScreen {
         tfield_username.addActionListener(e-> {  tfield_password.requestFocusInWindow(); });
 
 
-        button.addActionListener(new ActionListener() {
+        loginbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -109,7 +112,7 @@ public class LoginScreen {
             }
         });
 
-        button1.addActionListener(new ActionListener() {
+        startbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -121,54 +124,75 @@ public class LoginScreen {
         });
         Jpanel_Game.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        Jpanel_Game.add(button, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        Jpanel_Game.add(loginbutton, gbc);
 
         Jpanel_Game.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 10, 0);
         Jpanel_Game.add(label1, gbc);
 
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.insets = new Insets(0, 0, 10, 0);
         Jpanel_Game.add(tfield_username, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.insets = new Insets(8, 0, 10, 1);
         Jpanel_Game.add(label2, gbc);
 
-        gbc.gridx = 1;
-        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.gridx = 2;
+        gbc.insets = new Insets(8, 0, 10, 1);
         Jpanel_Game.add(tfield_password, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
-
-        gbc.insets = new Insets(0, 0, 10, 0);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
         Jpanel_Game.add(label_loginStatus, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        Jpanel_Game.add(button, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        Jpanel_Game.add(button1, gbc);
-
-
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 5;
-        gbc.gridwidth = 0;
+        Jpanel_Game.add(loginbutton, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        Jpanel_Game.add(startbutton, gbc);
+
+
+        gbc.gridx = 1;
+        gbc.gridy = 7;
         Jpanel_Game.add(img_loading,gbc);
+
+
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        Jpanel_Game.add(settingsbutton, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 9;
+        Jpanel_Game.add(quitbutton, gbc);
+
+
+        JPanel updateNotesPanel = new JPanel(new BorderLayout());
+        JTextArea updateNotesArea = new JTextArea(Commons.UPDATELIST);
+        updateNotesArea.setEditable(false);
+        updateNotesPanel.add(updateNotesArea, BorderLayout.CENTER);
+        gbc.gridx = 1;
+        gbc.gridy = 10;
+        Jpanel_Game.add(updateNotesPanel,gbc);
+
+        JPanel scoreNotesPanel = new JPanel(new BorderLayout());
+        JTextArea scoreNotesArea = new JTextArea(Commons.SCORELIST);
+        scoreNotesArea.setEditable(false);
+        scoreNotesPanel.add(scoreNotesArea, BorderLayout.CENTER);
+        gbc.gridx = 1;
+        gbc.gridy = 11;
+        Jpanel_Game.add(scoreNotesPanel,gbc);
+
+
+
         Jframe_Game.setContentPane(Jpanel_Game);
         Jframe_Game.setLocationRelativeTo(null);
         Jframe_Game.setVisible(true);

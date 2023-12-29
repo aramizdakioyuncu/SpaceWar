@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class IntroScreen {
-    private JPanel Jpanel_Game;
     private Timer delayTimer;
     SoundPlayer player = new SoundPlayer();
 
@@ -20,7 +19,7 @@ public class IntroScreen {
 
 
 
-        this.Jpanel_Game = new JPanel() {
+        JPanel Jpanel_Game = new JPanel() {
             private ImageIcon backgroundImageIcon;
 
             {
@@ -59,12 +58,14 @@ public class IntroScreen {
 
         Jpanel_Game.setLayout(new GridBagLayout());
 
-        delayTimer = new Timer(15000, new ActionListener() {
+        delayTimer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 5 saniye sonra bu kod çalışır
                 player.StopMusic();
-                new LoginScreen(Jframe_Game);
+
+                Jpanel_Game.setVisible(false);
+                new LoadingScreen(Jframe_Game);
                 delayTimer.stop();
 
             }

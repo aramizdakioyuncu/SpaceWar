@@ -1,6 +1,8 @@
 package Spaceboom;
 
 public class  Commons {
+    public static String UPDATELIST = "";
+    public static String SCORELIST = "";
 
     public static int BOARD_WIDTH = 1900;
     public static int BOARD_HEIGHT = 1060;

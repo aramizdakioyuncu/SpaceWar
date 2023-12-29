@@ -34,5 +34,26 @@ public class FUNCTION {
         });
     }
 
+    public static CompletableFuture<JSONObject> GameInformation() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return API.sendRequest("0" + "/" + "0" + "/0/0/0/");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new JSONObject().put("durum", 0).put("aciklama", "Sunucuya bağlanılamadı!");
+            }
+        });
+    }
+
+    public static CompletableFuture<JSONObject> FetchScoreList() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return API.sendRequest("deneme" + "/" + "deneme" + "/projeler/icerik-liste/0/");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new JSONObject().put("durum", 0).put("aciklama", "Sunucuya bağlanılamadı!");
+            }
+        });
+    }
 
 }
