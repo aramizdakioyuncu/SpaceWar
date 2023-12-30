@@ -6,7 +6,7 @@ import Spaceboom.Screens.IntroScreen;
 import javax.swing.*;
 
 public class SpaceBoom extends JFrame  {
-    private static JFrame Jframe_Game = new JFrame("SpaceBoom Games");
+    public static JFrame Jframe_Game = new JFrame("SpaceBoom Games");
 
     public static void main(String[] args) {
         String playerImg = "/images/spaceship.png";
@@ -23,5 +23,9 @@ public class SpaceBoom extends JFrame  {
         //.
     }
 }
+
+
+
+
 
 

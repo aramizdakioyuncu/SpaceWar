@@ -36,6 +36,5 @@ public class TAdapter extends KeyAdapter {
         if (key == KeyEvent.VK_P) {
             boardDTO.ekZaman += APP_FUNCTION.PauseResumeGame(boardDTO);
         }
-
     }
 }

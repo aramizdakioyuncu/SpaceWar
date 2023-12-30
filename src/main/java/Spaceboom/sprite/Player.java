@@ -50,21 +50,21 @@ public class Player extends Sprite {
 
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_LEFT || key==KeyEvent.VK_A) {
 
             solHareket = true;
         }
 
-        if (key == KeyEvent.VK_RIGHT) {
+        if (key == KeyEvent.VK_RIGHT || key==KeyEvent.VK_D) {
 
             sagHareket = true;
         }
-        if (key == KeyEvent.VK_UP) {
+        if (key == KeyEvent.VK_UP || key==KeyEvent.VK_W) {
 
             yukariHareket = true;
 
         }
-        if (key == KeyEvent.VK_DOWN){
+        if (key == KeyEvent.VK_DOWN || key==KeyEvent.VK_S){
 
             asagiHareket = true;
         }
@@ -74,19 +74,19 @@ public class Player extends Sprite {
 
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_LEFT || key==KeyEvent.VK_A) {
             solHareket = false;
         }
 
-        if (key == KeyEvent.VK_RIGHT) {
+        if (key == KeyEvent.VK_RIGHT || key==KeyEvent.VK_D) {
             sagHareket = false;
         }
 
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_DOWN || key==KeyEvent.VK_S) {
            asagiHareket = false;
         }
 
-        if (key == KeyEvent.VK_UP ) {
+        if (key == KeyEvent.VK_UP || key==KeyEvent.VK_W ) {
             yukariHareket = false;
         }
 

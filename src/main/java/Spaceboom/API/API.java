@@ -5,7 +5,9 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,7 +44,28 @@ public class API {
             return null;
         }
     }
+
+    public static boolean isInternetReachable() {
+        try {
+            // Google's public DNS server
+            InetAddress address = InetAddress.getByName("8.8.8.8");
+            return address.isReachable(10000); // 10 seconds timeout
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     public static JSONObject sendRequest(String url) throws IOException, JSONException {
+
+        if (!isInternetReachable()) {
+            return new JSONObject().put("durum", 0).put("aciklama", "Sunucuya bağlanılamadı! (INTERNET)");
+
+        }
+
 
         url = SECURITY.SSL+SECURITY.HOST+"/botlar/"+SECURITY.KEY+"/"+url;
         System.out.println(url);
@@ -57,7 +80,14 @@ public class API {
         }
     }
 
+
     public static JSONObject sendPostRequest(String url, String formData) throws IOException {
+
+        if (!isInternetReachable()) {
+            return new JSONObject().put("durum", 0).put("aciklama", "Sunucuya bağlanılamadı! (INTERNET)");
+        }
+
+
         url = SECURITY.SSL+SECURITY.HOST+"/botlar/"+SECURITY.KEY+"/"+url;
         System.out.println(url + " (POST) ");
 
