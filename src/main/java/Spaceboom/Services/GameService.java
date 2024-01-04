@@ -74,7 +74,7 @@ public class GameService {
         Double doublesayac = 0.0;
 
         if (isWon){
-             doublesayac =  boardData.sayac * 500;
+             doublesayac =  (Commons.MAX_GAME_TIME-boardData.sayac) * 500;
         }
 
         return totalShot + destroyedEnemies + doublesayac;
