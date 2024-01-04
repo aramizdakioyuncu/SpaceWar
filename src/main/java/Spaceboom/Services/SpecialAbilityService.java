@@ -91,6 +91,8 @@ public class SpecialAbilityService {
                         speedUpBaslangicZaman = System.currentTimeMillis();
                         player.speedX *=2;
                         player.speedY *=2;
+                        speedUp.setX((Math.random() * 1830));
+                        speedUp.setY((Math.random() * 400) + 200);
                     }
                     g.drawImage(speedUp.getImage(), (int)speedUp.getX(), (int) speedUp.getY(), observer);
                 }
@@ -101,8 +103,6 @@ public class SpecialAbilityService {
                 player.speedY /=2;
                 player.speedX /=2;
                 speedUp.isTake = false;
-                speedUp.setX((Math.random() * 1830));
-                speedUp.setY((Math.random() * 400) + 200);
             }
         }
         return speedUpBaslangicZaman;
@@ -124,6 +124,8 @@ public class SpecialAbilityService {
                         attackSpeed.isTake=true;
                         attackSpeedBaslangicZaman = System.currentTimeMillis();
                         Shot.speed = 25;
+                        attackSpeed.setX((Math.random() * 1830));
+                        attackSpeed.setY((Math.random() * 400) + 200);
                     }
                     g.drawImage(attackSpeed.getImage(), (int)attackSpeed.getX(), (int) attackSpeed.getY(), observer);
                 }
@@ -133,8 +135,6 @@ public class SpecialAbilityService {
             if (((System.currentTimeMillis()-attackSpeedBaslangicZaman)/1000) >= Commons.ozelGucKacSaniyeKullanilsin){
                 attackSpeed.isTake = false;
                 Shot.speed = Commons.shotSpeed;
-                attackSpeed.setX((Math.random() * 1830));
-                attackSpeed.setY((Math.random() * 400) + 200);
             }
         }
         return attackSpeedBaslangicZaman;
