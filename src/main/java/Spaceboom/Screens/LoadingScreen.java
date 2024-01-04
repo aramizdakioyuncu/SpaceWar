@@ -41,14 +41,6 @@ public class LoadingScreen {
 
         JLabel img_loading = new JLabel(new ImageIcon(image));
 
-
-
-
-        JLabel serverStatus = new JLabel("Loading");
-        serverStatus.setForeground(Color.white);
-        serverStatus.setVisible(true);
-
-
         timer_login = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,14 +72,9 @@ public class LoadingScreen {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(Commons.BOARD_HEIGHT-30, Commons.BOARD_WIDTH-50, 0, 0);
+        gbc.insets = new Insets(Commons.BOARD_HEIGHT-30, Commons.BOARD_WIDTH-30, 0, 0);
         Jpanel_Game.add(img_loading, gbc);
 
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.insets = new Insets(0, Commons.BOARD_WIDTH-150, 30, 0);
-        Jpanel_Game.add(serverStatus, gbc);
 
         Jframe_Game.setContentPane(Jpanel_Game);
         Jframe_Game.setLocationRelativeTo(null);
@@ -157,7 +144,11 @@ public static void updatenotes(){
             }
             controlStatus++;
             System.out.println(cevap.get("guncellemenotlari").toString());
-            Commons.UPDATELIST = cevap.get("guncellemenotlari").toString();
+
+            String replacedString1 = cevap.get("guncellemenotlari").toString().replace('|', '\n');
+            System.out.println("Karakter değiştirildikten sonra: " + replacedString1);
+
+            Commons.UPDATELIST = replacedString1;
 
         });
     });

@@ -3,7 +3,7 @@ package Spaceboom;
 public class  Commons {
     public static String UPDATELIST = "";
     public static String SCORELIST = "";
-    public static int shotSpeed = 15;
+    public static int shotSpeed = 40;
     public static int bulletSpeed = 10;
     public static int levelCount = 5;
 

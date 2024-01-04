@@ -6,23 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class IntroScreen {
     private Timer delayTimer;
     SoundPlayer player = new SoundPlayer();
 
     public IntroScreen(JFrame Jframe_Game){
-        player.RepeatMusic(true);
-        player.playAsync("armoyuonetype.wav");
-
-
-
 
         JPanel Jpanel_Game = new JPanel() {
             private ImageIcon backgroundImageIcon;
-
             {
-
                 backgroundImageIcon = new ImageIcon(getClass().getResource("/gif/introscreen.gif"));
             }
 
@@ -34,6 +29,28 @@ public class IntroScreen {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+
+
+        player.RepeatMusic(true);
+        player.playAsync("armoyuonetype.wav");
+
+
+        Jframe_Game.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int key = e.getKeyCode();
+
+                if (key == KeyEvent.VK_SPACE || key==KeyEvent.VK_ENTER) {
+                    player.StopMusic();
+                    Jpanel_Game.setVisible(false);
+                    new LoadingScreen(Jframe_Game);
+                    delayTimer.stop();
+                    return;
+                }
+            }
+        });
+
+
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -57,12 +74,11 @@ public class IntroScreen {
 
         Jpanel_Game.setLayout(new GridBagLayout());
 
-        delayTimer = new Timer(2000, new ActionListener() {
+        delayTimer = new Timer(15000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 player.StopMusic();
-
                 Jpanel_Game.setVisible(false);
                 new LoadingScreen(Jframe_Game);
                 delayTimer.stop();
@@ -95,11 +111,26 @@ public class IntroScreen {
         gameLabel.setForeground(Color.white);
 
         String labelText = "<html>" +
-                "SpaceWar Games CopyRight" +
-                "Bu oyun, hızlı ve tekrarlayan ışık değişiklikleri içerebilir. Epilepsi hastaları için risk oluşturabilir." +
-                "<br>"+
-                "Eğer epilepsi veya benzeri bir sağlık sorununuz varsa, önce doktorunuza danışınız." +
-                "<br>" + "Geliştiricilerin dikkatine" + "</html>";
+                "Bu oyun, hızlı ve tekrarlayan ışık değişiklikleri içerebilir. Epilepsi hastaları için risk oluşturabilir.Eğer epilepsi veya benzeri bir sağlık sorununuz varsa, önce doktorunuza danışınız." +
+                "<br>" + "oyuncuların Dikkatine:" +
+                "<br>" +
+                "<br>" +
+                "(c) 2023 ARMOYU, Inc. SpaceWar logosu ve ARMOYU Software, Inc.'in ticari markaları ve/veya tescillenmiş ticari markalarıdır." +
+                "<br>" +
+                "<br>" +
+                "Diğer tüm işaretler ve ticari markalar, ilgili sahiplerinin mülkiyetindedir. Tüm Hakları Saklıdır. Derecelendirme ikonu, ARMOYU Software ticari markasıdır." +
+                "<br>" +
+                "<br>" +
+                "Not: Bu video oyunun içeriği tamamen kurgusaldır ve herhangi bir gerçek kişiyi, işletmeyi veya kuruluşu temsil etmeyi amaçlamamaktadır." +
+                "<br>" +
+                "<br>" +
+                " Bu oyunun karakteri, diyalogu, olayı veya hikaye öğesi ile herhangi bir gerçek kişi, işletme veya kuruluş arasındaki benzerlik tamamen tesadüfidir." +
+                "<br>" +
+                "<br>" +
+                " Bu video oyununun yapımcıları ve yayıncıları, bu tür davranışları herhangi bir şekilde desteklemez, onaylamaz veya teşvik etmez." +
+                "<br>" +
+                "SpaceWar Games CopyRight (c) " +
+                "</html>";
 
         Font currentFont = gameLabel.getFont();
 

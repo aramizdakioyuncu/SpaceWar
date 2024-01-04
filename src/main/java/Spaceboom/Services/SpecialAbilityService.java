@@ -123,7 +123,7 @@ public class SpecialAbilityService {
                     if ((Math.abs(player.getX() - attackSpeed.getX()) <= farkLimiti) && (Math.abs(player.getY() - attackSpeed.getY()) <= farkLimiti)){
                         attackSpeed.isTake=true;
                         attackSpeedBaslangicZaman = System.currentTimeMillis();
-                        Shot.speed = 25;
+                        Shot.speed = 80;
                         attackSpeed.setX((Math.random() * 1830));
                         attackSpeed.setY((Math.random() * 400) + 200);
                     }

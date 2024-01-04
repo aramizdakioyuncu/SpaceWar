@@ -54,8 +54,10 @@ public class Board extends JPanel{
             boardData.inGame = playerService.drawPlayer(g, boardData.player,this);
             playerService.drawPlayerBullet(boardData.player.shot,g,this);
             alienService.alienBulletHandler(boardData.aliens,g,this);
-            boardData.attackSpeedBaslangicZaman = specialAbilityService.attackSpeedHandler(g,this, boardData.sayac, boardData.attackSpeed, boardData.player, boardData.farklimiti, boardData.attackSpeedBaslangicZaman, boardData.player.shot);
-            boardData.speedUpBaslangicZaman = specialAbilityService.speedUpHandler(g,this, boardData.sayac, boardData.speedUp, boardData.player, boardData.farklimiti, boardData.speedUpBaslangicZaman);
+            if (boardData.timer.isRunning()){
+                boardData.attackSpeedBaslangicZaman = specialAbilityService.attackSpeedHandler(g,this, boardData.sayac, boardData.attackSpeed, boardData.player, boardData.farklimiti, boardData.attackSpeedBaslangicZaman, boardData.player.shot);
+                boardData.speedUpBaslangicZaman = specialAbilityService.speedUpHandler(g,this, boardData.sayac, boardData.speedUp, boardData.player, boardData.farklimiti, boardData.speedUpBaslangicZaman);
+            }
 
             g.setFont(small);
             g.setColor(Color.white);
