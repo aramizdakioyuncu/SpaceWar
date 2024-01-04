@@ -1,17 +1,13 @@
 package Spaceboom.Services;
 
-import Spaceboom.API.FUNCTION;
-import Spaceboom.API.USER;
 import Spaceboom.Commons;
-import Spaceboom.DTOS.BoardDTO;
-import Spaceboom.Utility.SoundPlayer;
 import Spaceboom.sprite.Alien;
-import org.json.JSONObject;
+import Spaceboom.sprite.BoardData;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class AlienService {
     public void drawAliens(Graphics g, List<Alien> aliens, ImageObserver observer){
@@ -37,18 +33,18 @@ public class AlienService {
         }
     }
 
-    public void alienActHandler(BoardDTO boardDTO){
-        for (Alien alien : boardDTO.aliens) {
+    public void alienActHandler(BoardData boardData){
+        for (Alien alien : boardData.aliens) {
             double x = alien.getX();
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && boardDTO.direction != -1) {
-                boardDTO.direction = -5;
-                for (Alien a2 : boardDTO.aliens) {
+            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && boardData.direction != -1) {
+                boardData.direction = -5;
+                for (Alien a2 : boardData.aliens) {
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
             }
-            if (x <=  Commons.BORDER_LEFT&& boardDTO.direction != 1) {
-                boardDTO.direction = 5;
-                for (Alien a : boardDTO.aliens) {
+            if (x <=  Commons.BORDER_LEFT&& boardData.direction != 1) {
+                boardData.direction = 5;
+                for (Alien a : boardData.aliens) {
                     a.setY(a.getY() + Commons.GO_DOWN);
                 }
             }
@@ -64,33 +60,59 @@ public class AlienService {
         }
     }
 
-    public void alienDeathsControl(BoardDTO boardDTO){
-        if (boardDTO.deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-            boardDTO.inGame = false;
-            boardDTO.timer.stop();
-            boardDTO.message = "YOU WIN!";
-            boardDTO.sayac = Commons.MAX_GAME_TIME - boardDTO.sayac;
-            String formData = "skor="+ boardDTO.sayac;
-            if(USER.username != null){
-                CompletableFuture<JSONObject> postRequestFuture = FUNCTION.SaveScore2(formData);
-                postRequestFuture.thenAcceptAsync(response -> {
-                    JSONObject cevap = response;
-                    System.out.println(cevap.get("aciklama"));
-                });
+    public void alienDeathsControl(BoardData boardData,GameService gameService,PlayerService playerService){
+        if (boardData.deaths == boardData.level*Commons.NUMBER_OF_ALIENS_TO_DESTROY && Commons.levelCount > boardData.level){
+            boardData.level++;
+            gameService.levelUp(boardData,this,playerService);
+        }else if (boardData.level == Commons.levelCount && Commons.NUMBER_OF_ALIENS_TO_DESTROY*Commons.levelCount == boardData.deaths){
+            boardData.inGame = false;
+            boardData.timer.stop();
+            boardData.message = "YOU WIN!";
+            boardData.sayac = Commons.MAX_GAME_TIME - boardData.sayac;
+
+        }
+    }
+
+    public void isAliensOutFrame(BoardData boardData){
+        for (Alien alien : boardData.aliens) {
+            if (alien.isVisible()) {
+                double y = alien.getY();
+                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
+                    boardData.inGame = false;
+                    boardData.message = "Invasion!";
+                }
+                alien.act(boardData.direction);
             }
         }
     }
 
-    public void isAliensOutFrame(BoardDTO boardDTO){
-        for (Alien alien : boardDTO.aliens) {
-            if (alien.isVisible()) {
-                double y = alien.getY();
-                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
-                    boardDTO.inGame = false;
-                    boardDTO.message = "Invasion!";
-                }
-                alien.act(boardDTO.direction);
+    public void resetLocation(List<Alien> aliens){
+        int k = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
+                Alien alien = aliens.get(k);
+                alien.setX(Commons.ALIEN_INIT_X + 80 * j);
+                alien.setY(Commons.ALIEN_INIT_Y + 45 * i);
+                alien.getBomb().setX(alien.getX());
+                alien.getBomb().setY(alien.getY());
+                alien.setDying(false);
+                alien.setVisible(true);
+                String alienImg = "/images/alien.png";
+                ImageIcon ii = new ImageIcon(getClass().getResource(alienImg));
+                int newWidth = (ii.getIconWidth() / 11);
+                int newHeight = (ii.getIconHeight() / 11);
+                Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+                ii = new ImageIcon(scaledImage);
+                aliens.get(k).setImage(ii.getImage());
+                k++;
             }
         }
+
     }
+
+    public void setBulletSpeed(int speed){
+        Alien.bombSpeed = speed;
+    }
+
+
 }

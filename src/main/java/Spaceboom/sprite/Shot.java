@@ -1,6 +1,7 @@
 package Spaceboom.sprite;
 
-import Spaceboom.Utility.SoundPlayer;
+import Spaceboom.Commons;
+import Spaceboom.Services.SoundPlayer;
 
 import javax.swing.*;
 
@@ -10,7 +11,7 @@ public class Shot extends Sprite {
 
     private double width2;
     private double length2;
-    public static int speed = 10;
+    public static int speed = Commons.shotSpeed;
     public Shot(){}
     public Shot(double x, double y) {
         initShot(x, y);

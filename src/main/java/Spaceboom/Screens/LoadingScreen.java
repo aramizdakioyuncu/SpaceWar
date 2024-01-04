@@ -1,10 +1,8 @@
 package Spaceboom.Screens;
 
 import Spaceboom.API.FUNCTION;
-import Spaceboom.API.USER;
 import Spaceboom.Commons;
 import Spaceboom.SpaceBoom;
-import Spaceboom.Utility.Items;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,7 +26,7 @@ public class LoadingScreen {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            // Resmi yükleyin
+
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("/gif/backroundstart.gif"));
             Image image = imageIcon.getImage();
             g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
@@ -79,8 +77,8 @@ public class LoadingScreen {
 
 
 
-        gbc.gridx = 0; // Use RELATIVE to add to the right of the previous component
-        gbc.gridy = 0; // Use RELATIVE to add below the previous component
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(Commons.BOARD_HEIGHT-30, Commons.BOARD_WIDTH-50, 0, 0);
         Jpanel_Game.add(img_loading, gbc);

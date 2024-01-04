@@ -1,6 +1,7 @@
 package Spaceboom.sprite;
 
 import Spaceboom.Commons;
+import Spaceboom.Utility.ControlsSetting;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -15,7 +16,7 @@ public class Player extends Sprite {
     public boolean asagiHareket = false;
     public boolean sagHareket = false;
     public boolean solHareket = false;
-
+    public static int totalShotCount = 0;
     public Shot shot;
 
     public Player() {
@@ -27,8 +28,8 @@ public class Player extends Sprite {
         String playerImg = "/images/spaceship.png";
         ImageIcon ii = new ImageIcon(getClass().getResource(playerImg));
 
-         width = (ii.getIconWidth() / 7 );
-         length = (ii.getIconHeight() / 7);
+        width = (ii.getIconWidth() / 7);
+        length = (ii.getIconHeight() / 7);
         Commons.PLAYER_WIDTH = width;
         Commons.PLAYER_HEIGHT = length;
         java.awt.Image scaledImage = ii.getImage().getScaledInstance(width, length, java.awt.Image.SCALE_SMOOTH);
@@ -50,21 +51,21 @@ public class Player extends Sprite {
 
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT || key==KeyEvent.VK_A) {
+        if (key == KeyEvent.VK_A || key == ControlsSetting.left) {
 
             solHareket = true;
         }
 
-        if (key == KeyEvent.VK_RIGHT || key==KeyEvent.VK_D) {
+        if (key == KeyEvent.VK_D || key == ControlsSetting.right) {
 
             sagHareket = true;
         }
-        if (key == KeyEvent.VK_UP || key==KeyEvent.VK_W) {
+        if (key == KeyEvent.VK_W || key == ControlsSetting.up) {
 
             yukariHareket = true;
 
         }
-        if (key == KeyEvent.VK_DOWN || key==KeyEvent.VK_S){
+        if (key == KeyEvent.VK_S || key == ControlsSetting.down) {
 
             asagiHareket = true;
         }
@@ -74,22 +75,24 @@ public class Player extends Sprite {
 
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT || key==KeyEvent.VK_A) {
+        if (key == KeyEvent.VK_A || key == ControlsSetting.left) {
+
             solHareket = false;
         }
 
-        if (key == KeyEvent.VK_RIGHT || key==KeyEvent.VK_D) {
+        if (key == KeyEvent.VK_D || key == ControlsSetting.right) {
+
             sagHareket = false;
         }
+        if (key == KeyEvent.VK_W || key == ControlsSetting.up) {
 
-        if (key == KeyEvent.VK_DOWN || key==KeyEvent.VK_S) {
-           asagiHareket = false;
+            yukariHareket =false;
+
         }
+        if (key == KeyEvent.VK_S || key == ControlsSetting.down) {
 
-        if (key == KeyEvent.VK_UP || key==KeyEvent.VK_W ) {
-            yukariHareket = false;
+            asagiHareket = false;
         }
-
     }
 }
 

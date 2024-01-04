@@ -1,7 +1,6 @@
 package Spaceboom.Screens;
 
-import Spaceboom.Utility.Items;
-import Spaceboom.Utility.SoundPlayer;
+import Spaceboom.Services.SoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,14 +22,14 @@ public class IntroScreen {
             private ImageIcon backgroundImageIcon;
 
             {
-                // Arka plan GIF'inin yüklenmesi
+
                 backgroundImageIcon = new ImageIcon(getClass().getResource("/gif/introscreen.gif"));
             }
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                // Arka planın çizilmesi
+
                 Image backgroundImage = backgroundImageIcon.getImage();
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
@@ -61,7 +60,7 @@ public class IntroScreen {
         delayTimer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 5 saniye sonra bu kod çalışır
+
                 player.StopMusic();
 
                 Jpanel_Game.setVisible(false);
@@ -75,20 +74,19 @@ public class IntroScreen {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 10; // Set the width of scuLabel to 1
-
+        gbc.gridwidth = 10;
         gbc.insets = new Insets(0, 550, 350, 0);
         Jpanel_Game.add(scuLabel,gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 10; // Set the width of scuLabel to 1
+        gbc.gridwidth = 10;
         gbc.insets = new Insets(0, 0, 350, 0);
         Jpanel_Game.add(armoyuIconLabel,gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 10; // Set the width of scuLabel to 1
+        gbc.gridwidth = 10;
         gbc.insets = new Insets(0, 0, 350, 550);
         Jpanel_Game.add(spacelogoLabel,gbc);
 
@@ -101,15 +99,11 @@ public class IntroScreen {
                 "Bu oyun, hızlı ve tekrarlayan ışık değişiklikleri içerebilir. Epilepsi hastaları için risk oluşturabilir." +
                 "<br>"+
                 "Eğer epilepsi veya benzeri bir sağlık sorununuz varsa, önce doktorunuza danışınız." +
-                "<br>" +
-                "çok satırlı<br>label örneğidir." +
-                "<br>" +
-                "Geliştiricilerin dikkatine" +
-                "</html>";
+                "<br>" + "Geliştiricilerin dikkatine" + "</html>";
 
         Font currentFont = gameLabel.getFont();
 
-        // Yeni bir font oluştur ve boyutunu belirle
+
         Font biggerFont = currentFont.deriveFont(currentFont.getSize() * 1.5f);
         gameLabel.setFont(biggerFont);
         gameLabel.setText(labelText);

@@ -12,15 +12,14 @@ public class SpaceBoom extends JFrame  {
         String playerImg = "/images/spaceship.png";
         ImageIcon ii = new ImageIcon(SpaceBoom.class.getResource(playerImg));
 
-        //setGameIcon
+
         Jframe_Game.setIconImage(ii.getImage());
 
-        //setFullScreen
+
         APP_FUNCTION.setFullScreen(Jframe_Game);
 
-        //Intro
         new IntroScreen(Jframe_Game);
-        //.
+
     }
 }
 

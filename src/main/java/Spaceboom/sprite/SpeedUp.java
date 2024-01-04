@@ -8,6 +8,8 @@ public class SpeedUp extends Sprite{
     final String SpeedUpImgPath = "/images/SpeedUp.png";
     public Image SpeedUpImg;
     public int counter = 1;
+    public boolean counterArttirilabilirlik = true;
+    public boolean alinabilirlik = true;
     public boolean isTake = false;
 
     public SpeedUp(int x, int y){

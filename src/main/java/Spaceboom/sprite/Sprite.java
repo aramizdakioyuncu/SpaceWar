@@ -65,4 +65,8 @@ public class Sprite {
 
         return this.dying;
     }
+
+    public void setVisible(boolean visible){
+        this.visible = visible;
+    }
 }

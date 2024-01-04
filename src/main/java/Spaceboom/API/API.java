@@ -24,22 +24,18 @@ public class API {
     }
     public static String convertToMD5(String input) {
         try {
-            // MessageDigest nesnesi oluştur
+
             MessageDigest md = MessageDigest.getInstance("MD5");
 
-            // Byte dizisini MD5'e çevir
             byte[] mdBytes = md.digest(input.getBytes());
 
-            // Byte dizisini hexadecimal formatına çevir
             StringBuilder sb = new StringBuilder();
             for (byte mdByte : mdBytes) {
                 sb.append(Integer.toString((mdByte & 0xff) + 0x100, 16).substring(1));
             }
 
-            // Hexadecimal formatındaki MD5'i döndür
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            // MD5 algoritması desteklenmiyorsa buraya düşer
             e.printStackTrace();
             return null;
         }
@@ -47,12 +43,11 @@ public class API {
 
     public static boolean isInternetReachable() {
         try {
-            // Google's public DNS server
             InetAddress address = InetAddress.getByName("8.8.8.8");
             return address.isReachable(10000); // 10 seconds timeout
         } catch (UnknownHostException e) {
             e.printStackTrace();
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
@@ -94,18 +89,15 @@ public class API {
         URL apiUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
 
-        // POST isteği ayarları
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         connection.setDoOutput(true);
 
-        // Form verisini gönder
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = formData.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
 
-        // Yanıtı al
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
             StringBuilder response = new StringBuilder();
             String responseLine;
@@ -116,13 +108,11 @@ public class API {
             return new JSONObject(response.toString());
 
         } catch (IOException e) {
-            // Hata durumunda işlemleri burada ele alabilirsiniz.
 
             e.printStackTrace();
             return new JSONObject().put("durum", 0).put("aciklama", "Sunucuya bağlanılamadı!");
 
         } finally {
-            // Bağlantıyı kapat
             connection.disconnect();
         }
     }

@@ -3,6 +3,13 @@ package Spaceboom;
 public class  Commons {
     public static String UPDATELIST = "";
     public static String SCORELIST = "";
+    public static int shotSpeed = 15;
+    public static int bulletSpeed = 10;
+    public static int levelCount = 3;
+
+    public static int ozelGucKacSaniyedeBirCiksin = 5;
+    public static int ozelGucKacSaniyeDursun = 3;
+    public static int ozelGucKacSaniyeKullanilsin = 1;
 
     public static int BOARD_WIDTH = 1900;
     public static int BOARD_HEIGHT = 1060;
@@ -24,5 +31,8 @@ public class  Commons {
     public static int PLAYER_WIDTH;
     public static int PLAYER_HEIGHT;
     public static int MAX_GAME_TIME = 100;
+
+    public static int parca = MAX_GAME_TIME / ozelGucKacSaniyedeBirCiksin;
+
 
 }

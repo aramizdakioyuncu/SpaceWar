@@ -2,39 +2,42 @@ package Spaceboom.Services;
 
 import Spaceboom.API.APP_FUNCTION;
 import Spaceboom.Commons;
-import Spaceboom.DTOS.BoardDTO;
+import Spaceboom.Utility.ControlsSetting;
+import Spaceboom.sprite.BoardData;
+import Spaceboom.sprite.Player;
 import Spaceboom.sprite.Shot;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class TAdapter extends KeyAdapter {
-    BoardDTO boardDTO;
-    public TAdapter(BoardDTO boardDTO){
-        this.boardDTO = boardDTO;
+    BoardData boardData;
+    public TAdapter(BoardData boardData){
+        this.boardData = boardData;
     }
     @Override
     public void keyReleased(KeyEvent e) {
-        boardDTO.player.keyReleased(e);
+        boardData.player.keyReleased(e);
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        boardDTO.player.keyPressed(e);
+        boardData.player.keyPressed(e);
         double yeni = ((double) Commons.PLAYER_WIDTH/2.25);
-        double x = boardDTO.player.getX()+yeni;
-        double y = boardDTO.player.getY();
+        double x = boardData.player.getX()+yeni;
+        double y = boardData.player.getY();
 
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_SPACE) {
-            if (boardDTO.inGame) {
-                if (!boardDTO.player.shot.isVisible()) {
-                    boardDTO.player.shot = new Shot(x, y);
+        if (key == ControlsSetting.shot ){
+            if (boardData.inGame) {
+                if (!boardData.player.shot.isVisible()) {
+                    boardData.player.shot = new Shot(x, y);
+                    Player.totalShotCount++;
                 }
             }
         }
 
-        if (key == KeyEvent.VK_P) {
-            boardDTO.ekZaman += APP_FUNCTION.PauseResumeGame(boardDTO);
+        if (key ==ControlsSetting.pause) {
+            boardData.ekZaman += APP_FUNCTION.PauseResumeGame(boardData);
         }
     }
 }

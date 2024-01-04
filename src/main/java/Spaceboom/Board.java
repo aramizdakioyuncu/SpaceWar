@@ -1,11 +1,7 @@
 package Spaceboom;
 
-import Spaceboom.DTOS.BoardDTO;
-import Spaceboom.Services.AlienService;
-import Spaceboom.Services.GameService;
-import Spaceboom.Services.PlayerService;
-import Spaceboom.Services.SpecialAbilityService;
-import Spaceboom.Utility.SoundPlayer;
+import Spaceboom.Services.*;
+import Spaceboom.sprite.BoardData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,78 +10,83 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class Board extends JPanel{
-
     SoundPlayer splayer = new SoundPlayer();
     SoundPlayer splayer2 = new SoundPlayer();
-
-    private BoardDTO boardDTO = new BoardDTO();
-
+    private BoardData boardData = new BoardData();
     private final SpecialAbilityService specialAbilityService = new SpecialAbilityService();
     private final PlayerService playerService = new PlayerService();
     private final AlienService alienService = new AlienService();
     private final GameService gameService = new GameService();
 
     public Board(JFrame frame) {
-        boardDTO.frameGame = frame;
-        boardDTO.timer = new Timer(Commons.DELAY, new GameCycle());
-        gameService.initBoard(boardDTO,this);
+        boardData.frameGame = frame;
+        boardData.timer = new Timer(Commons.DELAY, new GameCycle());
+        gameService.initBoard(boardData,this);
         splayer2.RepeatMusic(true);
         splayer2.playAsync("backroundgame.wav");
 
     }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         doDrawing(g);
     }
-
     private void doDrawing(Graphics g) {
-     g.drawImage(boardDTO.backgroundImage, 0, 0, this);
+        g.drawImage(boardData.backgroundImage, 0, 0, this);
         Font small = new Font("Helvetica", Font.BOLD, 100);
         FontMetrics fontMetrics = this.getFontMetrics(small);
         DecimalFormat df = new DecimalFormat("#.##");
-
-        boardDTO.sayac =  ((double)(System.currentTimeMillis()-boardDTO.baslangicZaman)/1000)+ boardDTO.ekZaman;
-
-        gameService.timeControl(boardDTO);
-
-        if (boardDTO.inGame) {
+        boardData.sayac =  ((double)(System.currentTimeMillis()- boardData.baslangicZaman)/1000)- boardData.ekZaman;
+        if (boardData.inGame) {
+            if (boardData.loading){
+                g.setFont(small);
+                g.setColor(Color.white);
+                g.drawString("Level "+boardData.level, (Commons.BOARD_WIDTH-fontMetrics.stringWidth("Level " + boardData.level))/2   , Commons.BOARD_HEIGHT/2);
+                return;
+            }
             Graphics2D g2d=(Graphics2D) g;
             g2d.setStroke(new BasicStroke(4));
             g2d.setColor(Color.red);
             g2d.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
             g2d.setStroke(new BasicStroke());
 
-            alienService.drawAliens(g,boardDTO.aliens,this);
-            boardDTO.inGame = playerService.drawPlayer(g,boardDTO.player,this);
-            playerService.drawPlayerBullet(boardDTO.player.shot,g,this);
-            alienService.alienBulletHandler(boardDTO.aliens,g,this);
-            boardDTO.attackSpeedBaslangicZaman = specialAbilityService.attackSpeedHandler(g,this,boardDTO.sayac,boardDTO.attackSpeed,boardDTO.player,boardDTO.farklimiti,boardDTO.attackSpeedBaslangicZaman,boardDTO.player.shot);
-            boardDTO.speedUpBaslangicZaman = specialAbilityService.speedUpHandler(g,this,boardDTO.sayac,boardDTO.speedUp,boardDTO.player,boardDTO.farklimiti,boardDTO.speedUpBaslangicZaman);
+            alienService.drawAliens(g, boardData.aliens,this);
+            boardData.inGame = playerService.drawPlayer(g, boardData.player,this);
+            playerService.drawPlayerBullet(boardData.player.shot,g,this);
+            alienService.alienBulletHandler(boardData.aliens,g,this);
+            boardData.attackSpeedBaslangicZaman = specialAbilityService.attackSpeedHandler(g,this, boardData.sayac, boardData.attackSpeed, boardData.player, boardData.farklimiti, boardData.attackSpeedBaslangicZaman, boardData.player.shot);
+            boardData.speedUpBaslangicZaman = specialAbilityService.speedUpHandler(g,this, boardData.sayac, boardData.speedUp, boardData.player, boardData.farklimiti, boardData.speedUpBaslangicZaman);
 
             g.setFont(small);
             g.setColor(Color.white);
-            g.drawString(df.format(Commons.MAX_GAME_TIME - boardDTO.sayac), (Commons.BOARD_WIDTH-fontMetrics.stringWidth(String.valueOf(boardDTO.format)))/2   , Commons.BOARD_HEIGHT/13);
+            if (boardData.timer.isRunning()){
+                g.drawString(df.format(Commons.MAX_GAME_TIME - boardData.sayac), (Commons.BOARD_WIDTH-fontMetrics.stringWidth(String.valueOf(boardData.format)))/2   , Commons.BOARD_HEIGHT/13);
+            }else
+                g.drawString("Pause", (Commons.BOARD_WIDTH-fontMetrics.stringWidth(String.valueOf(boardData.format)))/2   , Commons.BOARD_HEIGHT/2);
+
         } else {
-            if (boardDTO.timer.isRunning()) {
-                boardDTO.timer.stop();
+            if (boardData.timer.isRunning()) {
+                boardData.timer.stop();
             }
             splayer.StopMusic();
             splayer2.StopMusic();
 
-            gameService.gameOver(boardDTO,g,this.getFontMetrics(small));
+            gameService.gameOver(boardData,g,this.getFontMetrics(small));
         }
+        gameService.timeControl(boardData);
         Toolkit.getDefaultToolkit().sync();
     }
     private class GameCycle implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            splayer2.RepeatMusic(true);
-            splayer2.playAsync("backroundgame.wav");
-            gameService.update(boardDTO,playerService,alienService);
             repaint();
+//            splayer2.RepeatMusic(true);
+//            splayer2.playAsync("backroundgame.wav");
+            if (boardData.loading){
+                gameService.loadingLevel(boardData);
+            }else {
+                gameService.update(boardData,playerService,alienService);
+            }
         }
     }
 }

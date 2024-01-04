@@ -1,15 +1,13 @@
-package Spaceboom.DTOS;
-
-import Spaceboom.sprite.Alien;
-import Spaceboom.sprite.AttackSpeed;
-import Spaceboom.sprite.Player;
-import Spaceboom.sprite.SpeedUp;
+package Spaceboom.sprite;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class BoardDTO {
+public class BoardData {
+    public int level = 1;
+    public boolean loading = true;
+    public long loadingBaslangicZaman;
     public String format = "3,33";
     public Dimension d;
     public List<Alien> aliens;

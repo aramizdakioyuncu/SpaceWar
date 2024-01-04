@@ -1,4 +1,4 @@
-package Spaceboom.Utility;
+package Spaceboom.Services;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -13,7 +13,7 @@ public class SoundPlayer {
 
     public SoundPlayer() {
         try {
-            // Ses çalma işlemi için bir Clip oluşturun
+
             this.clip = AudioSystem.getClip();
             this.repeat = false;
         }catch (Exception ignored) {
@@ -24,32 +24,36 @@ public class SoundPlayer {
     }
 
     public void playAsync(String sesDosyaYolu) {
-
         new Thread(() -> {
-
             try {
-                // Ses dosyasını yükleyerek bir AudioInputStream oluşturun
+                clip = AudioSystem.getClip();
+                if (clip.isRunning()) {
+                    clip.stop();
+                }
+
+
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(SoundPlayer.class.getResource("/sound/" + sesDosyaYolu)));
 
-                // Clip'e AudioInputStream'i ekleyin
+
                 clip.open(audioInputStream);
 
-                // Ses dosyasını çal
+
                 clip.start();
 
-                // Playback süresi tamamlandığında programı kapatmak için bekleme ekleyebilirsiniz
-                // Ancak daha güvenilir bir yöntem, çalma süresi bittiğinde bir olay dinleyicisi eklemektir
+
                 clip.addLineListener(event -> {
                     if (event.getType() == LineEvent.Type.STOP) {
-                        if (repeat ) {
+                        if (repeat) {
                             clip.setMicrosecondPosition(0);
                             clip.start();
+                        } else {
+                            clip.stop();
                         }
                     }
                 });
 
             } catch (Exception e) {
-
+                System.out.println(e);
             }
         }).start();
     }
@@ -58,12 +62,12 @@ public class SoundPlayer {
     public  void StopMusic() {
         new Thread(() -> {
             try {
-                // Ses dosyasını çalma
+
                 repeat = false;
                 clip.stop();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e);
             }
         }).start();
     }

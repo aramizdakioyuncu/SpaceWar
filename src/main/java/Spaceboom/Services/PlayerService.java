@@ -1,9 +1,8 @@
 package Spaceboom.Services;
 
 import Spaceboom.Commons;
-import Spaceboom.DTOS.BoardDTO;
-import Spaceboom.Utility.SoundPlayer;
 import Spaceboom.sprite.Alien;
+import Spaceboom.sprite.BoardData;
 import Spaceboom.sprite.Player;
 import Spaceboom.sprite.Shot;
 
@@ -35,16 +34,16 @@ public class PlayerService {
         }
     }
 
-    public void playerBulletHandler(BoardDTO boardDTO){
-        if (boardDTO.player.shot.isVisible()) {
-            for (Alien alien : boardDTO.aliens) {
-                if (alien.isVisible() && boardDTO.player.shot.isVisible()) {
-                    if (boardDTO.player.shot.getX() >= (alien.getX())
-                            && boardDTO.player.shot.getX() <= (alien.getX() + Commons.ALIEN_WIDTH)
-                            && boardDTO.player.shot.getY() >= (alien.getY())
-                            && boardDTO.player.shot.getY() <= (alien.getY() + Commons.ALIEN_HEIGHT)) {
+    public void playerBulletHandler(BoardData boardData){
+        if (boardData.player.shot.isVisible()) {
+            for (Alien alien : boardData.aliens) {
+                if (alien.isVisible() && boardData.player.shot.isVisible()) {
+                    if (boardData.player.shot.getX() >= (alien.getX())
+                            && boardData.player.shot.getX() <= (alien.getX() + Commons.ALIEN_WIDTH)
+                            && boardData.player.shot.getY() >= (alien.getY())
+                            && boardData.player.shot.getY() <= (alien.getY() + Commons.ALIEN_HEIGHT)) {
 
-                        ImageIcon ii = new ImageIcon(getClass().getResource(boardDTO.explImg));
+                        ImageIcon ii = new ImageIcon(getClass().getResource(boardData.explImg));
 
                         alien.setImage(ii.getImage());
                         double width4 = ((double) ii.getIconWidth() / 12);
@@ -54,77 +53,86 @@ public class PlayerService {
 
                         alien.setImage(ii.getImage());
                         alien.setDying(true);
-                        boardDTO.deaths++;
-                        boardDTO.player.shot.die();
+                        boardData.deaths++;
+
+                        System.out.println("Uzaylı Vuruldu");
+
+                        boardData.player.shot.die();
                     }
                 }
             }
 
-            double y = boardDTO.player.shot.getY();
+            double y = boardData.player.shot.getY();
             y -= Shot.speed;
 
             if (y < 0) {
-                boardDTO.player.shot.die();
+                boardData.player.shot.die();
             } else {
-                boardDTO.player.shot.setY(y);
+                boardData.player.shot.setY(y);
             }
         }
 
     }
 
 
-    public void playerDeathControl(BoardDTO boardDTO, Alien.Bomb bomb){
-        if (boardDTO.player.isVisible() && !bomb.isDestroyed()) {
-            if (bomb.getX() >= (boardDTO.player.getX())
-                    && bomb.getX() <= (boardDTO.player.getX() + Commons.PLAYER_WIDTH)
-                    && bomb.getY() >= (boardDTO.player.getY())
-                    && bomb.getY() <= (boardDTO.player.getY() + Commons.PLAYER_HEIGHT)) {
+    public void playerDeathControl(BoardData boardData, Alien.Bomb bomb){
+        if (boardData.player.isVisible() && !bomb.isDestroyed()) {
+            if (bomb.getX() >= (boardData.player.getX())
+                    && bomb.getX() <= (boardData.player.getX() + Commons.PLAYER_WIDTH)
+                    && bomb.getY() >= (boardData.player.getY())
+                    && bomb.getY() <= (boardData.player.getY() + Commons.PLAYER_HEIGHT)) {
 
-                ImageIcon ii = new ImageIcon(getClass().getResource(boardDTO.explImg));
-                boardDTO.player.setImage(ii.getImage());
+                ImageIcon ii = new ImageIcon(getClass().getResource(boardData.explImg));
+                boardData.player.setImage(ii.getImage());
                 double width4 = ((double) ii.getIconWidth() / 5);
                 double length4 = ((double) ii.getIconHeight() / 4);
                 Image scaledImage = ii.getImage().getScaledInstance((int) width4, (int) length4, Image.SCALE_SMOOTH);
                 ii = new ImageIcon(scaledImage);
-                boardDTO.player.setImage(ii.getImage());
-                boardDTO.player.setDying(true);
+                boardData.player.setImage(ii.getImage());
+                boardData.player.setDying(true);
                 bomb.setDestroyed(true);
+
+
             }
         }
     }
 
-    public void act(BoardDTO boardDTO) {
+    public void act(BoardData boardData) {
 
-
-        if (boardDTO.player.yukariHareket){
-            boardDTO.player.setY(boardDTO.player.getY()-boardDTO.player.speedY);
+        if (boardData.player.yukariHareket){
+            boardData.player.setY(boardData.player.getY()- boardData.player.speedY);
         }
-        if (boardDTO.player.asagiHareket){
-            boardDTO.player.setY(boardDTO.player.getY()+boardDTO.player.speedY);
+        if (boardData.player.asagiHareket){
+            boardData.player.setY(boardData.player.getY()+ boardData.player.speedY);
         }
-        if (boardDTO.player.solHareket){
-            boardDTO.player.setX(boardDTO.player.getX()-boardDTO.player.speedX);
+        if (boardData.player.solHareket){
+            boardData.player.setX(boardData.player.getX()- boardData.player.speedX);
         }
-        if (boardDTO.player.sagHareket){
-            boardDTO.player.setX(boardDTO.player.getX()+boardDTO.player.speedX);
-        }
-
-        if (boardDTO.player.getX() <= 2) {
-
-            boardDTO.player.setX(2);
+        if (boardData.player.sagHareket){
+            boardData.player.setX(boardData.player.getX()+ boardData.player.speedX);
         }
 
-        if (boardDTO.player.getX() >= Commons.BOARD_WIDTH - 2 * boardDTO.player.width) {
+        if (boardData.player.getX() <= 2) {
 
-            boardDTO.player.setX(Commons.BOARD_WIDTH - 2 * boardDTO.player.width);
+            boardData.player.setX(2);
         }
 
-        if (boardDTO.player.getY() <= 2) {
+        if (boardData.player.getX() >= Commons.BOARD_WIDTH - 2 * boardData.player.width) {
 
-            boardDTO.player.setY(2);
+            boardData.player.setX(Commons.BOARD_WIDTH - 2 * boardData.player.width);
         }
-        if (boardDTO.player.getY() >= Commons.BOARD_HEIGHT - 2 * boardDTO.player.length){
-            boardDTO.player.setY(Commons.BOARD_HEIGHT - 2 * boardDTO.player.length);
+
+        if (boardData.player.getY() <= 2) {
+
+            boardData.player.setY(2);
         }
+        if (boardData.player.getY() >= Commons.BOARD_HEIGHT - 2 * boardData.player.length){
+            boardData.player.setY(Commons.BOARD_HEIGHT - 2 * boardData.player.length);
+        }
+    }
+
+    public void resetLocation(Player player){
+        player.setX(900);
+        player.setY(900);
     }
 }

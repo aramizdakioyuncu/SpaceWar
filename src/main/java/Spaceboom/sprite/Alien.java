@@ -1,14 +1,16 @@
 package Spaceboom.sprite;
 
+import Spaceboom.Commons;
+
 import javax.swing.*;
 
 public class Alien extends Sprite {
 
     private Bomb bomb;
-    public static int bombSpeed = 10;
+    public static int bombSpeed;
 
     public Alien(int x, int y) {
-
+        bombSpeed = Commons.bulletSpeed;
         initAlien(x, y);
     }
 
@@ -28,6 +30,7 @@ public class Alien extends Sprite {
 
         setImage(ii.getImage());
     }
+
 
     public void act(int direction) {
 
@@ -75,5 +78,7 @@ public class Alien extends Sprite {
 
             return destroyed;
         }
+
+
     }
 }

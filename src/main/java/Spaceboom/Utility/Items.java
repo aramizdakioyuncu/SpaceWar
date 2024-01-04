@@ -8,15 +8,15 @@ public class Items {
 
    public static JButton Button(String text) {
         JButton button = new JButton(text);
-        // Buton kenarlığını kaldır
+
         button.setBorderPainted(false);
-        // Buton odaklanıldığında çizilen kenarlığı kaldır
+
         button.setFocusPainted(false);
-        // Butonun iç kısmını dolduran rengi kaldır
+
         button.setContentAreaFilled(false);
-        // Buton metin rengini beyaz yap
+
         button.setForeground(Color.WHITE);
-        // Buton metin fontunu ayarla
+
         button.setFont(new Font("Arial", Font.BOLD, 25));
 
        button.setFocusable(true);
@@ -41,19 +41,27 @@ public class Items {
 
     public static JTextArea TextArea(String text) {
         JTextArea textarea = new JTextArea(text);
-        textarea.setForeground(Color.WHITE);
+        textarea.setForeground(Color.green);
         textarea.setEditable(false);
-        textarea.setOpaque(false); // Şeffaf olmasını sağla
+        textarea.setOpaque(false);
         textarea.setBackground(new Color(0, 0, 0, 0));
         textarea.setFont(new Font("Arial", Font.BOLD, 20));
         return textarea;
     }
 
     public static JPanel Panel() {
+        Color transparentMagenta = new Color(255, 0, 255, 0);
+
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Color.BLUE);
+        panel.setBackground(transparentMagenta);
         return panel;
     }
 
+    public static JLabel Label(String text){
+        JLabel Label =   new JLabel(text);
+        Label.setForeground(Color.yellow);
+        Label.setFont(new Font("Arial", Font.BOLD, 20));
+       return Label;
+    }
 }

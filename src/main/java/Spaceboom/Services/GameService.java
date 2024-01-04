@@ -1,11 +1,13 @@
 package Spaceboom.Services;
 
+import Spaceboom.API.FUNCTION;
+import Spaceboom.API.USER;
 import Spaceboom.Commons;
-import Spaceboom.DTOS.BoardDTO;
 import Spaceboom.Screens.GameScreen;
+import Spaceboom.SpaceBoom;
 import Spaceboom.Utility.Items;
-import Spaceboom.Utility.SoundPlayer;
 import Spaceboom.sprite.*;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,72 +15,116 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 public class GameService {
     SoundPlayer splayer = new SoundPlayer();
     SoundPlayer splayer2 = new SoundPlayer();
 
-    public void timeControl(BoardDTO boardDTO){
-        if (boardDTO.sayac>Commons.MAX_GAME_TIME-1) {
-            boardDTO.inGame = false;
-            boardDTO.timer.stop();
+    public void timeControl(BoardData boardData){
+        if (boardData.sayac>Commons.MAX_GAME_TIME-1) {
+            boardData.inGame = false;
+            boardData.timer.stop();
         }
     }
 
-    public void initBoard(BoardDTO boardDTO,JPanel panel) {
-        boardDTO.baslangicZaman = System.currentTimeMillis();
+    public void initBoard(BoardData boardData, JPanel panel) {
+        boardData.baslangicZaman = System.currentTimeMillis();
 
-        panel.addKeyListener(new TAdapter(boardDTO));
+        panel.addKeyListener(new TAdapter(boardData));
         panel.setFocusable(true);
-        boardDTO.d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        boardData.d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
-        ImageIcon backgroundIcon = new ImageIcon(getClass().getResource(boardDTO.backgroundImgPath));
-        boardDTO.backgroundImage = backgroundIcon.getImage();
+        ImageIcon backgroundIcon = new ImageIcon(getClass().getResource(boardData.backgroundImgPath));
+        boardData.backgroundImage = backgroundIcon.getImage();
 
-        ImageIcon finishgraundIcon = new ImageIcon(getClass().getResource(boardDTO.finishgraundImgPath));
-        boardDTO.finishgraundImage = finishgraundIcon.getImage();
+        ImageIcon finishgraundIcon = new ImageIcon(getClass().getResource(boardData.finishgraundImgPath));
+        boardData.finishgraundImage = finishgraundIcon.getImage();
 
-        ImageIcon gameoverIcon = new ImageIcon(getClass().getResource(boardDTO.gameoverImgPath));
-        boardDTO.gameoverImage = gameoverIcon.getImage();
+        ImageIcon gameoverIcon = new ImageIcon(getClass().getResource(boardData.gameoverImgPath));
+        boardData.gameoverImage = gameoverIcon.getImage();
 
-        boardDTO.timer.start();
+        boardData.timer.start();
 
-        gameInit(boardDTO);
+        gameInit(boardData);
     }
 
-    public void gameInit(BoardDTO boardDTO){
-        boardDTO.aliens = new ArrayList<Alien>();
+    public void gameInit(BoardData boardData){
+        boardData.aliens = new ArrayList<Alien>();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 Alien alien = new Alien(Commons.ALIEN_INIT_X + 80 * j,
                         Commons.ALIEN_INIT_Y + 45 * i);
-                boardDTO.aliens.add(alien);
+                boardData.aliens.add(alien);
             }
         }
-        boardDTO.player = new Player();
-        boardDTO.player.shot = new Shot();
-        boardDTO.attackSpeed = new AttackSpeed((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
-        boardDTO.speedUp = new SpeedUp((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
+        boardData.player = new Player();
+        boardData.player.shot = new Shot();
+        boardData.attackSpeed = new AttackSpeed((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
+        boardData.speedUp = new SpeedUp((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
     }
 
+
+
+    public double scoreCalculator(BoardData boardData, boolean isWon){
+
+
+        int totalShot = Player.totalShotCount * (-200);
+        int destroyedEnemies = boardData.deaths * 2000;
+        Double doublesayac = 0.0;
+
+        if (isWon){
+             doublesayac =  boardData.sayac * 500;
+        }
+
+        return totalShot + destroyedEnemies + doublesayac;
+
+
+    }
     //game over
-    public void gameOver(BoardDTO boardDTO,Graphics g,FontMetrics fontMetrics){
+    public void gameOver(BoardData boardData, Graphics g, FontMetrics fontMetrics){
         String finishbackgroundImage;
         String buttonText;
-        if (boardDTO.deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-            finishbackgroundImage = boardDTO.finishgraundImgPath;
+        String scoreinfo;
+        String scoreinfodetail;
+        Double score;
+
+        String restartText = "RESTART";
+
+        if (boardData.deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY*Commons.levelCount) {
+            score = scoreCalculator(boardData,true);
+            finishbackgroundImage = boardData.finishgraundImgPath;
             splayer.RepeatMusic(true);
             splayer.playAsync("win.wav");
-            buttonText = "YOU WON BUT IT'S STILL NOT THE END";
+            scoreinfo = "Score: "+ score;
+            scoreinfodetail = "Destroyed Enemies: " + boardData.deaths + "\n Total Shots: " + Player.totalShotCount;
+            buttonText = "\nYOU WON BUT IT'S STILL NOT THE END\n\n";
 
         } else {
-            finishbackgroundImage = boardDTO.gameoverImgPath;
+            score = scoreCalculator(boardData,false);
+
+            finishbackgroundImage = boardData.gameoverImgPath;
             splayer.playAsync("explosion-80108.wav");
             splayer2.RepeatMusic(true);
             splayer2.playAsync("lose.wav");
-            buttonText = "MAKE A LITTLE EFFORT TO WIN";
+            scoreinfo = "Score: "+ score;
+            scoreinfodetail = "Destroyed Enemies: " + boardData.deaths + "\n Total Shots: " + Player.totalShotCount;
+            buttonText = "\nMAKE A LITTLE EFFORT TO WIN\n\n";
 
         }
+
+        if(USER.username != null){
+            String formData = "skor="+score;
+
+            CompletableFuture<JSONObject> postRequestFuture = FUNCTION.SaveScore2(formData);
+            postRequestFuture.thenAcceptAsync(response -> {
+                JSONObject cevap = response;
+                System.out.println(cevap.get("aciklama"));
+            });
+        }
+
+        Player.totalShotCount = 0;
+
         g.setColor(new Color(0, 32, 48));
 
         g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
@@ -89,17 +135,39 @@ public class GameService {
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(boardDTO.message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(boardDTO.message)) / 2, Commons.BOARD_WIDTH / 2);
+        g.drawString(boardData.message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(boardData.message)) / 2, Commons.BOARD_WIDTH / 2);
 
-        JButton button = Items.Button(buttonText);
+        JTextArea scoreInfoArea = Items.TextArea(scoreinfo);
+        JTextArea scoreInfodetailArea = Items.TextArea(scoreinfodetail);
+        scoreInfoArea.setFont(new Font("Arial", Font.BOLD, 50));
+        scoreInfodetailArea.setFont(new Font("Arial", Font.BOLD, 35));
+
+        JTextArea gameOverText = Items.TextArea(buttonText);
+
+        JButton button = Items.Button(restartText);
+        JButton mainmenu  = Items.Button("MAIN MENU");
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Alien.bombSpeed = Commons.bulletSpeed;
                 splayer2.StopMusic();
                 splayer.StopMusic();
-                boardDTO.frameGame.dispose();
-                boardDTO.frameGame = new GameScreen().frame;
+                boardData.frameGame.dispose();
+                boardData.frameGame = new GameScreen().frame;
+            }
+        });
+
+        mainmenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                splayer2.StopMusic();
+                splayer.StopMusic();
+
+                splayer.RepeatMusic(true);
+                splayer.playAsync("startmonkey.wav");
+                SpaceBoom.Jframe_Game.setVisible(true);
+                GameScreen.frame.dispose();
             }
         });
         String finalFinishbackgroundImage = finishbackgroundImage;
@@ -115,31 +183,53 @@ public class GameService {
 
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 3;
+        gbc.gridwidth = 0;
+        panel.add(scoreInfoArea,gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 0;
+        panel.add(scoreInfodetailArea,gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.gridwidth = 0;
+        panel.add(gameOverText,gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 10;
         gbc.gridwidth = 0;
         panel.add(button,gbc);
 
-        boardDTO.frameGame.setContentPane(panel);
-        boardDTO.frameGame.add(button);
-        boardDTO.frameGame.setVisible(true);
+
+        gbc.gridx = 0;
+        gbc.gridy = 11;
+        gbc.gridwidth = 0;
+        panel.add(mainmenu,gbc);
+
+        boardData.frameGame.setContentPane(panel);
+        boardData.frameGame.add(button);
+        boardData.frameGame.setVisible(true);
     }
 
-    //update
-    public void update(BoardDTO boardDTO,PlayerService playerService,AlienService alienService){
-        alienService.alienDeathsControl(boardDTO);
 
-        playerService.act(boardDTO);
+    public void update(BoardData boardData, PlayerService playerService, AlienService alienService){
+        alienService.alienDeathsControl(boardData,this,playerService);
 
-        playerService.playerBulletHandler(boardDTO);
+        playerService.act(boardData);
 
-        alienService.alienActHandler(boardDTO);
+        playerService.playerBulletHandler(boardData);
 
-        alienService.isAliensOutFrame(boardDTO);
+        alienService.alienActHandler(boardData);
+
+        alienService.isAliensOutFrame(boardData);
 
         Random generator = new Random();
 
-        for (Alien alien : boardDTO.aliens) {
+        for (Alien alien : boardData.aliens) {
             int shot = generator.nextInt(15);
             Alien.Bomb bomb = alien.getBomb();
             if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
@@ -147,8 +237,27 @@ public class GameService {
                 bomb.setX(alien.getX());
                 bomb.setY(alien.getY());
             }
-            playerService.playerDeathControl(boardDTO,bomb);
+            playerService.playerDeathControl(boardData,bomb);
             alienService.alienBombHandler(bomb);
+        }
+    }
+    public void levelUp(BoardData boardData, AlienService alienService,PlayerService playerService){
+        boardData.loading = true;
+        alienService.resetLocation(boardData.aliens);
+        alienService.setBulletSpeed(Alien.bombSpeed+5);
+        playerService.resetLocation(boardData.player);
+    }
+
+    int loadingCounter = 0;
+    public void loadingLevel(BoardData boardData){
+        if (loadingCounter==0){
+            boardData.loadingBaslangicZaman = System.currentTimeMillis();
+            loadingCounter++;
+        }
+        if ((System.currentTimeMillis()-boardData.loadingBaslangicZaman)/1000 > 3){
+            boardData.loading = false;
+            boardData.ekZaman+=3;
+            loadingCounter = 0;
         }
     }
 }

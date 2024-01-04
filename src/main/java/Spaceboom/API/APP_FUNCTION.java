@@ -1,33 +1,33 @@
 package Spaceboom.API;
 
-import Spaceboom.DTOS.BoardDTO;
+import Spaceboom.sprite.BoardData;
 
 import java.awt.*;
 
 public class APP_FUNCTION {
 
     public static void ToggleFullScreen(Frame frame){
-        //Tam ekran mı
+
         if(frame.isUndecorated()){
             frame.dispose();
-            frame.setUndecorated(false); // Tam ekran modunu kapat
-            frame.setSize(800, 600); // Pencere boyutunu ayarla
-            frame.setLocationRelativeTo(null); // Pencereyi ortala
+            frame.setUndecorated(false);
+            frame.setSize(800, 600);
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         }else{
             frame.dispose();
-            frame.setUndecorated(true); // Tam ekran modunu etkinleştir
-            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize()); // Ekran boyutuna göre ayarla
-            frame.setLocation(0, 0); // Pencereyi sol üst köşeye yerleştir
+            frame.setUndecorated(true);
+            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+            frame.setLocation(0, 0);
             frame.setVisible(true);
         }
     }
 
     public static void setFullScreen(Frame frame){
         frame.dispose();
-        frame.setUndecorated(true); // Tam ekran modunu etkinleştir
-        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize()); // Ekran boyutuna göre ayarla
-        frame.setLocation(0, 0); // Pencereyi sol üst köşeye yerleştir
+        frame.setUndecorated(true);
+        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        frame.setLocation(0, 0);
         frame.setVisible(true);
     }
 
@@ -39,16 +39,16 @@ public class APP_FUNCTION {
         frame.setVisible(true);
     }
 
-    public static double PauseResumeGame(BoardDTO boardDTO) {
+    public static double PauseResumeGame(BoardData boardData) {
         System.out.println("P tuşuna basıldı. Oyun Duracak");
 
-        if(boardDTO.timer.isRunning()){
-            boardDTO.timer.stop();
-            boardDTO.ekZamanBaslangic = System.currentTimeMillis();
+        if(boardData.timer.isRunning()){
+            boardData.ekZamanBaslangic = System.currentTimeMillis();
+            boardData.timer.stop();
             return 0;
         }
-        boardDTO.ekZamanBitis = System.currentTimeMillis();
-        boardDTO.timer.start();
-        return (double) ((boardDTO.ekZamanBaslangic - boardDTO.ekZamanBitis)/1000);
+        boardData.timer.start();
+        boardData.ekZamanBitis = System.currentTimeMillis();
+        return (double) ((boardData.ekZamanBitis-boardData.ekZamanBaslangic)/1000);
     }
 }

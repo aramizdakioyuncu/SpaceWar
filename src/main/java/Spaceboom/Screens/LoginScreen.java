@@ -4,20 +4,18 @@ import Spaceboom.API.API;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
 import Spaceboom.Commons;
+import Spaceboom.Services.SoundPlayer;
 import Spaceboom.SpaceBoom;
+import Spaceboom.Utility.ControlsSetting;
 import Spaceboom.Utility.Items;
-import Spaceboom.Utility.SoundPlayer;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-
-import static Spaceboom.SpaceBoom.Jframe_Game;
 
 public class LoginScreen {
     private Map<String, JButton> buttonMap = new LinkedHashMap<>();
@@ -28,9 +26,12 @@ public class LoginScreen {
     private JButton quitbutton;
     private JButton settingsbutton;
     private JButton selectedButton;
+    private JButton backbutton;
+
 
 
     SoundPlayer splayer = new SoundPlayer();
+    SoundPlayer s1player = new SoundPlayer();
 
 
     public LoginScreen(JFrame Jframe_Game) {
@@ -40,17 +41,13 @@ public class LoginScreen {
         buttonMap.put("Control Settings",Items.Button("Control Settings"));
         buttonMap.put("Quit The Desktop",Items.Button("Quit The Desktop"));
 
-        for (JButton allbutton : buttonMap.values()) {
-           System.out.println(allbutton.getText());
-
-        }
         this.selectedButton = null;
 
         this.Jpanel_Game = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                // Resmi yükleyin
+
                 ImageIcon imageIcon = new ImageIcon(getClass().getResource("/gif/backroundstart.gif"));
                 Image image = imageIcon.getImage();
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
@@ -62,9 +59,41 @@ public class LoginScreen {
 
         JTextField tfield_username = Items.TextField(10);
         JPasswordField tfield_password = Items.PasswordTextField(10);
+        tfield_username.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                tfield_username.setBorder(BorderFactory.createLineBorder(Color.green));
 
-        JLabel label1 = new JLabel("USERNAME:");
-        JLabel label2 = new JLabel("PASSWORD:");
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                tfield_username.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+
+            }
+        });
+        tfield_password.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                tfield_password.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+
+
+
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                tfield_password.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+
+
+
+            }
+        });
+
+        JLabel username = new JLabel("USERNAME:");
+        JLabel password = new JLabel("PASSWORD:");
         JLabel label_loginStatus = new JLabel("***********");
 
         loginbutton = buttonMap.get("Login");
@@ -72,10 +101,10 @@ public class LoginScreen {
         quitbutton = buttonMap.get("Quit The Desktop");
         settingsbutton = buttonMap.get("Control Settings");
 
-        // Başlangıçta butonunu seçili yap
+
         MeneSelectButton(loginbutton);
 
-        // Her bir buton için fare dinleyicisi ekleyerek üzerine gelindiğinde rengi değiştir
+
         addButtonHoverListener(loginbutton);
         addButtonHoverListener(startbutton);
         addButtonHoverListener(quitbutton);
@@ -84,14 +113,14 @@ public class LoginScreen {
         quitbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Kullanıcıya onay mesajı göster
+
                 int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION);
 
-                // Eğer kullanıcı "YES" derse, uygulamayı kapat
+
                 if (confirm == JOptionPane.YES_OPTION) {
                     splayer.StopMusic();
-                    Jframe_Game.dispose();  // JFrame'i kapat
-                    System.exit(0);  // Uygulamayı tamamen kapat
+                    Jframe_Game.dispose();
+                    System.exit(0);
                 }
             }
         });
@@ -103,8 +132,8 @@ public class LoginScreen {
         JLabel img_loading = new JLabel(new ImageIcon(image));
         img_loading.setVisible(false);
 
-        label1.setForeground(Color.white);
-        label2.setForeground(Color.WHITE);
+        username.setForeground(Color.white);
+        password.setForeground(Color.WHITE);
         label_loginStatus.setForeground(Color.WHITE);
 
         tfield_username.addActionListener(e -> {
@@ -141,14 +170,12 @@ public class LoginScreen {
                             return;
                         }
 
-                        // Başarılı ile giriş yapıldı
+
                         USER.username = username;
                         USER.password = password;
 
-                        // Giriş ekranını gizle
-                        // kod yazılacak....
 
-                        // Oyunu Aç
+
                         splayer.StopMusic();
                         new GameScreen();
                         Jframe_Game.setVisible(false);
@@ -156,6 +183,8 @@ public class LoginScreen {
                 });
             }
         });
+
+
 
         startbutton.addActionListener(new ActionListener() {
             @Override
@@ -165,51 +194,190 @@ public class LoginScreen {
                 Jframe_Game.setVisible(false);
             }
         });
-
-        Jpanel_Game.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
+        JPanel Jpanel_Settings =new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/gif/backroundstart.gif"));
+                Image image = imageIcon.getImage();
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        Jpanel_Settings.setLayout(new GridBagLayout());
+        JButton WButton = Items.Button("W");
+        JButton AButton = Items.Button("A");
+        JButton SButton = Items.Button("S");
+        JButton DButton = Items.Button("D");
+        JButton PAUSEButton = Items.Button("P");
+        JButton SPACEButton = Items.Button("SPACE");
+        JButton showPasswordButton=Items.Button("$");
+
+        JButton UP = Items.Button("UP");
+        JButton DOWN = Items.Button("DOWN");
+        JButton RIGHT = Items.Button("RIGHT");
+        JButton LEFT = Items.Button("LEFT");
+        JButton PAUSE = Items.Button("PAUSE");
+        JButton SHOT = Items.Button("SHOT");
+        backbutton = Items.Button("BACK");
 
         gbc.gridx = 1;
         gbc.gridy = 2;
-        gbc.insets = new Insets(0, 0, 10, 0);
-        Jpanel_Game.add(label1, gbc);
-
-        gbc.gridx = 2;
-        gbc.insets = new Insets(0, 0, 10, 0);
-        Jpanel_Game.add(tfield_username, gbc);
-
+        gbc.insets = new Insets(0, 0, 10, 1);
+        Jpanel_Settings.add(WButton, gbc);
         gbc.gridx = 1;
         gbc.gridy = 3;
-        gbc.insets = new Insets(8, 0, 10, 1);
-        Jpanel_Game.add(label2, gbc);
-
-        gbc.gridx = 2;
-        gbc.insets = new Insets(8, 0, 10, 1);
-        Jpanel_Game.add(tfield_password, gbc);
-
+        gbc.insets = new Insets(0, 0, 10, 1);
+        Jpanel_Settings.add(SButton, gbc);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        Jpanel_Game.add(label_loginStatus, gbc);
-
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(DButton, gbc);
         gbc.gridx = 1;
         gbc.gridy = 5;
-        Jpanel_Game.add(loginbutton, gbc);
-
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(AButton, gbc);
         gbc.gridx = 1;
         gbc.gridy = 6;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(PAUSEButton, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(SPACEButton, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(UP, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(DOWN, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 4;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(RIGHT, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 5;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(LEFT, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 6;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(PAUSE, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 7;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(SHOT, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 8;
+        gbc.insets = new Insets(8, 0, 10, 1);
+        Jpanel_Settings.add(backbutton, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 10;
+        gbc.insets = new Insets(8,0,10,1);
+
+
+
+        Jpanel_Settings.setVisible(false);
+
+
+        settingsbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Jframe_Game.setLocationRelativeTo(null);
+                Jframe_Game.setContentPane(Jpanel_Settings);
+                Jpanel_Game.setVisible(false);
+                Jpanel_Settings.setVisible(true);
+            }
+
+        });
+        backbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Jframe_Game.setLocationRelativeTo(null);
+                Jframe_Game.setContentPane(Jpanel_Game);
+                Jpanel_Settings.setVisible(false);
+                Jpanel_Game.setVisible(true);
+
+            }
+
+        });
+        showPasswordButton.addActionListener(new ActionListener() {
+            private boolean passwordVisible = false;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (passwordVisible) {
+
+                    tfield_password.setEchoChar('*');
+                } else {
+
+                    tfield_password.setEchoChar((char) 0);
+                }
+
+                passwordVisible = !passwordVisible;
+            }
+            });
+
+
+        WButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screenInput(WButton,"UP");
+            }
+        });
+        DButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screenInput(DButton,"RIGHT");
+            }
+        }); AButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screenInput(AButton,"LEFT");
+            }
+        }); SButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screenInput(SButton,"DOWN");
+            }
+        }); SPACEButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screenInput(SPACEButton,"SHOT");
+            }
+        }); PAUSEButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screenInput(PAUSEButton,"PAUSE");
+            }
+        });
+
+
+        JTextArea Bosluk = Items.TextArea("");
+
+        Jpanel_Game.setLayout(new GridBagLayout());
+
+        gbc.insets = new Insets(0,0,0,0);
+        gbc.gridwidth = 2;
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        Jpanel_Game.add(Bosluk, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
         Jpanel_Game.add(startbutton, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 7;
-        Jpanel_Game.add(img_loading, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 8;
+        gbc.gridy = 3;
         Jpanel_Game.add(settingsbutton, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 9;
+        gbc.gridy = 4;
         Jpanel_Game.add(quitbutton, gbc);
 
         JPanel updateNotesPanel = Items.Panel();
@@ -217,7 +385,7 @@ public class LoginScreen {
 
         updateNotesPanel.add(updateNotesArea, BorderLayout.CENTER);
         gbc.gridx = 1;
-        gbc.gridy = 10;
+        gbc.gridy = 5;
         Jpanel_Game.add(updateNotesPanel, gbc);
 
         JPanel scoreNotesPanel = Items.Panel();
@@ -225,8 +393,53 @@ public class LoginScreen {
 
         scoreNotesPanel.add(scoreNotesArea, BorderLayout.CENTER);
         gbc.gridx = 1;
-        gbc.gridy = 11;
+        gbc.gridy = 6;
         Jpanel_Game.add(scoreNotesPanel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        Jpanel_Game.add(Bosluk, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        gbc.insets = new Insets(0,-260,0,0);
+        Jpanel_Game.add(username, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 8;
+        gbc.insets = new Insets(0,0,0,0);
+        Jpanel_Game.add(tfield_username, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 9;
+        gbc.insets = new Insets(0,-260,0,0);
+        Jpanel_Game.add(password, gbc);
+        gbc.insets = new Insets(0,220,0,0);
+
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+        Jpanel_Game.add(showPasswordButton, gbc);
+
+
+
+        gbc.insets = new Insets(0,0,0,0);
+
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+
+        Jpanel_Game.add(tfield_password,gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 10;
+        Jpanel_Game.add(label_loginStatus, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 11;
+        Jpanel_Game.add(img_loading, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 12;
+        Jpanel_Game.add(loginbutton, gbc);
 
 
         Jframe_Game.setContentPane(Jpanel_Game);
@@ -242,6 +455,21 @@ public class LoginScreen {
         });
 
     }
+    public void screenInput(JButton button,String keyBinding){
+        String str = JOptionPane.showInputDialog("Please enter a key:");
+        if (str == null) {
+            System.out.println("User canceled input.");
+            return;
+        }
+        if (str.length() != 1) {
+            System.out.println("Please enter only one character.");
+            return;
+        }
+        char charValue = str.charAt(0);
+
+        button.setText(String.valueOf(charValue));
+        ControlsSetting.setButton(keyBinding, str);
+    }
 
     private void addButtonHoverListener(JButton button) {
         button.addMouseListener(new MouseAdapter() {
@@ -249,13 +477,13 @@ public class LoginScreen {
 
             public void mouseEntered(MouseEvent evt) {
                 if (button != selectedButton) {
-                    button.setForeground(Color.green); // Üzerine gelindiğinde rengi değiştir
+                    button.setForeground(Color.green);
                 }
             }
 
             public void mouseExited(MouseEvent evt) {
                 if (button != selectedButton) {
-                    button.setForeground(Color.white); // Fare çekildiğinde orijinal rengine dön
+                    button.setForeground(Color.white);
                 }
             }
             public void mouseClicked(MouseEvent evt) {
@@ -264,12 +492,7 @@ public class LoginScreen {
         });
     }
 
-    // Oyunu başlatan metod
-    private void startGame() {
-        splayer.StopMusic();
-        new GameScreen();
-        Jframe_Game.setVisible(false);
-    }
+
 
 
     private void MeneButtonEnter() {
@@ -277,7 +500,6 @@ public class LoginScreen {
         for (JButton allbutton : buttonMap.values()) {
             if(sayac == mapindis){
                 System.out.println("---" + allbutton.getText());
-
                 allbutton.doClick();
             }
             sayac--;
@@ -287,30 +509,31 @@ public class LoginScreen {
 
     private void MeneSelectButton(JButton button) {
         int sayac = buttonMap.size();
+
+
         for (JButton allbutton : buttonMap.values()) {
             allbutton.setForeground(Color.WHITE);
             if(allbutton == button){
                 mapindis = sayac;
-
             }
             sayac--;
         }
-        button.setForeground(Color.BLUE);
+        button.setForeground(Color.green);
     }
 
     private void MeneSelectupperButton() {
+
+        s1player.playAsync("laserpiuv2.wav");
+
         int sayac = buttonMap.size();
         int istenilenindis = mapindis + 1;
 
         if (istenilenindis == buttonMap.size() + 1){
              istenilenindis = 1;
         }
-        System.out.println(istenilenindis);
 
         for (JButton allbutton : buttonMap.values()) {
-
             if(sayac == istenilenindis){
-                System.out.println(allbutton.getText() + " Seçili");
                 MeneSelectButton(allbutton);
                 return;
             }
@@ -320,18 +543,18 @@ public class LoginScreen {
 
     }
     private void MeneSelectdownerButton() {
+
+        s1player.playAsync("laserpiuv2.wav");
+
         int sayac = buttonMap.size();
         int istenilenindis = mapindis-1;
 
         if (istenilenindis == 0){
              istenilenindis = buttonMap.size();
         }
-        System.out.println(istenilenindis);
 
         for (JButton allbutton : buttonMap.values()) {
-
             if(sayac == istenilenindis){
-                System.out.println(allbutton.getText() + " Seçili");
                 MeneSelectButton(allbutton);
                 return;
             }
