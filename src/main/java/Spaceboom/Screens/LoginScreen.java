@@ -4,10 +4,12 @@ import Spaceboom.API.API;
 import Spaceboom.API.FUNCTION;
 import Spaceboom.API.USER;
 import Spaceboom.Commons;
+import Spaceboom.Services.GameService;
 import Spaceboom.Services.SoundPlayer;
 import Spaceboom.SpaceBoom;
 import Spaceboom.Utility.ControlsSetting;
 import Spaceboom.Utility.Items;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -91,6 +93,19 @@ public class LoginScreen {
         JButton showPasswordButton=Items.Button("");
 
 
+
+        JPanel scoreNotesPanel = Items.Panel();
+        JTextArea scoreNotesArea = Items.TextArea(Commons.SCORELIST);
+        scoreNotesPanel.add(scoreNotesArea, BorderLayout.CENTER);
+        JButton scoreReoladButton = Items.Button("RELOAD");
+
+        ImageIcon imageIcon = new ImageIcon(SpaceBoom.class.getResource("/gif/loading.gif"));
+        Image reloadimage = imageIcon.getImage();
+        reloadimage = reloadimage.getScaledInstance(25, 25, Image.SCALE_DEFAULT);
+
+        JLabel label_reloadicon = new JLabel(new ImageIcon(reloadimage));
+        label_reloadicon.setVisible(false);
+
         JButton button_logout = Items.Button("LOG OUT");
         button_logout.setVisible(false);
 
@@ -126,11 +141,7 @@ public class LoginScreen {
                 }
         });
 
-        ImageIcon imageIcon = new ImageIcon(SpaceBoom.class.getResource("/gif/loading.gif"));
-        Image image = imageIcon.getImage();
-        image = image.getScaledInstance(25, 25, Image.SCALE_DEFAULT);
-
-        JLabel img_loading = new JLabel(new ImageIcon(image));
+        JLabel img_loading = new JLabel(new ImageIcon(reloadimage));
         img_loading.setVisible(false);
 
         label_username.setForeground(Color.white);
@@ -265,8 +276,9 @@ public class LoginScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 splayer.StopMusic();
-                new GameScreen();
+                GameService.splayer.StopMusic();
                 Jframe_Game.setVisible(false);
+                new GameScreen();
             }
         });
 
@@ -313,7 +325,7 @@ public class LoginScreen {
         SHOT.setBackground(Color.BLACK);
         backbutton.setBackground(Color.BLACK);
 
-// Butonlara arka plan eklemek için
+
         WButton.setOpaque(true);  // Bu satırı eklemeyi unutma
         WButton.setBackground(Color.BLACK);
         WButton.setForeground(Color.WHITE);  // Yazı rengini belirle
@@ -357,6 +369,7 @@ public class LoginScreen {
         PAUSE.setOpaque(true);
         PAUSE.setBackground(Color.BLACK);
         PAUSE.setForeground(Color.WHITE);
+
 
         SHOT.setOpaque(true);
         SHOT.setBackground(Color.BLACK);
@@ -463,6 +476,54 @@ public class LoginScreen {
             });
 
 
+        scoreReoladButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                label_reloadicon.setVisible(true);
+                //Async
+                CompletableFuture<JSONObject> POST_FetchScoreList = FUNCTION.FetchScoreList();
+
+                POST_FetchScoreList.thenAcceptAsync(response -> {
+                    SwingUtilities.invokeLater(() -> {
+
+                        JSONObject cevap = response;
+
+                        if (cevap.get("durum").toString().equals("0")) {
+                            System.out.println("Sunucuya bağlanılamadı!");
+                            return;
+                        }
+                        if (cevap.get("icerik").toString().equals("null")) {
+                            return;
+                        }
+
+                        JSONArray recs = cevap.getJSONArray("icerik");
+
+                        int sayac = 1;
+                        Commons.SCORELIST = "";
+                        for (int i = 0; i < recs.length(); ++i) {
+                            JSONObject rec = recs.getJSONObject(i);
+
+                            if(i == 0){
+                                Commons.SCORELIST += sayac + "- " + rec.get("proje_oyunuc").toString();
+                                Commons.SCORELIST +=  ": " + rec.get("proje_skor").toString();
+                            }else{
+                                Commons.SCORELIST += "\n" + sayac + "- " + rec.get("proje_oyunuc").toString();
+                                Commons.SCORELIST += ": " + rec.get("proje_skor").toString();
+                            }
+
+                            sayac++;
+                        }
+
+                        scoreNotesArea.setText(Commons.SCORELIST);
+                        label_reloadicon.setVisible(false);
+
+                    });
+                });
+            }
+        });
+
         WButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -533,14 +594,30 @@ public class LoginScreen {
         Jpanel_Game.add(Bosluk, gbc);
 
 
-        JPanel scoreNotesPanel = Items.Panel();
-        JTextArea scoreNotesArea = Items.TextArea(Commons.SCORELIST);
-        scoreNotesPanel.add(scoreNotesArea, BorderLayout.CENTER);
 
         gbc.gridx = 3;
         gbc.gridy = 5;
         gbc.gridwidth = 2;
         Jpanel_Game.add(scoreNotesPanel, gbc);
+
+
+        scoreReoladButton.setVisible(false);
+
+        if(Commons.SCORELIST != null){
+            scoreReoladButton.setVisible(true);
+        }
+
+
+        gbc.gridx = 3;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        Jpanel_Game.add(label_reloadicon, gbc);
+
+
+        gbc.gridx = 3;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        Jpanel_Game.add(scoreReoladButton, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 6;

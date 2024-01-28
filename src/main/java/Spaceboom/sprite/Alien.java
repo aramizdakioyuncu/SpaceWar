@@ -1,34 +1,26 @@
 package Spaceboom.sprite;
 
 import Spaceboom.Commons;
+import Spaceboom.Services.AlienService;
 
 import javax.swing.*;
 
 public class Alien extends Sprite {
-
+    private BoardData boardData = new BoardData();
     private Bomb bomb;
     public static int bombSpeed;
 
-    public Alien(int x, int y) {
+    public Alien(int x, int y,AlienService alienService) {
         bombSpeed = Commons.bulletSpeed;
-        initAlien(x, y);
+        initAlien(x, y, boardData,alienService);
     }
 
-    private void initAlien(int x, int y) {
-
+    private void initAlien(int x, int y, BoardData boardData, AlienService alienService) {
         this.x = x;
         this.y = y;
 
         bomb = new Bomb(x, y);
-
-        String alienImg = "/images/alien.png";
-        ImageIcon ii = new ImageIcon(getClass().getResource(alienImg));
-        int newWidth = (ii.getIconWidth() / 11);
-        int newHeight = (ii.getIconHeight() / 11);
-        java.awt.Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
-        ii = new ImageIcon(scaledImage);
-
-        setImage(ii.getImage());
+        alienService.setAlienImage(boardData.level,this);
     }
 
 

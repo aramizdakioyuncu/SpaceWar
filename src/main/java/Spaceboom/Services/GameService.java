@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 public class GameService {
-    SoundPlayer splayer = new SoundPlayer();
+    public static SoundPlayer splayer = new SoundPlayer();
     SoundPlayer splayer2 = new SoundPlayer();
 
     public void timeControl(BoardData boardData){
@@ -28,7 +28,7 @@ public class GameService {
         }
     }
 
-    public void initBoard(BoardData boardData, JPanel panel) {
+    public void initBoard(BoardData boardData, JPanel panel, PlayerService playerService,AlienService alienService) {
         boardData.baslangicZaman = System.currentTimeMillis();
 
         panel.addKeyListener(new TAdapter(boardData));
@@ -46,19 +46,19 @@ public class GameService {
 
         boardData.timer.start();
 
-        gameInit(boardData);
+        gameInit(boardData,playerService,alienService);
     }
 
-    public void gameInit(BoardData boardData){
+    public void gameInit(BoardData boardData, PlayerService playerService,AlienService alienService){
         boardData.aliens = new ArrayList<Alien>();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 Alien alien = new Alien(Commons.ALIEN_INIT_X + 80 * j,
-                        Commons.ALIEN_INIT_Y + 45 * i);
+                        Commons.ALIEN_INIT_Y + 45 * i,alienService);
                 boardData.aliens.add(alien);
             }
         }
-        boardData.player = new Player();
+        boardData.player = new Player(playerService);
         boardData.player.shot = new Shot();
         boardData.attackSpeed = new AttackSpeed((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
         boardData.speedUp = new SpeedUp((int) (Math.random() * 1830),(int) (Math.random() * 400) + 200);
@@ -164,7 +164,6 @@ public class GameService {
                 splayer2.StopMusic();
                 splayer.StopMusic();
 
-                splayer.RepeatMusic(true);
                 splayer.playAsync("startmonkey.wav");
                 SpaceBoom.Jframe_Game.setVisible(true);
                 GameScreen.frame.dispose();
@@ -243,9 +242,10 @@ public class GameService {
     }
     public void levelUp(BoardData boardData, AlienService alienService,PlayerService playerService){
         boardData.loading = true;
-        alienService.resetLocation(boardData.aliens);
+        alienService.resetLocation(boardData.aliens, boardData);
         alienService.setBulletSpeed(Alien.bombSpeed+5);
         playerService.resetLocation(boardData.player);
+        playerService.setPlayerImage(boardData.level,boardData.player);
     }
 
     int loadingCounter = 0;

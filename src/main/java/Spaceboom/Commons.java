@@ -3,15 +3,15 @@ package Spaceboom;
 public class  Commons {
     public static String UPDATELIST = "";
     public static String SCORELIST = "";
-    public static int shotSpeed = 40;
-    public static int bulletSpeed = 10;
+    public static int shotSpeed = 35;
+    public static int bulletSpeed = 6;
     public static int levelCount = 5;
 
     public static int ozelGucKacSaniyedeBirCiksin = 20;
-    public static int ozelGucKacSaniyeDursun = 5;
-    public static int ozelGucKacSaniyeKullanilsin = 5;
+    public static int ozelGucKacSaniyeDursun = 8;
+    public static int ozelGucKacSaniyeKullanilsin = 6;
 
-    public static int BOARD_WIDTH = 1900;
+    public static int BOARD_WIDTH = 1920;
     public static int BOARD_HEIGHT = 1060;
     public static int BORDER_RIGHT = 60;
     public static int BORDER_LEFT = 60;
@@ -19,8 +19,8 @@ public class  Commons {
     public static int GROUND = 980;
     public static int BOMB_HEIGHT = 5;
 
-    public static int ALIEN_HEIGHT = 44;
-    public static int ALIEN_WIDTH = 57;
+    public static int ALIEN_HEIGHT = 50;
+    public static int ALIEN_WIDTH = 65;
     public static int ALIEN_INIT_X = 150;
     public static int ALIEN_INIT_Y = 5;
 

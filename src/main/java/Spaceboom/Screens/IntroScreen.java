@@ -36,16 +36,19 @@ public class IntroScreen {
 
 
         Jframe_Game.addKeyListener(new KeyAdapter() {
+            int sayac=0;
             @Override
             public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode();
+                if (sayac==0){
+                    int key = e.getKeyCode();
 
-                if (key == KeyEvent.VK_SPACE || key==KeyEvent.VK_ENTER) {
-                    player.StopMusic();
-                    Jpanel_Game.setVisible(false);
-                    new LoadingScreen(Jframe_Game);
-                    delayTimer.stop();
-                    return;
+                    if (key == KeyEvent.VK_SPACE || key==KeyEvent.VK_ENTER) {
+                        player.StopMusic();
+                        Jpanel_Game.setVisible(false);
+                        new LoadingScreen(Jframe_Game);
+                        delayTimer.stop();
+                        sayac++;
+                    }
                 }
             }
         });
@@ -67,7 +70,7 @@ public class IntroScreen {
         armoyuIcon = new ImageIcon(armoyuımage);
         JLabel armoyuIconLabel = new JLabel(armoyuIcon);
 
-        ImageIcon spacelogo= new ImageIcon(getClass().getResource("/images/spaceship.png"));
+        ImageIcon spacelogo= new ImageIcon(getClass().getResource("/images/spaceship6.png"));
         Image spaceImage = spacelogo.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         spacelogo = new ImageIcon(spaceImage);
         JLabel spacelogoLabel = new JLabel(spacelogo);

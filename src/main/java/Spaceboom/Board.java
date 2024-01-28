@@ -21,10 +21,18 @@ public class Board extends JPanel{
     public Board(JFrame frame) {
         boardData.frameGame = frame;
         boardData.timer = new Timer(Commons.DELAY, new GameCycle());
-        gameService.initBoard(boardData,this);
-        splayer2.RepeatMusic(true);
-        splayer2.playAsync("backroundgame.wav");
+        gameService.initBoard(boardData,this,playerService,alienService);
+        if(boardData.level == 1) {
 
+        splayer2.RepeatMusic(true);
+        splayer2.playAsync("level1.wav");
+        } else if (boardData.level == 2) {
+         splayer2.StopMusic();
+         splayer.RepeatMusic(true);
+         splayer.playAsync("backroundgame.wav");
+
+
+        }
     }
     @Override
     public void paintComponent(Graphics g) {
@@ -41,12 +49,12 @@ public class Board extends JPanel{
             if (boardData.loading){
                 g.setFont(small);
                 g.setColor(Color.white);
-                g.drawString("Level "+boardData.level, (Commons.BOARD_WIDTH-fontMetrics.stringWidth("Level " + boardData.level))/2   , Commons.BOARD_HEIGHT/2);
+                g.drawString("Level "+ boardData.level, (Commons.BOARD_WIDTH-fontMetrics.stringWidth("Level " + boardData.level))/2   , Commons.BOARD_HEIGHT/2);
                 return;
             }
             Graphics2D g2d=(Graphics2D) g;
             g2d.setStroke(new BasicStroke(4));
-            g2d.setColor(Color.red);
+            g2d.setColor(Color.ORANGE);
             g2d.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
             g2d.setStroke(new BasicStroke());
 

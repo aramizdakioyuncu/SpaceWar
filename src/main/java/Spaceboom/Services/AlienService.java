@@ -10,6 +10,7 @@ import java.awt.image.ImageObserver;
 import java.util.List;
 
 public class AlienService {
+
     public void drawAliens(Graphics g, List<Alien> aliens, ImageObserver observer){
         for (Alien alien : aliens) {
             if (alien.isVisible()) {
@@ -18,7 +19,6 @@ public class AlienService {
             if (alien.isDying()) {
 
                 alien.die();
-
 
             }
         }
@@ -61,7 +61,7 @@ public class AlienService {
     }
 
     public void alienDeathsControl(BoardData boardData,GameService gameService,PlayerService playerService){
-        if (boardData.deaths == boardData.level*Commons.NUMBER_OF_ALIENS_TO_DESTROY && Commons.levelCount > boardData.level){
+        if (boardData.deaths == boardData.level *Commons.NUMBER_OF_ALIENS_TO_DESTROY && Commons.levelCount > boardData.level){
             boardData.level++;
             gameService.levelUp(boardData,this,playerService);
         }else if (boardData.level == Commons.levelCount && Commons.NUMBER_OF_ALIENS_TO_DESTROY*Commons.levelCount == boardData.deaths){
@@ -86,7 +86,7 @@ public class AlienService {
         }
     }
 
-    public void resetLocation(List<Alien> aliens){
+    public void resetLocation(List<Alien> aliens, BoardData boardData){
         int k = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
@@ -97,17 +97,23 @@ public class AlienService {
                 alien.getBomb().setY(alien.getY());
                 alien.setDying(false);
                 alien.setVisible(true);
-                String alienImg = "/images/alien.png";
-                ImageIcon ii = new ImageIcon(getClass().getResource(alienImg));
-                int newWidth = (ii.getIconWidth() / 11);
-                int newHeight = (ii.getIconHeight() / 11);
-                Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-                ii = new ImageIcon(scaledImage);
-                aliens.get(k).setImage(ii.getImage());
+
+                setAlienImage(boardData.level,alien);
+
                 k++;
             }
         }
 
+    }
+
+    public void setAlienImage(int level, Alien alien){
+        String alienImg = "/images/alien"+level+".png";
+        ImageIcon ii = new ImageIcon(getClass().getResource(alienImg));
+        int newWidth = (ii.getIconWidth() / 11);
+        int newHeight = (ii.getIconHeight() / 11);
+        Image scaledImage = ii.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        ii = new ImageIcon(scaledImage);
+        alien.setImage(ii.getImage());
     }
 
     public void setBulletSpeed(int speed){

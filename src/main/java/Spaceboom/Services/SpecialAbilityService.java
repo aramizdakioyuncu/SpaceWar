@@ -77,24 +77,18 @@ import static Spaceboom.Commons.MAX_GAME_TIME;
 public class SpecialAbilityService {
     public long speedUpHandler(Graphics g, ImageObserver observer, double sayac, SpeedUp speedUp, Player player, int farkLimiti, long speedUpBaslangicZaman){
         if (!speedUp.isTake){
-            int kacinciParcadayiz = 0;
-            for (int j = 1; j <= Commons.parca; j++) {
-                if (Commons.ozelGucKacSaniyedeBirCiksin*j>MAX_GAME_TIME-sayac){
-                    kacinciParcadayiz = j;
-                    break;
-                }
-            }
+            int kacinciParcadayiz = kacinciParcadayiz(sayac);
             if (MAX_GAME_TIME-sayac < Commons.ozelGucKacSaniyedeBirCiksin*kacinciParcadayiz && MAX_GAME_TIME-sayac >Commons.ozelGucKacSaniyedeBirCiksin*(kacinciParcadayiz-1)){
                 if (Commons.ozelGucKacSaniyedeBirCiksin*kacinciParcadayiz-Commons.ozelGucKacSaniyeDursun<MAX_GAME_TIME-sayac){
+                    g.drawImage(speedUp.getImage(), (int)speedUp.getX(), (int) speedUp.getY(), observer);
                     if ((Math.abs(player.getX() - speedUp.getX()) <= farkLimiti) && (Math.abs(player.getY() - speedUp.getY()) <= farkLimiti)){
                         speedUp.isTake=true;
                         speedUpBaslangicZaman = System.currentTimeMillis();
                         player.speedX *=2;
                         player.speedY *=2;
-                        speedUp.setX((Math.random() * 1830));
-                        speedUp.setY((Math.random() * 400) + 200);
+                        speedUp.setX((Math.random() * 1400) +200);
+                        speedUp.setY((Math.random() * 1000) +400);
                     }
-                    g.drawImage(speedUp.getImage(), (int)speedUp.getX(), (int) speedUp.getY(), observer);
                 }
             }
         }
@@ -111,23 +105,18 @@ public class SpecialAbilityService {
 
     public long attackSpeedHandler(Graphics g, ImageObserver observer, double sayac, AttackSpeed attackSpeed, Player player, int farkLimiti, long attackSpeedBaslangicZaman, Shot shot){
         if (!attackSpeed.isTake){
-            int kacinciParcadayiz = 0;
-            for (int j = 1; j <= Commons.parca; j++) {
-                if (Commons.ozelGucKacSaniyedeBirCiksin*j>MAX_GAME_TIME-sayac){
-                    kacinciParcadayiz = j;
-                    break;
-                }
-            }
+            int kacinciParcadayiz = kacinciParcadayiz(sayac);
+
             if (MAX_GAME_TIME-sayac < Commons.ozelGucKacSaniyedeBirCiksin*kacinciParcadayiz && MAX_GAME_TIME-sayac >Commons.ozelGucKacSaniyedeBirCiksin*(kacinciParcadayiz-1)){
                 if (Commons.ozelGucKacSaniyedeBirCiksin*kacinciParcadayiz-Commons.ozelGucKacSaniyeDursun<MAX_GAME_TIME-sayac){
+                    g.drawImage(attackSpeed.getImage(), (int)attackSpeed.getX(), (int) attackSpeed.getY(), observer);
                     if ((Math.abs(player.getX() - attackSpeed.getX()) <= farkLimiti) && (Math.abs(player.getY() - attackSpeed.getY()) <= farkLimiti)){
                         attackSpeed.isTake=true;
                         attackSpeedBaslangicZaman = System.currentTimeMillis();
                         Shot.speed = 80;
-                        attackSpeed.setX((Math.random() * 1830));
-                        attackSpeed.setY((Math.random() * 400) + 200);
+                        attackSpeed.setX((Math.random() * 1400) + 200);
+                        attackSpeed.setY((Math.random() * 1000) + 400);
                     }
-                    g.drawImage(attackSpeed.getImage(), (int)attackSpeed.getX(), (int) attackSpeed.getY(), observer);
                 }
             }
         }
@@ -138,5 +127,14 @@ public class SpecialAbilityService {
             }
         }
         return attackSpeedBaslangicZaman;
+    }
+
+    private int kacinciParcadayiz(double sayac){
+        for (int j = 1; j <= Commons.parca; j++) {
+            if (Commons.ozelGucKacSaniyedeBirCiksin*j>MAX_GAME_TIME-sayac){
+                return j;
+            }
+        }
+        return 0;
     }
 }

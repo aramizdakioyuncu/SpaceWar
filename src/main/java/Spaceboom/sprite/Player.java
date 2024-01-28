@@ -1,16 +1,19 @@
 package Spaceboom.sprite;
 
+import Spaceboom.Board;
 import Spaceboom.Commons;
+import Spaceboom.Services.PlayerService;
 import Spaceboom.Utility.ControlsSetting;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
+    private BoardData boardData = new BoardData();
     public int width;
     public int length;
-    public int speedX = 9;
-    public int speedY = 6;
+    public int speedX = 11;
+    public int speedY = 7;
 
     public boolean yukariHareket = false;
     public boolean asagiHareket = false;
@@ -19,26 +22,12 @@ public class Player extends Sprite {
     public static int totalShotCount = 0;
     public Shot shot;
 
-    public Player() {
-        initPlayer();
+    public Player( PlayerService playerService) {
+        initPlayer(boardData,playerService);
     }
 
-    private void initPlayer() {
-
-        String playerImg = "/images/spaceship.png";
-        ImageIcon ii = new ImageIcon(getClass().getResource(playerImg));
-
-        width = (ii.getIconWidth() / 7);
-        length = (ii.getIconHeight() / 7);
-        Commons.PLAYER_WIDTH = width;
-        Commons.PLAYER_HEIGHT = length;
-        java.awt.Image scaledImage = ii.getImage().getScaledInstance(width, length, java.awt.Image.SCALE_SMOOTH);
-
-
-        ii = new ImageIcon(scaledImage);
-        setImage(ii.getImage());
-
-
+    private void initPlayer(BoardData boardData, PlayerService playerService) {
+        playerService.setPlayerImage(boardData.level,this);
         int START_X = 900;
         setX(START_X);
 

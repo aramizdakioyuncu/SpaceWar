@@ -55,7 +55,7 @@ public class PlayerService {
                         alien.setDying(true);
                         boardData.deaths++;
 
-                        System.out.println("Uzaylı Vuruldu");
+
 
                         boardData.player.shot.die();
                     }
@@ -117,22 +117,35 @@ public class PlayerService {
             boardData.player.setX(2);
         }
 
-        if (boardData.player.getX() >= Commons.BOARD_WIDTH - 2 * boardData.player.width) {
+        if (boardData.player.getX() >= Commons.BOARD_WIDTH -  boardData.player.width) {
 
-            boardData.player.setX(Commons.BOARD_WIDTH - 2 * boardData.player.width);
+            boardData.player.setX(Commons.BOARD_WIDTH -  boardData.player.width);
         }
 
         if (boardData.player.getY() <= 2) {
 
             boardData.player.setY(2);
         }
-        if (boardData.player.getY() >= Commons.BOARD_HEIGHT - 2 * boardData.player.length){
-            boardData.player.setY(Commons.BOARD_HEIGHT - 2 * boardData.player.length);
+        if (boardData.player.getY() >= Commons.GROUND -  boardData.player.length){
+            boardData.player.setY(Commons.GROUND -  boardData.player.length);
         }
+
     }
 
     public void resetLocation(Player player){
         player.setX(900);
         player.setY(900);
+    }
+
+    public void setPlayerImage(int level, Player player){
+        String playerImg = "/images/spaceship"+level+".png";
+        ImageIcon ii = new ImageIcon(getClass().getResource(playerImg));
+        player.width= (ii.getIconWidth() / 7);
+        player.length = (ii.getIconHeight() / 7);
+        Commons.PLAYER_WIDTH = player.width;
+        Commons.PLAYER_HEIGHT = player.length;
+        Image scaledImage = ii.getImage().getScaledInstance(player.width, player.length, Image.SCALE_SMOOTH);
+        ii = new ImageIcon(scaledImage);
+        player.setImage(ii.getImage());
     }
 }
